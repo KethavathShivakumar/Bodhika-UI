@@ -26,8 +26,8 @@ export default function Sidebar({
       if (setActivePage) setActivePage(page);
       if (setSubPage) setSubPage(sub);
     }
-    if (onClose) {
-      onClose();
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      if (onClose) onClose();
     }
   };
 
