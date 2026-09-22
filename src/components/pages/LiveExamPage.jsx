@@ -311,8 +311,8 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
       {/* Main Question Workspace */}
       <div className={`grid gap-6 ${layoutMode === 'side-by-side' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
         {/* Question & Options Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
             <div className="flex items-center gap-3">
               <span className="w-8 h-8 rounded-2xl bg-[#0a4b56] text-white flex items-center justify-center font-black text-xs shadow-sm">
                 {currentQ.id}
@@ -322,7 +322,7 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <button
                 onClick={handleToggleReview}
                 className={`px-3.5 py-1.5 rounded-2xl text-xs font-black transition-all flex items-center gap-1 border cursor-pointer ${

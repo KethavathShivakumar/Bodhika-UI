@@ -26,6 +26,9 @@ export default function Sidebar({
       if (setActivePage) setActivePage(page);
       if (setSubPage) setSubPage(sub);
     }
+    if (onClose) {
+      onClose();
+    }
   };
 
   const navItemClass = (pageKey, subKey = null) => {
@@ -53,14 +56,14 @@ export default function Sidebar({
       {isOpen && (
         <div 
           onClick={onClose}
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-slate-900/30 z-40 lg:hidden transition-opacity duration-300 ease-in-out"
           aria-label="Close sidebar overlay"
         />
       )}
 
       {/* Sidebar Drawer */}
       <aside 
-        className={`fixed left-0 top-20 bottom-0 w-[270px] max-w-[85vw] bg-white/95 backdrop-blur-xl z-30 flex flex-col border-r border-slate-200/70 shadow-sidebar overflow-y-auto transition-transform duration-300 ease-in-out select-none ${
+        className={`fixed left-0 top-20 bottom-0 w-[270px] max-w-[85vw] bg-white z-50 lg:z-30 flex flex-col border-r border-slate-200/70 shadow-2xl lg:shadow-sidebar overflow-y-auto transition-transform duration-300 ease-in-out select-none ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

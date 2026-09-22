@@ -157,7 +157,7 @@ export default function Header({
         {/* Text-Based User Identity Badge */}
         <div 
           onClick={() => onNavigate('settings', 'profile')}
-          className="flex flex-col text-right px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-slate-50 border border-teal-100 shadow-soft-card hover:shadow-hover-card transition-all cursor-pointer"
+          className="hidden sm:flex flex-col text-right px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-slate-50 border border-teal-100 shadow-soft-card hover:shadow-hover-card transition-all cursor-pointer"
         >
           <div className="font-extrabold text-xs text-slate-900 leading-tight">Kethavath</div>
           <div className="text-[10px] text-[#0a4b56] font-bold tracking-tight">Student Candidate</div>
