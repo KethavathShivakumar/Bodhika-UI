@@ -5,209 +5,219 @@ export default function MyPerformancePage({ onNavigateToHistory }) {
     {
       subject: "DP-900: Azure Data Fundamentals",
       attemptsCount: 2,
-      mostRecent: 0,
-      best: 70,
-      average: 35,
-      trendPoints: [
-        { date: "04 Aug", score: 70, passed: true },
-        { date: "27 Aug", score: 0, passed: false }
-      ],
-      color: "#ba1a1a", // drop
-      summary: "Significant decrease observed in attempt 2 due to incomplete submission. Focus on Azure Cosmos DB and Data Factory pipelines to recover."
+      mostRecent: 75,
+      best: 85,
+      average: 80,
+      progress: 75,
+      color: "bg-gradient-to-r from-[#0a4b56] to-[#109c90]",
+      summary: "High progress in Azure Cosmos DB and Data Factory pipelines."
     },
     {
-      subject: "General Knowledge",
+      subject: "Verbal Ability & Aptitude",
       attemptsCount: 3,
-      mostRecent: 0,
-      best: 90,
-      average: 30,
-      trendPoints: [
-        { date: "22 Aug", score: 90, passed: true },
-        { date: "26 Aug", score: 0, passed: false },
-        { date: "26 Aug", score: 0, passed: false }
-      ],
-      color: "#416656",
-      summary: "Exceptional peak at 90% in Cricket Legends. Two subsequent attempts timed out early without answer selection."
+      mostRecent: 90,
+      best: 95,
+      average: 88,
+      progress: 90,
+      color: "bg-gradient-to-r from-[#f4ad42] to-[#d9911e]",
+      summary: "Exceptional peak score at 95% in Reading Comprehension."
     },
     {
-      subject: "Verbal Ability",
-      attemptsCount: 2,
-      mostRecent: 78,
-      best: 78,
-      average: 70.5,
-      trendPoints: [
-        { date: "02 Aug", score: 63, passed: true },
-        { date: "04 Aug", score: 78, passed: true }
-      ],
-      color: "#416656", // growth
-      summary: "Consistent upward trajectory (+15%). Reading comprehension and grammar metrics show mastery above standard cutoff."
+      subject: "Python Data Structures & Code",
+      attemptsCount: 4,
+      mostRecent: 82,
+      best: 88,
+      average: 84,
+      progress: 82,
+      color: "bg-gradient-to-r from-[#1d273e] to-[#2d3748]",
+      summary: "Consistent upward trajectory (+15%) in algorithm efficiency."
     }
   ];
 
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16">
-      {/* Header */}
-      <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-xs font-semibold text-on-surface-variant mb-2">
-          <span className="material-symbols-outlined text-[16px]">analytics</span>
-          Cognitive Trend Analysis
+    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16 animate-in fade-in duration-300">
+      
+      {/* 1. TOP METRICS SUMMARY CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-teal-200">Overall Accuracy</div>
+            <div className="text-3xl font-black tracking-tight mt-1">84.5%</div>
+            <div className="text-[11px] text-teal-200 font-semibold mt-2 flex items-center gap-1">
+              <span>Updated Real-Time</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+            <span className="material-symbols-outlined text-[24px]">monitoring</span>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-on-surface">My Performance</h1>
-        <p className="text-sm text-on-surface-variant mt-1 max-w-2xl leading-relaxed">
-          Score trend across your most recent completed exams in each subject (up to the last 10 per subject).
-        </p>
+
+        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-6 shadow-soft-card flex items-center justify-between">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Total Attempts</div>
+            <div className="text-3xl font-black tracking-tight mt-1">158</div>
+            <div className="text-[11px] text-slate-900 font-semibold mt-2 flex items-center gap-1">
+              <span>High Activity</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900">
+            <span className="material-symbols-outlined text-[24px]">history</span>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-slate-400">Class Percentile</div>
+            <div className="text-3xl font-black tracking-tight mt-1">Top 5%</div>
+            <div className="text-[11px] text-slate-400 font-semibold mt-2 flex items-center gap-1">
+              <span>Distinction Grade</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+            <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
+          </div>
+        </div>
       </div>
 
-      {/* Subject Performance Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {performanceSubjects.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-card border border-outline-variant/30 flex flex-col justify-between hover:shadow-hover-card transition-shadow duration-300"
-            >
+      {/* 2. MAIN PERFORMANCE GRAPH & PROGRESS BARS SECTION */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* LEFT 8 COLS: Performance Trajectory Curve */}
+        <div className="lg:col-span-8 bg-white rounded-3xl p-6 md:p-8 shadow-soft-card border border-slate-100/90 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-6">
               <div>
-                {/* Header info */}
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-bold text-base text-on-surface leading-tight">
-                      {item.subject}
-                    </h3>
-                    <span className="text-[11px] text-outline mt-0.5 block">
-                      {item.attemptsCount} completed attempts shown
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => onNavigateToHistory(item.subject)}
-                    className="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
-                    title="View history for this subject"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">open_in_new</span>
-                  </button>
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-amber-50 rounded-full text-xs font-black text-amber-900 mb-1 border border-amber-100">
+                  <span className="material-symbols-outlined text-[16px]">trending_up</span>
+                  Annual Mastery Curve
                 </div>
-
-                {/* Stat Metrics Row */}
-                <div className="grid grid-cols-3 gap-2 my-5 text-center">
-                  <div className="p-2.5 rounded-xl bg-surface-container-low">
-                    <span className="text-[10px] font-semibold text-outline uppercase tracking-wider block">Most Recent</span>
-                    <span className={`text-xl font-bold mt-0.5 block ${item.mostRecent >= 60 ? 'text-secondary' : 'text-error'}`}>
-                      {item.mostRecent}%
-                    </span>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-surface-container-low">
-                    <span className="text-[10px] font-semibold text-outline uppercase tracking-wider block">Best</span>
-                    <span className="text-xl font-bold text-on-surface mt-0.5 block">
-                      {item.best}%
-                    </span>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-surface-container-low">
-                    <span className="text-[10px] font-semibold text-outline uppercase tracking-wider block">Average</span>
-                    <span className="text-xl font-bold text-on-surface-variant mt-0.5 block">
-                      {item.average}%
-                    </span>
-                  </div>
-                </div>
-
-                {/* Trend Graph Area */}
-                <div className="bg-surface-container-low/50 rounded-xl p-4 border border-surface-variant/60 relative">
-                  <div className="flex items-center justify-between text-[10px] font-semibold text-outline uppercase tracking-wider mb-2">
-                    <span>Score Progress</span>
-                    <span>100% Target</span>
-                  </div>
-
-                  {/* SVG Line Graph */}
-                  <div className="relative h-44 w-full">
-                    {/* Grid lines */}
-                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[9px] text-outline opacity-40">
-                      <div className="border-b border-surface-variant w-full">100%</div>
-                      <div className="border-b border-surface-variant w-full">80%</div>
-                      <div className="border-b border-surface-variant w-full">60%</div>
-                      <div className="border-b border-surface-variant w-full">40%</div>
-                      <div className="border-b border-surface-variant w-full">20%</div>
-                      <div className="border-b border-surface-variant w-full">0%</div>
-                    </div>
-
-                    {/* SVG Line */}
-                    <svg className="w-full h-full overflow-visible" viewBox="0 0 300 150">
-                      {/* Calculate coordinates */}
-                      {(() => {
-                        const count = item.trendPoints.length;
-                        const points = item.trendPoints.map((pt, i) => {
-                          const x = count === 1 ? 150 : (i / (count - 1)) * 260 + 20;
-                          const y = 140 - (pt.score / 100) * 125;
-                          return { x, y, pt };
-                        });
-
-                        const pathD = points.reduce((acc, p, idx) => {
-                          return idx === 0 ? `M ${p.x} ${p.y}` : `${acc} L ${p.x} ${p.y}`;
-                        }, "");
-
-                        return (
-                          <>
-                            {/* Area fill */}
-                            <path
-                              d={`${pathD} L ${points[points.length - 1].x} 145 L ${points[0].x} 145 Z`}
-                              fill={item.color}
-                              fillOpacity="0.08"
-                            />
-                            {/* Line */}
-                            <path
-                              d={pathD}
-                              fill="none"
-                              stroke={item.color}
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            {/* Data points */}
-                            {points.map((p, idx) => (
-                              <g key={idx} className="cursor-pointer">
-                                <circle
-                                  cx={p.x}
-                                  cy={p.y}
-                                  r="5"
-                                  fill="#ffffff"
-                                  stroke={item.color}
-                                  strokeWidth="3"
-                                />
-                                <text
-                                  x={p.x}
-                                  y={p.y - 10}
-                                  fontSize="10"
-                                  fontWeight="bold"
-                                  fill="#1a1c1d"
-                                  textAnchor="middle"
-                                >
-                                  {p.pt.score}%
-                                </text>
-                              </g>
-                            ))}
-                          </>
-                        );
-                      })()}
-                    </svg>
-
-                    {/* Dates beneath axis */}
-                    <div className="flex justify-between text-[10px] text-outline font-medium pt-1 px-3">
-                      {item.trendPoints.map((pt, i) => (
-                        <span key={i}>{pt.date}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <h3 className="font-black text-xl text-slate-900 tracking-tight">Performance Trajectory Graph</h3>
+                <p className="text-xs text-slate-400 font-semibold mt-0.5">Continuous score progression & peak rating metrics</p>
               </div>
 
-              {/* Diagnostic Recommendation */}
-              <div className="mt-4 pt-3 border-t border-surface-variant text-xs text-on-surface-variant leading-relaxed">
-                <span className="font-semibold text-on-surface">Insight: </span>
-                {item.summary}
+              <div className="px-4 py-2 rounded-2xl bg-[#1d273e] text-white text-xs font-black shadow-sm flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-amber-400 text-[16px]">star</span>
+                <span>4.8/5.0 Rating</span>
               </div>
             </div>
-          );
-        })}
+
+            {/* Smooth SVG Line Chart */}
+            <div className="w-full h-72 relative my-4 bg-gradient-to-b from-slate-50/50 to-teal-50/20 rounded-3xl p-4 border border-slate-100/90 shadow-inner">
+              <svg viewBox="0 0 600 240" className="w-full h-full overflow-visible">
+                <defs>
+                  <linearGradient id="primaryCurveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0a4b56" stopOpacity="0.4" />
+                    <stop offset="70%" stopColor="#0a4b56" stopOpacity="0.05" />
+                    <stop offset="100%" stopColor="#0a4b56" stopOpacity="0.0" />
+                  </linearGradient>
+
+                  <linearGradient id="secondaryCurveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#f4ad42" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#f4ad42" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+
+                <line x1="40" y1="30" x2="590" y2="30" stroke="#e2e8f0" strokeDasharray="3 3" strokeWidth="1" />
+                <line x1="40" y1="80" x2="590" y2="80" stroke="#e2e8f0" strokeDasharray="3 3" strokeWidth="1" />
+                <line x1="40" y1="130" x2="590" y2="130" stroke="#e2e8f0" strokeDasharray="3 3" strokeWidth="1" />
+                <line x1="40" y1="180" x2="590" y2="180" stroke="#e2e8f0" strokeDasharray="3 3" strokeWidth="1" />
+                <line x1="40" y1="220" x2="590" y2="220" stroke="#cbd5e1" strokeWidth="1.5" />
+
+                <text x="32" y="34" textAnchor="end" className="text-[10px] font-black fill-slate-400">100%</text>
+                <text x="32" y="84" textAnchor="end" className="text-[10px] font-black fill-slate-400">80%</text>
+                <text x="32" y="134" textAnchor="end" className="text-[10px] font-black fill-slate-400">60%</text>
+                <text x="32" y="184" textAnchor="end" className="text-[10px] font-black fill-slate-400">40%</text>
+
+                <path
+                  d="M 50 140 Q 150 100 250 150 T 450 110 T 590 130 L 590 220 L 50 220 Z"
+                  fill="url(#secondaryCurveGradient)"
+                />
+                <path
+                  d="M 50 140 Q 150 100 250 150 T 450 110 T 590 130"
+                  fill="none"
+                  stroke="#f4ad42"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+
+                <path
+                  d="M 50 170 Q 150 120 250 180 T 450 60 T 590 110 L 590 220 L 50 220 Z"
+                  fill="url(#primaryCurveGradient)"
+                />
+                <path
+                  d="M 50 170 Q 150 120 250 180 T 450 60 T 590 110"
+                  fill="none"
+                  stroke="#0a4b56"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+
+                <circle cx="450" cy="60" r="7" fill="#0a4b56" stroke="#ffffff" strokeWidth="3.5" />
+                <circle cx="450" cy="60" r="14" fill="#0a4b56" opacity="0.15" />
+
+                <g transform="translate(450, 28)">
+                  <rect x="-35" y="-14" width="70" height="22" rx="11" fill="#0a4b56" />
+                  <text x="0" y="1" textAnchor="middle" fill="#ffffff" className="text-[10px] font-black">95% Peak</text>
+                </g>
+              </svg>
+            </div>
+
+            <div className="flex justify-between text-[11px] text-slate-400 font-black uppercase tracking-wider pt-3 border-t border-slate-100">
+              <span>Jan</span>
+              <span>Feb</span>
+              <span>Mar</span>
+              <span>Apr</span>
+              <span>May</span>
+              <span>Jun</span>
+              <span>Jul</span>
+              <span>Aug</span>
+              <span>Sep</span>
+              <span>Oct</span>
+              <span>Nov</span>
+              <span>Dec</span>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT 4 COLS: Subject Mastery Bars */}
+        <div className="lg:col-span-4 bg-white rounded-3xl p-6 shadow-soft-card border border-slate-100/90 flex flex-col justify-between">
+          <div>
+            <h3 className="font-black text-base text-slate-900 tracking-tight mb-5">Subject Mastery</h3>
+
+            <div className="space-y-5">
+              {performanceSubjects.map((subj, i) => (
+                <div key={i} className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-black text-slate-800">
+                    <span className="truncate max-w-[180px]">{subj.subject}</span>
+                    <span className="text-[#0a4b56]">{subj.progress}%</span>
+                  </div>
+
+                  <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden p-0.5">
+                    <div
+                      className={`h-full rounded-full transition-all duration-1000 ${subj.color}`}
+                      style={{ width: `${subj.progress}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={() => onNavigateToHistory('all')}
+            className="w-full mt-6 h-10 rounded-2xl bg-slate-900 text-white font-black text-xs hover:bg-[#0a4b56] transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <span>View Full History</span>
+            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </button>
+        </div>
+
       </div>
+
     </div>
   );
 }
+

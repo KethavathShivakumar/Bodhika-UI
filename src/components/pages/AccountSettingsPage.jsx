@@ -30,9 +30,9 @@ export default function AccountSettingsPage({ user, onUpdateUser, initialTab = '
     if (/[0-9]/.test(pwd)) score++;
     if (/[^A-Za-z0-9]/.test(pwd)) score++;
 
-    if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-error' };
-    if (score === 2 || score === 3) return { score: 2, label: 'Medium', color: 'bg-amber-500' };
-    return { score: 3, label: 'Strong', color: 'bg-secondary' };
+    if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-[#ff6551]' };
+    if (score === 2 || score === 3) return { score: 2, label: 'Medium', color: 'bg-[#f4ad42]' };
+    return { score: 3, label: 'Strong', color: 'bg-[#00c853]' };
   };
 
   const strength = calculateStrength(newPassword);
@@ -51,155 +51,164 @@ export default function AccountSettingsPage({ user, onUpdateUser, initialTab = '
       willingToDonateBlood: willingToDonate,
       avatar
     });
-    onToast({
-      title: 'Profile Updated',
-      message: 'Your personal information and emergency preferences have been saved.',
-      type: 'success'
-    });
+    if (onToast) {
+      onToast({
+        title: 'Profile Updated',
+        message: 'Your personal information and emergency preferences have been saved.',
+        type: 'success'
+      });
+    }
   };
 
   const handleChangePassword = (e) => {
     e.preventDefault();
     if (!currentPassword) {
-      onToast({ title: 'Error', message: 'Please enter your current password.', type: 'error' });
+      if (onToast) onToast({ title: 'Error', message: 'Please enter your current password.', type: 'error' });
       return;
     }
     if (newPassword.length < 8) {
-      onToast({ title: 'Error', message: 'New password must be at least 8 characters long.', type: 'error' });
+      if (onToast) onToast({ title: 'Error', message: 'New password must be at least 8 characters long.', type: 'error' });
       return;
     }
     if (newPassword !== confirmPassword) {
-      onToast({ title: 'Error', message: 'New passwords do not match.', type: 'error' });
+      if (onToast) onToast({ title: 'Error', message: 'New passwords do not match.', type: 'error' });
       return;
     }
 
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
-    onToast({
-      title: 'Password Changed',
-      message: 'Your account security credentials have been updated successfully.',
-      type: 'success'
-    });
-  };
-
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setAvatar(url);
-      onToast({ title: 'Photo Selected', message: 'Profile picture updated.', type: 'info' });
+    if (onToast) {
+      onToast({
+        title: 'Password Changed',
+        message: 'Your account security credentials have been updated successfully.',
+        type: 'success'
+      });
     }
   };
 
   return (
-    <div className="flex flex-col w-full max-w-4xl mx-auto space-y-8 pb-20">
-      {/* Header (From Bodhika UI reference) */}
-      <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-xs font-semibold text-on-surface-variant mb-2">
-          <span className="material-symbols-outlined text-[16px]">manage_accounts</span>
-          Security & Preferences
+    <div className="flex flex-col w-full max-w-5xl mx-auto space-y-8 pb-20 animate-fade-in">
+      
+      {/* PAGE HERO HEADER */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0a4b56] via-[#109c90] to-[#1d273e] p-8 text-white shadow-2xl border border-white/10">
+        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold border border-white/20">
+              <span className="material-symbols-outlined text-[16px]">manage_accounts</span>
+              <span>Security & Profile Preferences</span>
+            </div>
+            <h1 className="text-3xl font-black tracking-tight text-white drop-shadow-sm">
+              Account Settings
+            </h1>
+            <p className="text-sm text-teal-100/90 font-medium leading-relaxed">
+              Manage your personal profile details, academic credentials, and security settings.
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center font-black text-2xl text-amber-300 shadow-md">
+              {user.name.charAt(0)}
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-on-surface">Account Settings</h1>
-        <p className="text-sm text-on-surface-variant mt-1">
-          Manage your personal profile details, academic identity, and security credentials.
-        </p>
       </div>
 
-      {/* Main Container Card */}
-      <div className="bg-surface-container-lowest rounded-[24px] shadow-soft-card border border-outline-variant/30 overflow-hidden flex flex-col">
-        {/* Navigation Tabs (From Page 17 & 18 screenshots) */}
-        <div className="flex items-center border-b border-surface-variant px-8 pt-6 gap-8 bg-surface-container-lowest">
+      {/* MAIN CONTAINER FULLY-COLORED CARD */}
+      <div className="bg-gradient-to-br from-slate-900 via-[#0a4b56] to-[#1d273e] text-white rounded-3xl shadow-2xl border border-white/10 overflow-hidden flex flex-col">
+        {/* Navigation Tabs */}
+        <div className="flex items-center border-b border-white/15 px-8 pt-6 gap-8 bg-black/20">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`relative pb-4 text-base font-semibold transition-colors ${
-              activeTab === 'profile' ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'
+            className={`relative pb-4 text-sm font-black transition-colors cursor-pointer ${
+              activeTab === 'profile' ? 'text-amber-300' : 'text-white/60 hover:text-white'
             }`}
           >
-            <span>Edit Profile</span>
+            <span>Edit Profile Details</span>
             {activeTab === 'profile' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-300 rounded-t-full"></div>
             )}
           </button>
 
           <button
             onClick={() => setActiveTab('password')}
-            className={`relative pb-4 text-base font-semibold transition-colors ${
-              activeTab === 'password' ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'
+            className={`relative pb-4 text-sm font-black transition-colors cursor-pointer ${
+              activeTab === 'password' ? 'text-amber-300' : 'text-white/60 hover:text-white'
             }`}
           >
-            <span>Change Password</span>
+            <span>Change Security Password</span>
             {activeTab === 'password' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-300 rounded-t-full"></div>
             )}
           </button>
         </div>
 
-        {/* Tab 1: Edit Profile (Page 17) */}
+        {/* Tab 1: Edit Profile */}
         {activeTab === 'profile' && (
           <div className="p-8 space-y-8">
-            {/* Student Identity Header */}
-            <div className="flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low border border-surface-variant/40">
-              <div className="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface flex items-center justify-center border border-outline-variant/30 shadow-sm shrink-0">
-                <span className="material-symbols-outlined text-[24px]">person</span>
+            {/* Student Identity Colored Card */}
+            <div className="flex items-center gap-5 p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-md">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#109c90] to-[#0a4b56] text-white flex items-center justify-center font-black text-xl shadow-md shrink-0 border border-white/30">
+                {user.name.charAt(0)}
               </div>
               <div>
-                <h2 className="font-bold text-base text-on-surface">{user.name}</h2>
-                <div className="text-xs text-outline mt-0.5">
-                  Student ID: <span className="font-mono text-on-surface font-semibold">{user.id}</span> • {user.role}
+                <h2 className="font-black text-lg text-white">{user.name}</h2>
+                <div className="text-xs text-white/80 mt-0.5 font-medium">
+                  Student ID: <span className="font-mono text-amber-300 font-black">{user.id}</span> • {user.role}
                 </div>
-                <div className="text-[11px] text-secondary font-medium mt-0.5">{user.department}</div>
+                <div className="text-[11px] text-teal-200 font-black mt-0.5">{user.department}</div>
               </div>
             </div>
 
             <form onSubmit={handleSaveProfile} className="space-y-6">
               {/* Basic Info Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* Username (Read-Only) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Username */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Username (Login Name)</label>
-                  <div className="bg-surface-container h-12 rounded-xl px-4 flex items-center text-xs font-medium text-on-surface-variant cursor-not-allowed border border-surface-variant">
+                  <label className="text-xs font-bold text-white/90">Username (Login Handle)</label>
+                  <div className="bg-black/30 h-12 rounded-2xl px-4 flex items-center text-xs font-bold text-white/60 border border-white/10">
                     {user.username}
                   </div>
-                  <span className="text-[10px] text-outline">Username cannot be changed. Contact administrator if required.</span>
+                  <span className="text-[10px] text-white/50 font-medium">Username is non-editable handle.</span>
                 </div>
 
                 <div className="hidden md:block"></div>
 
                 {/* First Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">First Name *</label>
+                  <label className="text-xs font-bold text-white/90">First Name *</label>
                   <input
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
-                    className="w-full bg-surface-container-low h-12 rounded-xl px-4 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
+                    className="w-full bg-white/15 backdrop-blur-md h-12 rounded-2xl px-4 text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
                   />
                 </div>
 
                 {/* Last Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Last Name *</label>
+                  <label className="text-xs font-bold text-white/90">Last Name *</label>
                   <input
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                    className="w-full bg-surface-container-low h-12 rounded-xl px-4 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
+                    className="w-full bg-white/15 backdrop-blur-md h-12 rounded-2xl px-4 text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
                   />
                 </div>
               </div>
 
-              <div className="h-px bg-surface-variant/80"></div>
+              <div className="h-px bg-white/15" />
 
-              {/* Contact & Medical Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Contact Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Email Address */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Email Address *</label>
+                  <label className="text-xs font-bold text-white/90">Email Address *</label>
                   <div className="relative">
-                    <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/60 text-[18px]">
                       mail
                     </span>
                     <input
@@ -207,86 +216,75 @@ export default function AccountSettingsPage({ user, onUpdateUser, initialTab = '
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full bg-surface-container-low h-12 rounded-xl pl-10 pr-4 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
+                      className="w-full pl-12 pr-4 bg-white/15 backdrop-blur-md h-12 rounded-2xl text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
                     />
                   </div>
                 </div>
 
-                {/* Mobile Number with country selector */}
+                {/* Mobile Number */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Mobile Number *</label>
-                  <div className="flex bg-surface-container-low rounded-xl focus-within:bg-surface-container-lowest focus-within:ring-1 focus-within:ring-primary transition-all border border-transparent focus-within:border-primary">
+                  <label className="text-xs font-bold text-white/90">Mobile Phone Number *</label>
+                  <div className="flex bg-white/15 backdrop-blur-md rounded-2xl border border-white/20 focus-within:ring-2 focus-within:ring-amber-300/40 transition-all">
                     <select
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
-                      className="bg-transparent pl-3 pr-2 text-xs font-semibold text-on-surface outline-none cursor-pointer border-r border-surface-variant"
+                      className="bg-transparent pl-3 pr-2 text-xs font-bold text-white outline-none cursor-pointer border-r border-white/20"
                     >
-                      <option value="+91">IN +91</option>
-                      <option value="+1">US +1</option>
-                      <option value="+44">UK +44</option>
-                      <option value="+65">SG +65</option>
+                      <option value="+91" className="bg-slate-900 text-white">IN +91</option>
+                      <option value="+1" className="bg-slate-900 text-white">US +1</option>
+                      <option value="+44" className="bg-slate-900 text-white">UK +44</option>
+                      <option value="+65" className="bg-slate-900 text-white">SG +65</option>
                     </select>
                     <input
                       type="tel"
                       value={mobile}
                       onChange={(e) => setMobile(e.target.value)}
                       required
-                      className="w-full bg-transparent h-12 px-3 text-xs font-medium text-on-surface outline-none"
+                      className="w-full bg-transparent h-12 px-3 text-xs font-semibold text-white outline-none"
                     />
-                  </div>
-                  <div className="text-[10px] text-secondary flex items-center gap-1 mt-0.5">
-                    <span className="material-symbols-outlined text-[12px]">check_circle</span>
-                    <span>Format: 10 digits, starts with 6-9 (India) • Valid</span>
                   </div>
                 </div>
 
                 {/* Blood Group */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">
-                    Blood Group <span className="text-outline font-normal">(Optional)</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={bloodGroup}
-                      onChange={(e) => setBloodGroup(e.target.value)}
-                      className="w-full bg-surface-container-low h-12 rounded-xl px-4 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary cursor-pointer appearance-none border border-transparent focus:border-primary"
-                    >
-                      <option value="A+">A+</option>
-                      <option value="A-">A-</option>
-                      <option value="B+">B+</option>
-                      <option value="B-">B-</option>
-                      <option value="O+">O+</option>
-                      <option value="O-">O-</option>
-                      <option value="AB+">AB+</option>
-                      <option value="AB-">AB-</option>
-                    </select>
-                    <span className="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">
-                      expand_more
-                    </span>
-                  </div>
+                  <label className="text-xs font-bold text-white/90">Blood Group</label>
+                  <select
+                    value={bloodGroup}
+                    onChange={(e) => setBloodGroup(e.target.value)}
+                    className="w-full bg-white/15 backdrop-blur-md h-12 rounded-2xl px-4 text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 cursor-pointer border border-white/20"
+                  >
+                    <option value="A+" className="bg-slate-900 text-white">A+</option>
+                    <option value="A-" className="bg-slate-900 text-white">A-</option>
+                    <option value="B+" className="bg-slate-900 text-white">B+</option>
+                    <option value="B-" className="bg-slate-900 text-white">B-</option>
+                    <option value="O+" className="bg-slate-900 text-white">O+</option>
+                    <option value="O-" className="bg-slate-900 text-white">O-</option>
+                    <option value="AB+" className="bg-slate-900 text-white">AB+</option>
+                    <option value="AB-" className="bg-slate-900 text-white">AB-</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Emergency Blood Donation Checkbox */}
-              <label className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-low/60 border border-surface-variant cursor-pointer group">
+              {/* Emergency Donor Checkbox */}
+              <label className="flex items-start gap-3 p-5 rounded-2xl bg-amber-500/20 border border-amber-300/40 cursor-pointer backdrop-blur-md">
                 <input
                   type="checkbox"
                   checked={willingToDonate}
                   onChange={(e) => setWillingToDonate(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded text-primary focus:ring-primary"
+                  className="mt-0.5 h-4 w-4 rounded text-[#0a4b56] focus:ring-amber-300"
                 />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-on-surface">
-                    I'm willing to donate blood if contacted in an emergency.
+                  <span className="text-xs font-black text-amber-300">
+                    Emergency Blood Donor Volunteer
                   </span>
-                  <span className="text-[11px] text-on-surface-variant mt-0.5">
-                    Your contact information will be securely accessible to the campus emergency medical wing if an urgent patient match arises.
+                  <span className="text-[11px] text-white/80 font-medium mt-0.5">
+                    Permits medical wing emergency dispatchers to reach out during urgent campus patient requirements.
                   </span>
                 </div>
               </label>
 
               {/* Actions Footer */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-surface-variant">
+              <div className="flex items-center justify-end gap-3 pt-6 border-t border-white/15">
                 <button
                   type="button"
                   onClick={() => {
@@ -294,178 +292,130 @@ export default function AccountSettingsPage({ user, onUpdateUser, initialTab = '
                     setLastName(user.lastName);
                     setEmail(user.email);
                     setMobile(user.phone);
-                    onToast({ title: 'Discarded', message: 'Changes reverted.', type: 'info' });
+                    if (onToast) onToast({ title: 'Discarded', message: 'Changes reverted.', type: 'info' });
                   }}
-                  className="px-5 py-2.5 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                  className="px-6 py-3 rounded-2xl text-xs font-bold text-white/70 hover:bg-white/10 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-full bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 shadow-sm"
+                  className="px-7 py-3 rounded-2xl bg-white text-[#0a4b56] text-xs font-black hover:bg-teal-50 active:scale-95 transition-all flex items-center gap-2 shadow-md cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[16px]">save</span>
-                  <span>Save Changes</span>
+                  <span>Save Profile Details</span>
+                  <span className="material-symbols-outlined text-[16px]">check</span>
                 </button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Tab 2: Change Password (Page 18) */}
+        {/* Tab 2: Change Password */}
         {activeTab === 'password' && (
-          <div className="p-8 space-y-8">
-            <div className="max-w-xl space-y-6">
-              <div>
-                <h3 className="text-lg font-bold text-on-surface">Update Password</h3>
-                <p className="text-xs text-on-surface-variant mt-0.5">
-                  Ensure your account uses a strong, random password to maintain academic confidentiality.
-                </p>
-              </div>
-
-              <form onSubmit={handleChangePassword} className="space-y-5">
-                {/* Current Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Current Password *</label>
-                  <div className="relative">
-                    <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">
-                      lock
-                    </span>
-                    <input
-                      type={showCurrent ? 'text' : 'password'}
-                      placeholder="Enter current password"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      required
-                      className="w-full bg-surface-container-low h-12 rounded-xl pl-10 pr-10 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrent(!showCurrent)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">
-                        {showCurrent ? 'visibility_off' : 'visibility'}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* New Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">New Password *</label>
-                  <div className="relative">
-                    <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">
-                      key
-                    </span>
-                    <input
-                      type={showNew ? 'text' : 'password'}
-                      placeholder="Enter new password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      required
-                      className="w-full bg-surface-container-low h-12 rounded-xl pl-10 pr-10 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNew(!showNew)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">
-                        {showNew ? 'visibility_off' : 'visibility'}
-                      </span>
-                    </button>
-                  </div>
-
-                  {/* 3-Bar Strength Indicator (From Bodhika UI reference) */}
-                  <div className="pt-2">
-                    <div className="flex gap-1.5 h-1">
-                      <div className={`flex-1 rounded-full ${strength.score >= 1 ? strength.color : 'bg-surface-variant'}`}></div>
-                      <div className={`flex-1 rounded-full ${strength.score >= 2 ? strength.color : 'bg-surface-variant'}`}></div>
-                      <div className={`flex-1 rounded-full ${strength.score >= 3 ? strength.color : 'bg-surface-variant'}`}></div>
-                    </div>
-                    <div className="flex justify-between items-center text-[11px] text-outline mt-1.5">
-                      <span>Password Strength</span>
-                      <span className="font-semibold text-on-surface">{strength.label}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Confirm New Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-on-surface">Confirm New Password *</label>
-                  <div className="relative">
-                    <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">
-                      check_circle
-                    </span>
-                    <input
-                      type={showConfirm ? 'text' : 'password'}
-                      placeholder="Confirm new password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                      className="w-full bg-surface-container-low h-12 rounded-xl pl-10 pr-10 text-xs font-medium text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all border border-transparent focus:border-primary"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirm(!showConfirm)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">
-                        {showConfirm ? 'visibility_off' : 'visibility'}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Password Requirements Card (From Bodhika reference) */}
-                <div className="p-4 rounded-xl bg-secondary-container/20 border border-secondary-container/50 space-y-2 text-xs">
-                  <div className="flex items-center gap-1.5 font-semibold text-on-secondary-container">
-                    <span className="material-symbols-outlined text-[18px]">shield</span>
-                    <span>Security Checklist</span>
-                  </div>
-                  <ul className="space-y-1 text-on-surface-variant text-[11px]">
-                    <li className="flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${newPassword.length >= 8 ? 'bg-secondary' : 'bg-outline'}`}></span>
-                      Minimum 8 characters long
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${/[A-Z]/.test(newPassword) ? 'bg-secondary' : 'bg-outline'}`}></span>
-                      At least one uppercase character
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${/[0-9]/.test(newPassword) ? 'bg-secondary' : 'bg-outline'}`}></span>
-                      At least one number (0-9)
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Actions Footer */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-surface-variant">
+          <div className="p-8 space-y-6">
+            <form onSubmit={handleChangePassword} className="space-y-6 max-w-xl">
+              {/* Current Password */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-white/90">Current Password *</label>
+                <div className="relative">
+                  <input
+                    type={showCurrent ? 'text' : 'password'}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    required
+                    placeholder="Enter current password..."
+                    className="w-full bg-white/15 backdrop-blur-md h-12 pl-4 pr-12 rounded-2xl text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
+                  />
                   <button
                     type="button"
-                    onClick={() => {
-                      setCurrentPassword('');
-                      setNewPassword('');
-                      setConfirmPassword('');
-                    }}
-                    className="px-5 py-2.5 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                    onClick={() => setShowCurrent(!showCurrent)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
                   >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 rounded-full bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 shadow-sm"
-                  >
-                    <span>Change Password</span>
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    <span className="material-symbols-outlined text-[18px]">
+                      {showCurrent ? 'visibility_off' : 'visibility'}
+                    </span>
                   </button>
                 </div>
-              </form>
-            </div>
+              </div>
+
+              {/* New Password */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-white/90">New Password *</label>
+                <div className="relative">
+                  <input
+                    type={showNew ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    placeholder="At least 8 characters..."
+                    className="w-full bg-white/15 backdrop-blur-md h-12 pl-4 pr-12 rounded-2xl text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNew(!showNew)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">
+                      {showNew ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Password Strength Gauge */}
+                {newPassword && (
+                  <div className="pt-2 space-y-1">
+                    <div className="flex items-center justify-between text-[11px] font-bold">
+                      <span className="text-white/70">Security Strength:</span>
+                      <span className="text-amber-300">{strength.label}</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-black/30 rounded-full overflow-hidden flex gap-1">
+                      <div className={`h-full flex-1 rounded-full ${strength.score >= 1 ? strength.color : 'bg-transparent'}`} />
+                      <div className={`h-full flex-1 rounded-full ${strength.score >= 2 ? strength.color : 'bg-transparent'}`} />
+                      <div className={`h-full flex-1 rounded-full ${strength.score >= 3 ? strength.color : 'bg-transparent'}`} />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Confirm New Password */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-white/90">Confirm New Password *</label>
+                <div className="relative">
+                  <input
+                    type={showConfirm ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    placeholder="Re-enter new password..."
+                    className="w-full bg-white/15 backdrop-blur-md h-12 pl-4 pr-12 rounded-2xl text-xs font-semibold text-white outline-none focus:ring-2 focus:ring-amber-300/40 transition-all border border-white/20 placeholder-white/50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">
+                      {showConfirm ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4 border-t border-white/15 flex items-center justify-end">
+                <button
+                  type="submit"
+                  className="px-7 py-3 rounded-2xl bg-white text-[#0a4b56] text-xs font-black hover:bg-teal-50 active:scale-95 transition-all flex items-center gap-2 shadow-md cursor-pointer"
+                >
+                  <span>Update Password Credentials</span>
+                  <span className="material-symbols-outlined text-[16px]">lock_reset</span>
+                </button>
+              </div>
+            </form>
           </div>
         )}
       </div>
+
     </div>
   );
 }

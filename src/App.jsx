@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './components/layout/Sidebar';
 import Header from './components/layout/Header';
+import MobileNavBar from './components/layout/MobileNavBar';
 import Toast from './components/common/Toast';
 
 // Modals
@@ -10,7 +11,9 @@ import CertificateModal from './components/modals/CertificateModal';
 import ResourcePreviewModal from './components/modals/ResourcePreviewModal';
 
 // Pages
+import LoginPage from './components/pages/LoginPage';
 import ExaminationListPage from './components/pages/ExaminationListPage';
+import UpcomingExamsPage from './components/pages/UpcomingExamsPage';
 import ExamHistoryPage from './components/pages/ExamHistoryPage';
 import BrowseEnrollPage from './components/pages/BrowseEnrollPage';
 import MyPerformancePage from './components/pages/MyPerformancePage';
@@ -44,12 +47,14 @@ import {
 
 export default function App() {
   const [user, setUser] = useState(initialUser);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [activePage, setActivePage] = useState('dashboard');
   const [subPage, setSubPage] = useState(null);
 
   // Core dynamic datasets
   const [examList, setExamList] = useState(initialExamList);
-  const [availableExams, setAvailableExams] = useState(availableExamsForTaking);
+  const [availableExams, setAvailableExams] = useState(availableExamsForTaking || initialExamList);
   const [attempts, setAttempts] = useState(initialAttempts);
   const [directoryList, setDirectoryList] = useState(initialDirectory);
   const [courses, setCourses] = useState(initialCourses);
@@ -83,7 +88,6 @@ export default function App() {
     setSubPage(sub);
 
     // MOBILE BEHAVIOR:
-    // On mobile, selecting ANY page/navigation item automatically closes the sidebar.
     if (isMobile()) {
       setSidebarOpen(false);
     }
@@ -93,11 +97,10 @@ export default function App() {
 
   // Launch live exam
   const handleLaunchExam = (exam) => {
-    // If specific exam passed, match from available exams or use default
     const matched = availableExams.find(e => e.id === exam?.id || e.name === exam?.name) || exam || availableExams[0];
     setCurrentTakingExam(matched);
     setSavedSidebarState(sidebarOpen);
-    setSidebarOpen(false); // Exception: automatically collapse sidebar during live exam
+    setSidebarOpen(false);
     setActivePage('live-exam');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -105,14 +108,13 @@ export default function App() {
   // Complete exam handler
   const handleCompleteExam = (newAttempt) => {
     setAttempts(prev => [newAttempt, ...prev]);
-    setSidebarOpen(savedSidebarState); // Restore sidebar state when exam ends
+    setSidebarOpen(savedSidebarState);
     showToast({
       title: 'Exam Submitted',
       message: `Score: ${newAttempt.score} (${newAttempt.percentage}%). Result saved to history.`,
       type: 'success'
     });
 
-    // Update attempts used count in availableExams
     setAvailableExams(prev => prev.map(ex => {
       if (ex.name === newAttempt.exam) {
         return {
@@ -123,7 +125,6 @@ export default function App() {
       return ex;
     }));
 
-    // Update in general exam list
     setExamList(prev => prev.map(ex => {
       if (ex.name === newAttempt.exam) {
         return {
@@ -135,7 +136,6 @@ export default function App() {
       return ex;
     }));
 
-    // If passed, generate certificate
     if (newAttempt.result === 'Pass') {
       const newCert = {
         id: `CERT-BDK-2026-${Math.floor(100 + Math.random() * 900)}`,
@@ -154,7 +154,6 @@ export default function App() {
     }
   };
 
-  // Enroll confirmation
   const handleConfirmEnroll = (exam) => {
     setActiveEnrollExam(null);
     const newExamItem = {
@@ -183,27 +182,56 @@ export default function App() {
     });
   };
 
-  // Update directory status
   const handleUpdateExamTrackerStatus = (id, newStatus) => {
     setDirectoryList(prev => prev.map(item => item.id === id ? { ...item, status: newStatus } : item));
   };
 
+  // Handle Login Screen View
+  if (!isAuthenticated || showLoginModal) {
+    return (
+      <div className="relative">
+        {showLoginModal && (
+          <button
+            onClick={() => setShowLoginModal(false)}
+            className="fixed top-4 right-4 z-50 px-4 py-2 rounded-full bg-slate-900 text-white font-bold text-xs hover:bg-black transition-all shadow-md flex items-center gap-1.5"
+          >
+            <span className="material-symbols-outlined text-[16px]">close</span>
+            <span>Back to Dashboard</span>
+          </button>
+        )}
+        <LoginPage
+          onLoginSuccess={(userData) => {
+            if (userData?.name) setUser(prev => ({ ...prev, name: userData.name }));
+            setIsAuthenticated(true);
+            setShowLoginModal(false);
+            showToast({
+              title: 'Welcome Back!',
+              message: 'Signed in successfully to Bodhika Learning.',
+              type: 'success'
+            });
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background font-sans text-on-background flex">
-      {/* Bodhika 280px Left Sidebar */}
-      {/* Top Header (Sticky 80px) */}
+    <div className="min-h-screen bg-brand-bg font-sans text-on-background flex flex-col">
+      {/* Top Header */}
       <Header
         user={user}
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(prev => !prev)}
         onSearchSelect={(item) => handleNavigate(item.page, item.sub)}
         onNavigate={handleNavigate}
+        onOpenLoginModal={() => setShowLoginModal(true)}
         onLogout={() => {
+          setIsAuthenticated(false);
           showToast({ title: 'Logged Out', message: 'Session terminated securely.', type: 'info' });
         }}
       />
 
-      {/* Left Collapsible Navigation Sidebar with Mobile Drawer Backdrop */}
+      {/* Left Collapsible Navigation Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -212,19 +240,15 @@ export default function App() {
         subPage={subPage}
       />
 
-      {/* Main Workspace Area (Offset by 280px left sidebar when open on desktop, with smooth transition) */}
+      {/* Main Content Workspace */}
       <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out ${
-        sidebarOpen ? 'lg:pl-[280px]' : 'pl-0'
+        sidebarOpen ? 'lg:pl-[270px]' : 'pl-0'
       }`}>
-        {/* Page Content Canvas */}
-        <main className="pt-24 sm:pt-28 px-4 sm:px-6 lg:px-12 pb-16 flex-1 w-full max-w-full overflow-x-hidden">
-          {/* Page 1: Dashboard / Examination List */}
-          {(activePage === 'dashboard' || (activePage === 'exams' && subPage === 'upcoming')) && (
+        <main className="pt-24 sm:pt-28 px-4 sm:px-6 lg:px-10 pb-24 lg:pb-16 flex-1 w-full max-w-full overflow-x-hidden animate-in fade-in duration-200">
+          {/* Dashboard (Exclusive Hero Banner view) */}
+          {activePage === 'dashboard' && (
             <ExaminationListPage
-              exams={
-                subPage === 'upcoming' ? examList.filter(e => e.status !== 'Done') :
-                examList
-              }
+              exams={examList}
               onTakeExam={(exam) => {
                 if (exam) {
                   const matched = availableExams.find(e => e.name === exam.name) || exam;
@@ -241,7 +265,27 @@ export default function App() {
             />
           )}
 
-          {/* Completed Exams Page (Compact Card Grid with Marks, %, Pass/Fail & View Results) */}
+          {/* Upcoming Exams Page (Dedicated unpaired view) */}
+          {(activePage === 'upcoming-exams' || (activePage === 'exams' && subPage === 'upcoming')) && (
+            <UpcomingExamsPage
+              exams={examList.filter(e => e.status !== 'Done')}
+              onTakeExam={(exam) => {
+                if (exam) {
+                  const matched = availableExams.find(e => e.name === exam.name) || exam;
+                  handleLaunchExam(matched);
+                } else {
+                  handleNavigate('take-exam');
+                }
+              }}
+              onViewHistory={(subj) => {
+                setActivePage('history');
+                setSubPage(null);
+              }}
+              onToast={showToast}
+            />
+          )}
+
+          {/* Completed Exams Page */}
           {(activePage === 'completed-exams' || (activePage === 'exams' && subPage === 'completed')) && (
             <CompletedExamsPage
               attempts={attempts}
@@ -258,7 +302,7 @@ export default function App() {
             />
           )}
 
-          {/* Scheduled Exams Page (My Exams -> Scheduled) */}
+          {/* Scheduled Exams Page */}
           {(activePage === 'scheduled-exams' || (activePage === 'exams' && subPage === 'scheduled')) && (
             <ScheduledExamsPage
               scheduledList={scheduledExams}
@@ -270,7 +314,7 @@ export default function App() {
             />
           )}
 
-          {/* New General Take Exam Flow */}
+          {/* Take Exam Page */}
           {activePage === 'take-exam' && (
             <TakeExamPage
               availableExams={availableExams}
@@ -281,7 +325,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 2 & 4: Exam History */}
+          {/* Exam History */}
           {activePage === 'history' && (
             <ExamHistoryPage
               attempts={attempts}
@@ -298,7 +342,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 3 & 7: Browse & Enroll */}
+          {/* Browse & Enroll */}
           {activePage === 'browse-enroll' && (
             <BrowseEnrollPage
               catalog={browseEnrollExams}
@@ -307,7 +351,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 5: My Performance */}
+          {/* My Performance */}
           {activePage === 'performance' && (
             <MyPerformancePage
               onNavigateToHistory={(subj) => {
@@ -317,7 +361,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 6: My Certificates */}
+          {/* My Certificates */}
           {activePage === 'certificates' && (
             <CertificatesPage
               certificates={certificates}
@@ -325,7 +369,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 8 & 9: Teacher Online Courses */}
+          {/* Teacher Courses */}
           {activePage === 'teacher-courses' && (
             <TeacherCoursesPage
               courses={courses}
@@ -333,7 +377,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 10, 11, 12: Study Resources */}
+          {/* Study Resources */}
           {activePage === 'study-resources' && (
             <StudyResourcesPage
               resources={studyResources}
@@ -343,7 +387,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 13: ExamPath Directory */}
+          {/* ExamPath Directory */}
           {activePage === 'exampath-directory' && (
             <ExamPathDirectoryPage
               directoryList={directoryList}
@@ -352,14 +396,14 @@ export default function App() {
             />
           )}
 
-          {/* Page 14: Timeline & Deadlines */}
-          {activePage === 'exampath-timeline' && (
+          {/* Timeline & Deadlines */}
+          {activePage === 'timeline-deadlines' && (
             <TimelineDeadlinesPage
               onToast={showToast}
             />
           )}
 
-          {/* Page 15: Career Compass */}
+          {/* Career Compass */}
           {activePage === 'career-compass' && (
             <CareerCompassPage
               questions={careerCompassQuestions}
@@ -368,7 +412,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 16: My Exam Tracker */}
+          {/* My Exam Tracker */}
           {activePage === 'exam-tracker' && (
             <ExamTrackerPage
               directoryList={directoryList}
@@ -377,7 +421,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 17 & 18: Account Settings */}
+          {/* Account Settings */}
           {activePage === 'settings' && (
             <AccountSettingsPage
               user={user}
@@ -387,7 +431,7 @@ export default function App() {
             />
           )}
 
-          {/* Page 19 & 20: Live Exam Simulator */}
+          {/* Live Exam Simulator */}
           {activePage === 'live-exam' && (
             <LiveExamPage
               exam={currentTakingExam || availableExams[0]}
@@ -398,6 +442,9 @@ export default function App() {
           )}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation Bar (refff.jpg style) */}
+      <MobileNavBar activePage={activePage} onNavigate={handleNavigate} />
 
       {/* Global Modals */}
       <EnrollModal

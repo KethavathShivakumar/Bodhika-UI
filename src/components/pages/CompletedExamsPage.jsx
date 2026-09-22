@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 
 export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExam, onBackToDashboard }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [resultFilter, setResultFilter] = useState('All'); // 'All' | 'Pass' | 'Fail'
+  const [resultFilter, setResultFilter] = useState('All');
   const [subjectFilter, setSubjectFilter] = useState('All');
 
-  // Derive unique subjects
   const subjects = ['All', ...new Set(attempts.map(a => a.subject))];
 
   const filteredAttempts = attempts.filter(att => {
@@ -17,239 +16,218 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
     return true;
   });
 
-  const getExamIcon = (att) => {
-    const text = (att.exam + ' ' + att.subject + ' ' + (att.grade || '')).toLowerCase();
-    if (text.includes('azure') || text.includes('cloud') || text.includes('dp-900')) return 'cloud';
-    if (text.includes('verbal') || text.includes('aptitude')) return 'psychology';
-    if (text.includes('python') || text.includes('algorithm') || text.includes('code')) return 'terminal';
-    if (text.includes('biology') || text.includes('neet') || text.includes('medical')) return 'biotech';
-    if (text.includes('cricket') || text.includes('sports') || text.includes('gk')) return 'sports_cricket';
-    return 'assignment_turned_in';
-  };
-
   const totalCompleted = attempts.length;
   const passedCount = attempts.filter(a => a.result === 'Pass').length;
   const passRate = totalCompleted > 0 ? Math.round((passedCount / totalCompleted) * 100) : 0;
 
+  const cardColorPalettes = [
+    {
+      bg: "bg-gradient-to-br from-[#0a4b56] via-[#0f766e] to-[#14b8a6] text-white border-teal-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      metaBg: "bg-black/20 backdrop-blur-md text-teal-100 border border-white/10",
+      subText: "text-teal-100/90 font-medium",
+      btn: "bg-white text-[#0a4b56] hover:bg-teal-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#1e1b4b] via-[#3730a3] to-[#4338ca] text-white border-indigo-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      metaBg: "bg-black/20 backdrop-blur-md text-indigo-100 border border-white/10",
+      subText: "text-indigo-100/90 font-medium",
+      btn: "bg-white text-[#1e1b4b] hover:bg-indigo-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#7c2d12] via-[#c2410c] to-[#ea580c] text-white border-orange-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      metaBg: "bg-black/20 backdrop-blur-md text-orange-100 border border-white/10",
+      subText: "text-orange-100/90 font-medium",
+      btn: "bg-white text-[#7c2d12] hover:bg-orange-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#4c1d95] via-[#6d28d9] to-[#8b5cf6] text-white border-purple-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      metaBg: "bg-black/20 backdrop-blur-md text-purple-100 border border-white/10",
+      subText: "text-purple-100/90 font-medium",
+      btn: "bg-white text-[#4c1d95] hover:bg-purple-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    }
+  ];
+
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-16">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-full text-xs font-semibold text-on-surface-variant mb-1.5">
-            <span className="material-symbols-outlined text-[15px]">task_alt</span>
-            Examination Records
+    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-16 animate-in fade-in duration-300">
+      
+      {/* 1. TOP METRIC SUMMARY CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-teal-200">Total Completed</div>
+            <div className="text-3xl font-black tracking-tight mt-1">{totalCompleted}</div>
+            <div className="text-[11px] text-teal-100 font-semibold mt-2 flex items-center gap-1">
+              <span>Verified Submissions</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-on-surface">Completed Exams</h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
-            Review finalized assessments, comprehensive score breakdowns, and performance percentiles.
-          </p>
+          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+            <span className="material-symbols-outlined text-[24px]">task_alt</span>
+          </div>
         </div>
 
-        {/* Top summary badge pills */}
-        <div className="flex items-center gap-3 self-stretch sm:self-auto">
-          <div className="px-3.5 py-2 rounded-xl bg-surface-container-low border border-surface-variant text-center flex-1 sm:flex-initial">
-            <span className="text-[10px] uppercase font-bold text-outline block">Completed</span>
-            <span className="text-sm font-bold text-on-surface">{totalCompleted} Exams</span>
+        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Passed Exams</div>
+            <div className="text-3xl font-black tracking-tight mt-1">{passedCount}</div>
+            <div className="text-[11px] text-slate-900 font-semibold mt-2 flex items-center gap-1">
+              <span>High Competency</span>
+              <span className="material-symbols-outlined text-[14px]">verified</span>
+            </div>
           </div>
-          <div className="px-3.5 py-2 rounded-xl bg-secondary-container/40 border border-secondary-container text-center flex-1 sm:flex-initial">
-            <span className="text-[10px] uppercase font-bold text-on-secondary-container block">Pass Rate</span>
-            <span className="text-sm font-bold text-on-secondary-container">{passRate}%</span>
+          <div className="w-12 h-12 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900">
+            <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
+          <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-slate-300">Average Pass Rate</div>
+            <div className="text-3xl font-black tracking-tight mt-1">{passRate}%</div>
+            <div className="text-[11px] text-slate-300 font-semibold mt-2 flex items-center gap-1">
+              <span>Overall Percentile</span>
+              <span className="material-symbols-outlined text-[14px]">monitoring</span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+            <span className="material-symbols-outlined text-[24px]">insights</span>
           </div>
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 shadow-soft-card border border-outline-variant/30 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        {/* Status Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      {/* 2. CONTROLS & FILTER BAR */}
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a4b56] to-[#109c90] text-white rounded-3xl p-5 shadow-soft-card border border-white/10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-x-auto">
           {['All', 'Pass', 'Fail'].map((status) => (
             <button
               key={status}
               onClick={() => setResultFilter(status)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
                 resultFilter === status
-                  ? 'bg-primary text-on-primary shadow-sm'
-                  : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface'
+                  ? 'bg-white text-[#0a4b56] shadow-md'
+                  : 'bg-white/15 text-white hover:bg-white/25'
               }`}
             >
               {status === 'All' ? 'All Results' : status === 'Pass' ? 'Passed Only' : 'Failed Only'}
             </button>
           ))}
 
-          <div className="h-4 w-px bg-surface-variant mx-1 hidden sm:block"></div>
-
-          {/* Subject Dropdown */}
           <select
             value={subjectFilter}
             onChange={(e) => setSubjectFilter(e.target.value)}
-            className="bg-surface-container-low h-8 px-3 rounded-lg text-xs font-medium text-on-surface outline-none focus:ring-1 focus:ring-primary cursor-pointer border border-transparent"
+            className="bg-white/15 h-9 px-3 rounded-2xl text-xs font-bold text-white outline-none border border-white/20 cursor-pointer ml-2 backdrop-blur-md"
           >
             {subjects.map(subj => (
-              <option key={subj} value={subj}>
+              <option key={subj} value={subj} className="bg-slate-900 text-white">
                 {subj === 'All' ? '— All Subjects —' : subj}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Search Input */}
-        <div className="w-full md:w-72 bg-surface-container-low rounded-xl flex items-center px-3 h-9 gap-2 border border-transparent focus-within:border-primary focus-within:bg-surface-container-lowest transition-all">
-          <span className="material-symbols-outlined text-outline text-[16px]">search</span>
+        <div className="w-full md:w-72 bg-white/15 backdrop-blur-md rounded-2xl flex items-center px-3.5 h-10 gap-2 border border-white/20">
+          <span className="material-symbols-outlined text-white/70 text-[18px]">search</span>
           <input
             type="text"
-            placeholder="Search completed exams..."
+            placeholder="Search completed exam..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-transparent border-none outline-none text-xs w-full text-on-surface placeholder:text-outline"
+            className="bg-transparent border-none outline-none text-xs w-full text-white placeholder:text-white/60 font-semibold"
           />
-          {searchQuery && (
-            <button onClick={() => setSearchQuery('')} className="text-outline hover:text-on-surface">
-              <span className="material-symbols-outlined text-[14px]">close</span>
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Completed Exams Grid */}
-      {filteredAttempts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-          {filteredAttempts.map((att) => {
-            const isPass = att.result === 'Pass';
-            return (
-              <div
-                key={att.id}
-                className="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 border border-outline-variant/30 shadow-soft-card hover:shadow-hover-card hover:border-outline-variant/60 transition-all duration-200 flex flex-col justify-between group relative overflow-hidden"
-              >
-                {/* Accent top border based on pass/fail */}
-                <div
-                  className={`absolute top-0 left-0 right-0 h-1 transition-colors ${
-                    isPass ? 'bg-secondary' : 'bg-error/60'
-                  }`}
-                ></div>
+      {/* 3. COMPLETED EXAMS FULLY-COLORED CARDS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredAttempts.map((att, idx) => {
+          const isPassed = att.result === 'Pass';
+          const percent = att.percentage || att.scorePercent || 80;
+          const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
-                <div>
-                  {/* Card Top Row: Subject Icon + Grade Label + Pass/Fail Badge */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                          isPass
-                            ? 'bg-secondary-container/50 text-on-secondary-container'
-                            : 'bg-error-container/40 text-on-error-container'
-                        }`}
-                      >
-                        <span className="material-symbols-outlined text-[20px]">{getExamIcon(att)}</span>
-                      </div>
-                      <div className="min-w-0">
-                        <span className="text-[10px] font-bold text-outline uppercase tracking-wider block truncate">
-                          {att.grade || 'Academic Exam'}
-                        </span>
-                        <span className="text-[11px] font-medium text-on-surface-variant truncate block">
-                          {att.subject}
-                        </span>
-                      </div>
-                    </div>
-
-                    <span
-                      className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold shrink-0 flex items-center gap-1 ${
-                        isPass
-                          ? 'bg-secondary-container text-on-secondary-container'
-                          : 'bg-error-container text-on-error-container'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[13px]">
-                        {isPass ? 'check_circle' : 'cancel'}
-                      </span>
-                      <span>{isPass ? 'Passed' : 'Failed'}</span>
-                    </span>
+          return (
+            <div 
+              key={att.id}
+              className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  {/* Circular Score Gauge */}
+                  <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+                    <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.2)"
+                        strokeWidth="3.5"
+                      />
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke={isPassed ? '#4ade80' : '#f87171'}
+                        strokeWidth="3.5"
+                        strokeDasharray={`${percent}, 100`}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <span className="absolute text-[11px] font-black text-white">{percent}%</span>
                   </div>
 
-                  {/* Exam Name */}
-                  <h3 className="font-bold text-sm text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug min-h-[2.5rem]">
-                    {att.exam}
-                  </h3>
-
-                  {/* Questions & Duration Subtitle */}
-                  <div className="text-[11px] text-outline mt-1 flex items-center gap-1.5">
-                    <span>{att.questionsCount || 10} Questions</span>
-                    <span>•</span>
-                    <span>{att.durationMin ? `${att.durationMin} min` : att.duration}</span>
-                  </div>
-
-                  {/* Prominent Score & Result Banner */}
-                  <div className="my-3 p-3 rounded-xl bg-surface-container-low/70 border border-surface-variant/50 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-outline uppercase tracking-wider block">Score Obtained</span>
-                      <div className="text-lg font-extrabold text-on-surface mt-0.5 font-mono">
-                        {att.score}
-                      </div>
-                    </div>
-
-                    <div className="text-right">
-                      <span className="text-[10px] font-bold text-outline uppercase tracking-wider block">Percentage</span>
-                      <div
-                        className={`text-lg font-extrabold mt-0.5 ${
-                          isPass ? 'text-secondary' : 'text-error'
-                        }`}
-                      >
-                        {att.scorePercent}%
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Completion Date & Attempt Slot */}
-                  <div className="flex items-center justify-between text-[11px] text-outline px-0.5">
-                    <span className="flex items-center gap-1 truncate">
-                      <span className="material-symbols-outlined text-[13px]">calendar_today</span>
-                      <span>Completed: {att.date}</span>
-                    </span>
-                    <span className="font-medium text-on-surface-variant shrink-0">
-                      {att.attemptsUsed || `Attempt ${att.attempts}`}
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-300 text-xs tracking-tighter">★★★★★</span>
+                    <span className={`text-[10px] font-black px-3 py-1 rounded-full ${
+                      isPassed ? 'bg-emerald-400 text-slate-900 font-extrabold' : 'bg-rose-400 text-slate-900 font-extrabold'
+                    }`}>
+                      {att.result}
                     </span>
                   </div>
                 </div>
 
-                {/* Card Actions Footer */}
-                <div className="pt-3 mt-3 border-t border-surface-variant/50 flex items-center gap-2">
-                  <button
-                    onClick={() => onViewResult(att)}
-                    className="flex-1 py-2 px-3 rounded-xl bg-primary text-on-primary hover:opacity-90 active:scale-[0.98] transition-all font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm"
-                  >
-                    <span className="material-symbols-outlined text-[15px]">visibility</span>
-                    <span>View Results</span>
-                  </button>
+                <h3 className="font-black text-lg text-white leading-snug mb-1 drop-shadow-sm">
+                  {att.exam}
+                </h3>
+                <p className={`${theme.subText} text-xs font-semibold mb-4`}>
+                  {att.subject} • Completed on {att.date || '15 Sep 2026'}
+                </p>
 
-                  <button
-                    onClick={() => onRetakeExam(att)}
-                    className="p-2 rounded-xl border border-surface-variant text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
-                    title="Retake this exam"
-                  >
-                    <span className="material-symbols-outlined text-[16px] block">replay</span>
-                  </button>
+                <div className={`${theme.metaBg} rounded-2xl p-3 flex items-center justify-between text-xs font-bold mb-5`}>
+                  <span>Marks: <strong className="text-white font-black">{att.score}</strong></span>
+                  <span className="text-white/40">|</span>
+                  <span>Time Spent: <strong className="text-white font-black">{att.timeSpent || '42m'}</strong></span>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      ) : (
-        /* Empty State */
-        <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-outline-variant/30 shadow-soft-card flex flex-col items-center justify-center min-h-[260px]">
-          <div className="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-outline mb-3">
-            <span className="material-symbols-outlined text-[28px]">fact_check</span>
-          </div>
-          <h3 className="font-bold text-base text-on-surface">No completed examinations match your criteria</h3>
-          <p className="text-xs text-outline mt-1 max-w-sm">
-            Try adjusting your search query or filter to view results.
-          </p>
-          <button
-            onClick={() => { setSearchQuery(''); setResultFilter('All'); setSubjectFilter('All'); }}
-            className="mt-4 px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-semibold hover:bg-surface-container-highest transition-colors"
-          >
-            Reset Filters
-          </button>
-        </div>
-      )}
+
+              <div className="pt-3 border-t border-white/20 flex items-center justify-between gap-2">
+                <button
+                  onClick={() => onViewResult(att)}
+                  className={`flex-1 h-10 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer`}
+                >
+                  <span>View Results</span>
+                  <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                </button>
+
+                {onRetakeExam && (
+                  <button
+                    onClick={() => onRetakeExam(att)}
+                    className={`h-10 px-3.5 rounded-2xl ${theme.iconBtn} active:scale-95 transition-all cursor-pointer`}
+                    title="Retake Exam"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">replay</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
     </div>
   );
 }

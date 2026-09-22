@@ -7,12 +7,12 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
   const initialDuration = (exam?.durationMin || 15) * 60;
 
   const [currentQIndex, setCurrentQIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState({}); // { [qId]: 'B' }
-  const [skippedQuestions, setSkippedQuestions] = useState({}); // { [qId]: true }
-  const [reviewQuestions, setReviewQuestions] = useState({}); // { [qId]: true }
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [skippedQuestions, setSkippedQuestions] = useState({});
+  const [reviewQuestions, setReviewQuestions] = useState({});
   const [visitedQuestions, setVisitedQuestions] = useState({ 1: true });
   const [timeLeft, setTimeLeft] = useState(initialDuration);
-  const [layoutMode, setLayoutMode] = useState('stacked'); // 'stacked' | 'side-by-side'
+  const [layoutMode, setLayoutMode] = useState('stacked');
   const [showInstructions, setShowInstructions] = useState(true);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [examResult, setExamResult] = useState(null);
@@ -97,7 +97,6 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
   const handleSubmitExam = () => {
     setShowSubmitModal(false);
 
-    // Calculate score
     let correctCount = 0;
     let wrongCount = 0;
     questions.forEach(q => {
@@ -156,87 +155,84 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
   };
 
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-20">
-      {/* Top Banner: Collapsible Instructions */}
+    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-20 animate-in fade-in duration-300">
+      {/* Top Guidelines Banner */}
       {showInstructions && (
-        <div className="bg-surface-container-low rounded-2xl p-4 sm:p-5 border border-outline-variant/30 flex items-center justify-between gap-4 animate-in fade-in duration-200">
+        <div className="bg-teal-50/80 backdrop-blur-md rounded-3xl p-4 sm:p-5 border border-teal-100 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-[#0a4b56] text-white flex items-center justify-center shrink-0 shadow-sm">
               <span className="material-symbols-outlined text-[20px]">info</span>
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-on-surface">Active Session Guidelines</h4>
-              <p className="text-xs text-on-surface-variant mt-0.5">
-                Each question has one correct choice. You can mark questions for review using the bookmark flag button.
+              <h4 className="text-xs font-black uppercase tracking-wider text-[#0a4b56]">Active Session Guidelines</h4>
+              <p className="text-xs text-slate-600 font-semibold mt-0.5">
+                Select your answer for each question. You can bookmark questions for review before submitting.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowInstructions(false)}
-              className="px-3.5 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold transition-colors"
-            >
-              Got it
-            </button>
-          </div>
+          <button
+            onClick={() => setShowInstructions(false)}
+            className="px-4 py-1.5 rounded-full bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-colors cursor-pointer"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
       {/* Main Exam Title & Metadata Header */}
-      <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-card border border-outline-variant/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-white rounded-3xl p-6 shadow-soft-card border border-slate-100/90 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold text-secondary uppercase tracking-wider">
-              {exam?.grade}
+            <span className="text-xs font-black text-[#0a4b56] uppercase tracking-wider">
+              {exam?.grade || 'Standard'}
             </span>
-            <span className="text-xs text-outline">•</span>
-            <span className="text-xs font-medium text-outline">{exam?.category}</span>
+            <span className="text-xs text-slate-300">•</span>
+            <span className="text-xs font-bold text-slate-500">{exam?.category}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-on-surface">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">
             {exam?.name}
           </h1>
-          <div className="flex flex-wrap items-center gap-3 text-xs text-on-surface-variant mt-2">
-            <span>Subject: <strong className="text-on-surface">{exam?.subject}</strong></span>
+          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-semibold mt-2">
+            <span>Subject: <strong className="text-slate-900">{exam?.subject}</strong></span>
             <span>•</span>
-            <span>Questions: <strong className="text-on-surface">{totalQuestions}</strong></span>
+            <span>Questions: <strong className="text-slate-900">{totalQuestions}</strong></span>
             <span>•</span>
-            <span>Pass Cutoff: <strong className="text-secondary">{exam?.passPercent}%</strong></span>
+            <span>Pass Cutoff: <strong className="text-[#0a4b56]">{exam?.passPercent || 60}%</strong></span>
           </div>
         </div>
 
         {/* Right Stats: Timer & Layout Switcher */}
         <div className="flex flex-wrap items-center gap-4 self-end md:self-auto">
-          {/* Layout switcher */}
-          <div className="flex bg-surface-container-low p-1 rounded-xl border border-surface-variant text-xs font-semibold">
+          <div className="flex bg-slate-100 p-1 rounded-2xl text-xs font-bold">
             <button
               onClick={() => setLayoutMode('stacked')}
-              className={`px-3 py-1 rounded-lg transition-all ${layoutMode === 'stacked' ? 'bg-surface-container-lowest shadow-sm text-on-surface' : 'text-outline'}`}
+              className={`px-3.5 py-1.5 rounded-xl transition-all ${layoutMode === 'stacked' ? 'bg-white shadow-sm text-slate-900 font-black' : 'text-slate-500'}`}
             >
               Stacked
             </button>
             <button
               onClick={() => setLayoutMode('side-by-side')}
-              className={`px-3 py-1 rounded-lg transition-all ${layoutMode === 'side-by-side' ? 'bg-surface-container-lowest shadow-sm text-on-surface' : 'text-outline'}`}
+              className={`px-3.5 py-1.5 rounded-xl transition-all ${layoutMode === 'side-by-side' ? 'bg-white shadow-sm text-slate-900 font-black' : 'text-slate-500'}`}
             >
               Side-by-side
             </button>
           </div>
 
           {/* Time Left Counter */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-secondary-container/40 border border-secondary-container text-on-secondary-container">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white shadow-sm">
             <span className="material-symbols-outlined text-[20px] animate-pulse">timer</span>
-            <span className="text-xs font-semibold">Time Left:</span>
-            <span className="text-base font-mono font-bold">{formatTimer(timeLeft)}</span>
+            <span className="text-xs font-bold">Time Left:</span>
+            <span className="text-base font-mono font-black">{formatTimer(timeLeft)}</span>
           </div>
 
           {/* Answered counter */}
-          <div className="text-xs font-semibold text-on-surface bg-surface-container-low px-3 py-2 rounded-xl">
-            Answered: <span className="text-secondary font-bold">{answeredCount}</span> / {totalQuestions}
+          <div className="text-xs font-black text-slate-800 bg-teal-50 px-3.5 py-2 rounded-2xl border border-teal-100">
+            Answered: <span className="text-[#0a4b56]">{answeredCount}</span> / {totalQuestions}
           </div>
 
           <button
             onClick={onExitExam}
-            className="text-xs text-outline hover:text-error transition-colors px-2 py-1"
+            className="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors px-2 py-1 cursor-pointer"
           >
             Exit Exam
           </button>
@@ -244,33 +240,32 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
       </div>
 
       {/* Question Navigator Palette */}
-      <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-soft-card border border-outline-variant/30 space-y-4">
-        {/* Legend */}
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs border-b border-surface-variant pb-3">
-          <div className="flex flex-wrap items-center gap-4">
+      <div className="bg-white rounded-3xl p-5 shadow-soft-card border border-slate-100/90 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs border-b border-slate-100 pb-3">
+          <div className="flex flex-wrap items-center gap-4 font-semibold">
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-primary ring-2 ring-primary/30"></span>
-              <span className="text-on-surface-variant font-medium">Current</span>
+              <span className="w-3 h-3 rounded-full bg-[#0a4b56]"></span>
+              <span className="text-slate-700">Current</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-secondary"></span>
-              <span className="text-on-surface-variant font-medium">Answered ({answeredCount})</span>
+              <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+              <span className="text-slate-700">Answered ({answeredCount})</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full bg-purple-600"></span>
-              <span className="text-on-surface-variant font-medium">Marked for Review ({reviewCount})</span>
+              <span className="text-slate-700">Review ({reviewCount})</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full bg-amber-400"></span>
-              <span className="text-on-surface-variant font-medium">Skipped</span>
+              <span className="text-slate-700">Skipped</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-surface-container-highest"></span>
-              <span className="text-on-surface-variant font-medium">Not visited</span>
+              <span className="w-3 h-3 rounded-full bg-slate-200"></span>
+              <span className="text-slate-500">Not visited</span>
             </div>
           </div>
 
-          <span className="text-xs text-outline">Click any number to jump directly to that question</span>
+          <span className="text-xs text-slate-400 font-semibold">Click number to jump</span>
         </div>
 
         {/* Numbers Palette Row */}
@@ -282,30 +277,30 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
             const isSkipped = skippedQuestions[q.id];
             const isVisited = visitedQuestions[q.id];
 
-            let paletteStyle = "bg-surface-container-low text-outline border-transparent";
+            let paletteStyle = "bg-slate-100 text-slate-500 border-transparent";
             if (isAnswered) {
-              paletteStyle = "bg-secondary text-on-secondary border-secondary font-bold";
+              paletteStyle = "bg-emerald-500 text-white font-black shadow-sm";
             } else if (isReviewed) {
-              paletteStyle = "bg-purple-100 text-purple-900 border-purple-400 font-bold ring-1 ring-purple-300";
+              paletteStyle = "bg-purple-600 text-white font-black shadow-sm";
             } else if (isSkipped) {
-              paletteStyle = "bg-amber-100 text-amber-900 border-amber-300 font-bold";
+              paletteStyle = "bg-amber-400 text-slate-900 font-black";
             } else if (isVisited) {
-              paletteStyle = "bg-surface-container-high text-on-surface font-semibold";
+              paletteStyle = "bg-slate-200 text-slate-800 font-bold";
             }
 
             if (isCurrent) {
-              paletteStyle = "bg-primary text-on-primary font-bold ring-4 ring-primary/20 scale-105 z-10";
+              paletteStyle = "bg-[#0a4b56] text-white font-black ring-4 ring-teal-200 scale-105 z-10 shadow-md";
             }
 
             return (
               <button
                 key={q.id}
                 onClick={() => goToQuestion(idx)}
-                className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs transition-all border relative ${paletteStyle}`}
+                className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xs transition-all cursor-pointer relative ${paletteStyle}`}
               >
                 <span>{idx + 1}</span>
                 {isReviewed && (
-                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-purple-600 ring-2 ring-surface-container-lowest"></span>
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-purple-600 ring-2 ring-white"></span>
                 )}
               </button>
             );
@@ -316,14 +311,13 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
       {/* Main Question Workspace */}
       <div className={`grid gap-6 ${layoutMode === 'side-by-side' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
         {/* Question & Options Card */}
-        <div className="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 shadow-soft-card border border-outline-variant/30 space-y-6">
-          {/* Question Meta & Controls Bar */}
-          <div className="flex items-center justify-between border-b border-surface-variant pb-4">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div className="flex items-center gap-3">
-              <span className="w-7 h-7 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-xs">
+              <span className="w-8 h-8 rounded-2xl bg-[#0a4b56] text-white flex items-center justify-center font-black text-xs shadow-sm">
                 {currentQ.id}
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-semibold">
+              <span className="px-3 py-1 rounded-full bg-teal-50 text-[#0a4b56] text-xs font-black border border-teal-100">
                 {currentQ.type}
               </span>
             </div>
@@ -331,36 +325,35 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
             <div className="flex items-center gap-2">
               <button
                 onClick={handleToggleReview}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1 border ${
+                className={`px-3.5 py-1.5 rounded-2xl text-xs font-black transition-all flex items-center gap-1 border cursor-pointer ${
                   reviewQuestions[currentQ.id]
                     ? 'bg-purple-100 text-purple-900 border-purple-300'
-                    : 'bg-surface-container-low hover:bg-surface-container text-on-surface-variant border-surface-variant'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
                 }`}
-                title="Flag this question for later review"
               >
                 <span className="material-symbols-outlined text-[16px]">
                   {reviewQuestions[currentQ.id] ? 'bookmark_added' : 'bookmark_border'}
                 </span>
-                <span>{reviewQuestions[currentQ.id] ? 'Marked for Review' : 'Mark for Review'}</span>
+                <span>{reviewQuestions[currentQ.id] ? 'Review Flagged' : 'Mark for Review'}</span>
               </button>
 
               <button
                 onClick={handleSkip}
-                className="px-3.5 py-1.5 rounded-lg bg-amber-50 text-amber-900 hover:bg-amber-100 text-xs font-semibold transition-colors border border-amber-200"
+                className="px-3.5 py-1.5 rounded-2xl bg-amber-50 text-amber-900 hover:bg-amber-100 text-xs font-black transition-colors border border-amber-200 cursor-pointer"
               >
-                Skip for now
+                Skip
               </button>
               <button
                 onClick={handlePrev}
                 disabled={currentQIndex === 0}
-                className="px-3.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-semibold transition-colors disabled:opacity-40"
+                className="px-3.5 py-1.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-colors disabled:opacity-40 cursor-pointer"
               >
-                ‹ Previous
+                ‹ Prev
               </button>
               <button
                 onClick={handleNext}
                 disabled={currentQIndex === totalQuestions - 1}
-                className="px-4 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-opacity disabled:opacity-40"
+                className="px-4 py-1.5 rounded-2xl bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-colors disabled:opacity-40 cursor-pointer"
               >
                 Next ›
               </button>
@@ -368,11 +361,11 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
           </div>
 
           {/* Question Statement */}
-          <div className="text-base sm:text-lg font-medium text-on-surface leading-relaxed pt-2">
+          <div className="text-base sm:text-lg font-extrabold text-slate-900 leading-relaxed pt-2">
             {currentQ.question}
           </div>
 
-          {/* Interactive Options List */}
+          {/* Options */}
           <div className="space-y-3 pt-2">
             {currentQ.options?.map((opt) => {
               const isSelected = selectedAnswers[currentQ.id] === opt.id;
@@ -383,26 +376,26 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
                   className="block cursor-pointer select-none group"
                 >
                   <div
-                    className={`p-4 rounded-xl border transition-all flex items-center gap-4 ${
+                    className={`p-4 rounded-2xl border transition-all flex items-center gap-4 ${
                       isSelected
-                        ? 'bg-primary-container text-white border-primary shadow-sm ring-1 ring-primary'
-                        : 'bg-surface-container-low hover:bg-surface-container border-surface-variant text-on-surface'
+                        ? 'bg-teal-50/70 border-[#0a4b56] shadow-sm ring-2 ring-[#0a4b56]/20'
+                        : 'bg-slate-50/70 hover:bg-slate-100/70 border-slate-200 text-slate-800'
                     }`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs shrink-0 transition-colors ${
                         isSelected
-                          ? 'bg-white text-primary'
-                          : 'bg-surface-container-high text-on-surface-variant group-hover:bg-surface-container-highest'
+                          ? 'bg-[#0a4b56] text-white shadow-sm'
+                          : 'bg-slate-200 text-slate-700 group-hover:bg-slate-300'
                       }`}
                     >
                       {opt.id}
                     </div>
-                    <span className="text-sm font-medium leading-normal flex-1">
+                    <span className="text-sm font-bold text-slate-900 leading-normal flex-1">
                       {opt.text}
                     </span>
                     {isSelected && (
-                      <span className="material-symbols-outlined text-[20px] text-white">
+                      <span className="material-symbols-outlined text-[22px] text-[#0a4b56]">
                         check_circle
                       </span>
                     )}
@@ -412,15 +405,15 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
             })}
           </div>
 
-          {/* Bottom Actions Bar */}
-          <div className="pt-6 border-t border-surface-variant flex items-center justify-between">
-            <span className="text-xs text-outline">
+          {/* Actions */}
+          <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+            <span className="text-xs text-slate-400 font-bold">
               Question {currentQIndex + 1} of {totalQuestions}
             </span>
 
             <button
               onClick={() => setShowSubmitModal(true)}
-              className="px-6 py-2.5 rounded-full bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm"
+              className="px-6 py-2.5 rounded-full bg-slate-900 text-white text-xs font-black hover:bg-[#0a4b56] transition-all flex items-center gap-2 shadow-md cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">done_all</span>
               <span>Submit Exam</span>
@@ -428,87 +421,83 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
           </div>
         </div>
 
-        {/* Side-by-side Reference / Palette Panel */}
+        {/* Side-by-side Panel */}
         {layoutMode === 'side-by-side' && (
-          <div className="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 shadow-soft-card border border-outline-variant/30 space-y-6 flex flex-col justify-between">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6 flex flex-col justify-between">
             <div className="space-y-4">
-              <h3 className="font-bold text-base text-on-surface">Live Exam Status Matrix</h3>
-              <p className="text-xs text-on-surface-variant leading-relaxed">
-                Review your current question progress before final submission.
+              <h3 className="font-black text-base text-slate-900">Live Session Matrix</h3>
+              <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                Review your current progress before finalizing your submission.
               </p>
 
               <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="p-3.5 rounded-xl bg-surface-container-low text-center">
-                  <span className="text-[10px] uppercase font-bold text-outline">Answered</span>
-                  <div className="text-2xl font-bold text-secondary">{answeredCount}</div>
+                <div className="p-4 rounded-2xl bg-teal-50 border border-teal-100 text-center">
+                  <span className="text-[10px] uppercase font-black text-[#0a4b56]">Answered</span>
+                  <div className="text-2xl font-black text-[#0a4b56] mt-0.5">{answeredCount}</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-purple-50 text-center border border-purple-200">
-                  <span className="text-[10px] uppercase font-bold text-purple-800">For Review</span>
-                  <div className="text-2xl font-bold text-purple-800">{reviewCount}</div>
+                <div className="p-4 rounded-2xl bg-purple-50 text-center border border-purple-200">
+                  <span className="text-[10px] uppercase font-black text-purple-800">For Review</span>
+                  <div className="text-2xl font-black text-purple-800 mt-0.5">{reviewCount}</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-surface-container-low text-center">
-                  <span className="text-[10px] uppercase font-bold text-outline">Unanswered</span>
-                  <div className="text-2xl font-bold text-error">{unansweredCount}</div>
+                <div className="p-4 rounded-2xl bg-slate-50 text-center border border-slate-100">
+                  <span className="text-[10px] uppercase font-black text-slate-400">Unanswered</span>
+                  <div className="text-2xl font-black text-rose-600 mt-0.5">{unansweredCount}</div>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-surface-container-low border border-surface-variant text-xs text-outline">
-              Passing Cutoff: {exam?.passPercent || 60}% required to clear this evaluation.
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 font-bold">
+              Passing Cutoff: {exam?.passPercent || 60}% required to clear.
             </div>
           </div>
         )}
       </div>
 
-      {/* Step 7: Submit Confirmation Dialog */}
+      {/* Submit Confirmation Dialog */}
       {showSubmitModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-surface-container-lowest rounded-[24px] shadow-float border border-outline-variant/30 max-w-md w-full p-6 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl shadow-float border border-slate-100 max-w-md w-full p-6 space-y-5">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#0a4b56] flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[24px]">assignment_turned_in</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg text-on-surface">Submit Examination?</h3>
-                <p className="text-xs text-outline">Review your progress before concluding</p>
+                <h3 className="font-black text-lg text-slate-900">Submit Examination?</h3>
+                <p className="text-xs text-slate-400 font-semibold">Confirm your choices before concluding</p>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-surface-container-low space-y-2 text-xs border border-surface-variant">
+            <div className="p-4 rounded-2xl bg-slate-50 space-y-2 text-xs border border-slate-100 font-bold">
               <div className="flex justify-between">
-                <span className="text-outline">Questions Answered:</span>
-                <span className="font-bold text-secondary">{answeredCount} of {totalQuestions}</span>
+                <span className="text-slate-500">Answered:</span>
+                <span className="font-black text-[#0a4b56]">{answeredCount} of {totalQuestions}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-outline">Unanswered Questions:</span>
-                <span className="font-bold text-error">{unansweredCount}</span>
+                <span className="text-slate-500">Unanswered:</span>
+                <span className="font-black text-rose-600">{unansweredCount}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-outline">Questions Marked for Review:</span>
-                <span className="font-bold text-purple-700">{reviewCount}</span>
+                <span className="text-slate-500">Marked for Review:</span>
+                <span className="font-black text-purple-700">{reviewCount}</span>
               </div>
-              <div className="flex justify-between pt-1 border-t border-surface-variant/60">
-                <span className="text-outline">Time Remaining:</span>
-                <span className="font-mono font-bold text-on-surface">{formatTimer(timeLeft)}</span>
+              <div className="flex justify-between pt-1 border-t border-slate-200">
+                <span className="text-slate-500">Time Left:</span>
+                <span className="font-mono font-black text-slate-900">{formatTimer(timeLeft)}</span>
               </div>
             </div>
-
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              Are you sure you want to finalize this exam? Your responses will be scored immediately and your attempt logged in Academic History.
-            </p>
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setShowSubmitModal(false)}
-                className="px-4 py-2 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                className="px-4 py-2 rounded-full text-xs font-black text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Continue Exam
               </button>
               <button
                 type="button"
                 onClick={handleSubmitExam}
-                className="px-5 py-2 rounded-full bg-primary text-on-primary text-xs font-bold hover:opacity-90 transition-opacity shadow-sm"
+                className="px-5 py-2 rounded-full bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-opacity shadow-sm cursor-pointer"
               >
                 Submit Exam
               </button>
@@ -517,15 +506,14 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
         </div>
       )}
 
-      {/* Step 8: Completion / Score Report Modal */}
+      {/* Completion Score Modal */}
       {examResult && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/50 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-surface-container-lowest rounded-[24px] shadow-float border border-outline-variant/30 max-w-3xl w-full overflow-hidden flex flex-col max-h-[90vh]">
-            {/* Header */}
-            <div className="p-6 border-b border-surface-variant flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl shadow-float border border-slate-100 max-w-3xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                  examResult.result === 'Pass' ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container'
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+                  examResult.result === 'Pass' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                 }`}>
                   <span className="material-symbols-outlined text-[28px]">
                     {examResult.result === 'Pass' ? 'verified' : 'cancel'}
@@ -533,72 +521,69 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-outline uppercase">{examResult.grade}</span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${
-                      examResult.result === 'Pass' ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container'
+                    <span className="text-xs font-bold text-slate-400 uppercase">{examResult.grade}</span>
+                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase ${
+                      examResult.result === 'Pass' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                     }`}>
                       {examResult.result}
                     </span>
                   </div>
-                  <h3 className="font-bold text-xl text-on-surface mt-0.5">{examResult.exam}</h3>
+                  <h3 className="font-black text-xl text-slate-900 mt-0.5">{examResult.exam}</h3>
                 </div>
               </div>
             </div>
 
-            {/* Content Area */}
             <div className="p-6 overflow-y-auto space-y-6">
-              {/* Score Highlight Card */}
-              <div className="p-6 rounded-2xl bg-surface-container-low border border-surface-variant flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+              <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-outline">Attained Score</span>
-                  <div className="text-4xl font-extrabold text-on-surface mt-1">{examResult.scorePercent}%</div>
-                  <p className="text-xs text-on-surface-variant mt-1">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">Attained Score</span>
+                  <div className="text-4xl font-black text-slate-900 mt-1">{examResult.scorePercent}%</div>
+                  <p className="text-xs text-slate-600 font-semibold mt-1">
                     {examResult.correct} correct out of {totalQuestions} questions ({examResult.details})
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-surface-container-lowest rounded-xl text-center min-w-[90px]">
-                    <div className="text-xs text-outline">Correct</div>
-                    <div className="text-lg font-bold text-secondary">{examResult.correct}</div>
+                  <div className="p-3 bg-white rounded-2xl text-center min-w-[90px] shadow-sm border border-slate-100">
+                    <div className="text-xs text-slate-400 font-bold">Correct</div>
+                    <div className="text-lg font-black text-emerald-600">{examResult.correct}</div>
                   </div>
-                  <div className="p-3 bg-surface-container-lowest rounded-xl text-center min-w-[90px]">
-                    <div className="text-xs text-outline">Wrong</div>
-                    <div className="text-lg font-bold text-error">{examResult.wrong}</div>
+                  <div className="p-3 bg-white rounded-2xl text-center min-w-[90px] shadow-sm border border-slate-100">
+                    <div className="text-xs text-slate-400 font-bold">Wrong</div>
+                    <div className="text-lg font-black text-rose-600">{examResult.wrong}</div>
                   </div>
-                  <div className="p-3 bg-surface-container-lowest rounded-xl text-center min-w-[90px]">
-                    <div className="text-xs text-outline">Time</div>
-                    <div className="text-lg font-bold text-on-surface">{examResult.duration}</div>
+                  <div className="p-3 bg-white rounded-2xl text-center min-w-[90px] shadow-sm border border-slate-100">
+                    <div className="text-xs text-slate-400 font-bold">Time</div>
+                    <div className="text-lg font-black text-slate-900">{examResult.duration}</div>
                   </div>
                 </div>
               </div>
 
-              {/* Question Review & Solutions */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-outline">Answer Review & Explanations</h4>
+                <h4 className="text-xs font-black uppercase tracking-wider text-slate-400">Answer Review & Explanations</h4>
                 {questions.map((q, idx) => {
                   const studentAns = selectedAnswers[q.id];
                   const isCorrect = studentAns === q.correctAnswer;
                   return (
-                    <div key={q.id} className="p-4 rounded-xl bg-surface-container-low border border-surface-variant space-y-2">
+                    <div key={q.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2">
-                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                            isCorrect ? 'bg-secondary text-on-secondary' : 'bg-error text-on-error'
+                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-black ${
+                            isCorrect ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
                           }`}>
                             {isCorrect ? '✓' : '✕'}
                           </span>
-                          <span className="text-xs font-bold text-on-surface">Question {idx + 1}</span>
+                          <span className="text-xs font-black text-slate-900">Question {idx + 1}</span>
                         </div>
-                        <span className={`text-[11px] font-bold ${isCorrect ? 'text-secondary' : studentAns ? 'text-error' : 'text-outline'}`}>
-                          {isCorrect ? 'Correct' : studentAns ? `Incorrect (Your choice: ${studentAns})` : 'Skipped'}
+                        <span className={`text-[11px] font-black ${isCorrect ? 'text-emerald-700' : studentAns ? 'text-rose-600' : 'text-slate-400'}`}>
+                          {isCorrect ? 'Correct' : studentAns ? `Incorrect (Choice: ${studentAns})` : 'Skipped'}
                         </span>
                       </div>
 
-                      <p className="text-xs font-medium text-on-surface">{q.question}</p>
+                      <p className="text-xs font-bold text-slate-800">{q.question}</p>
 
-                      <div className="p-2.5 rounded-lg bg-surface-container-lowest text-xs text-on-surface-variant">
-                        <span className="font-semibold text-secondary">Explanation: </span>
+                      <div className="p-3 rounded-xl bg-white text-xs text-slate-600 font-semibold border border-slate-100">
+                        <span className="font-black text-[#0a4b56]">Explanation: </span>
                         {q.explanation}
                       </div>
                     </div>
@@ -607,12 +592,11 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
               </div>
             </div>
 
-            {/* Footer Actions */}
-            <div className="p-6 bg-surface-container-low border-t border-surface-variant flex items-center justify-between">
+            <div className="p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
               <button
                 type="button"
                 onClick={onExitExam}
-                className="px-5 py-2 rounded-full text-xs font-semibold text-on-surface hover:bg-surface-container-high transition-colors"
+                className="px-5 py-2 rounded-full text-xs font-black text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"
               >
                 Back to Available Exams
               </button>
@@ -627,7 +611,7 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
                   setTimeLeft(initialDuration);
                   setExamResult(null);
                 }}
-                className="px-6 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold hover:opacity-90 transition-opacity flex items-center gap-1.5 shadow-sm"
+                className="px-6 py-2.5 rounded-full bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-opacity flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[16px]">replay</span>
                 <span>Retake Exam</span>
@@ -639,3 +623,4 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
     </div>
   );
 }
+

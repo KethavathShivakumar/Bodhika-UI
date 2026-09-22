@@ -21,60 +21,60 @@ export default function ResourcePreviewModal({ resource, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-surface-container-lowest rounded-[24px] shadow-float border border-outline-variant/30 max-w-3xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fade-in">
+      <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-3xl w-full overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-6 border-b border-surface-variant flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center">
-              <span className="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+        <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-[#ff6551] flex items-center justify-center font-bold shadow-md">
+              <span className="material-symbols-outlined text-[24px]">picture_as_pdf</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-secondary uppercase">{resource.company}</span>
-                <span className="text-xs text-outline">•</span>
-                <span className="text-xs text-outline">{resource.pages} Pages</span>
-                <span className="text-xs text-outline">•</span>
-                <span className="text-xs text-outline">{resource.questionsCount} Questions</span>
+                <span className="text-[10px] font-black text-[#ff6551] uppercase">{resource.company}</span>
+                <span className="text-xs text-slate-300">•</span>
+                <span className="text-xs text-slate-500 font-bold">{resource.pages} Pages</span>
+                <span className="text-xs text-slate-300">•</span>
+                <span className="text-xs text-slate-500 font-bold">{resource.questionsCount} Questions</span>
               </div>
-              <h3 className="font-semibold text-base text-on-surface leading-tight mt-0.5">{resource.fileName}</h3>
+              <h3 className="font-extrabold text-base text-slate-900 leading-tight mt-0.5">{resource.fileName}</h3>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors"
+            className="w-9 h-9 rounded-2xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         {/* Content Preview */}
-        <div className="p-6 overflow-y-auto space-y-4">
-          <div className="p-4 rounded-xl bg-surface-container-low border border-surface-variant">
-            <h4 className="font-medium text-sm text-on-surface">{resource.title}</h4>
-            <p className="text-xs text-on-surface-variant mt-1">{resource.description}</p>
+        <div className="p-6 overflow-y-auto space-y-5">
+          <div className="p-5 rounded-3xl bg-teal-50/60 border border-teal-100">
+            <h4 className="font-extrabold text-sm text-slate-900">{resource.title}</h4>
+            <p className="text-xs text-slate-600 font-medium mt-1 leading-relaxed">{resource.description}</p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-outline">
-                Document Preview & Sample Q&A
+              <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                Document Preview & Sample Solutions
               </span>
-              <span className="text-xs text-secondary font-medium">Verified Question Bank</span>
+              <span className="text-xs text-[#0a4b56] font-extrabold px-3 py-1 rounded-full bg-teal-50">Verified Question Bank</span>
             </div>
 
             {resource.contentPreview && resource.contentPreview.map((item, idx) => (
-              <div key={idx} className="p-4 rounded-xl bg-surface-container-lowest border border-surface-variant/80 hover:border-outline transition-colors">
-                <div className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-surface-container-high text-on-surface-variant text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">
+              <div key={idx} className="p-5 rounded-3xl bg-slate-50 border border-slate-100 hover:border-slate-300 transition-colors space-y-3">
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white text-xs flex items-center justify-center font-black shrink-0 mt-0.5 shadow-sm">
                     {idx + 1}
                   </span>
-                  <div className="space-y-1.5">
-                    <p className="text-sm font-semibold text-on-surface">{item.q}</p>
-                    <p className="text-xs text-on-surface-variant bg-surface-container-low p-2.5 rounded-lg border-l-2 border-secondary">
-                      <span className="font-semibold text-secondary">Solution / Explanation: </span>
+                  <div className="space-y-2 flex-1">
+                    <p className="text-xs font-extrabold text-slate-900 leading-relaxed">{item.q}</p>
+                    <div className="text-xs text-slate-600 bg-white p-3.5 rounded-2xl border-l-4 border-[#0a4b56] border-slate-100 shadow-sm font-medium leading-relaxed">
+                      <span className="font-extrabold text-[#0a4b56]">Solution / Explanation: </span>
                       {item.a}
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -83,11 +83,11 @@ export default function ResourcePreviewModal({ resource, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-surface-container-low border-t border-surface-variant flex items-center justify-between">
+        <div className="p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors"
+            className="px-6 py-3 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-200 transition-colors"
           >
             Close Preview
           </button>
@@ -95,11 +95,11 @@ export default function ResourcePreviewModal({ resource, onClose }) {
             type="button"
             onClick={handleDownload}
             disabled={downloading}
-            className="px-6 py-2.5 rounded-full bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm disabled:opacity-50"
+            className="px-7 py-3 rounded-2xl bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white text-xs font-extrabold hover:shadow-lg hover:shadow-[#0a4b56]/20 transition-all flex items-center gap-2 disabled:opacity-50"
           >
             {downloading ? (
               <>
-                <span className="w-4 h-4 border-2 border-on-primary border-t-transparent rounded-full animate-spin"></span>
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 Downloading {resource.fileName}...
               </>
             ) : (
@@ -114,3 +114,4 @@ export default function ResourcePreviewModal({ resource, onClose }) {
     </div>
   );
 }
+

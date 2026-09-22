@@ -7,6 +7,26 @@ export default {
   theme: {
     extend: {
       colors: {
+        "brand-teal": {
+          DEFAULT: "#109c90",
+          light: "#23b5ab",
+          dark: "#0b7a71",
+          soft: "#e6f6f4",
+        },
+        "brand-coral": {
+          DEFAULT: "#ff6551",
+          light: "#ff8575",
+          dark: "#e04e3b",
+          soft: "#fff0ee",
+        },
+        "brand-yellow": {
+          DEFAULT: "#fbb03b",
+          light: "#ffc86b",
+          dark: "#d9911e",
+          soft: "#fff8eb",
+        },
+        "brand-mint": "#e8f5e9",
+        "brand-bg": "#f4f6fb",
         "primary": "#000000",
         "on-primary": "#ffffff",
         "primary-container": "#1c1b1b",
@@ -32,24 +52,24 @@ export default {
         "on-error": "#ffffff",
         "error-container": "#ffdad6",
         "on-error-container": "#93000a",
-        "background": "#f9f9fa",
-        "on-background": "#1a1c1d",
-        "surface": "#f9f9fa",
+        "background": "#f4f6fb",
+        "on-background": "#1e2538",
+        "surface": "#ffffff",
         "surface-dim": "#dadadb",
-        "surface-bright": "#f9f9fa",
+        "surface-bright": "#ffffff",
         "surface-container-lowest": "#ffffff",
-        "surface-container-low": "#f3f3f4",
-        "surface-container": "#eeeeef",
-        "surface-container-high": "#e8e8e9",
-        "surface-container-highest": "#e2e2e3",
-        "surface-variant": "#e2e2e3",
-        "on-surface": "#1a1c1d",
-        "on-surface-variant": "#444748",
+        "surface-container-low": "#f8fafc",
+        "surface-container": "#f1f5f9",
+        "surface-container-high": "#e2e8f0",
+        "surface-container-highest": "#cbd5e1",
+        "surface-variant": "#e2e8f0",
+        "on-surface": "#1e2538",
+        "on-surface-variant": "#64748b",
         "inverse-surface": "#2f3132",
         "inverse-on-surface": "#f0f1f2",
-        "outline": "#747878",
-        "outline-variant": "#c4c7c7",
-        "surface-tint": "#5f5e5e",
+        "outline": "#94a3b8",
+        "outline-variant": "#cbd5e1",
+        "surface-tint": "#109c90",
         "primary-fixed": "#e5e2e1",
         "primary-fixed-dim": "#c8c6c5",
         "on-primary-fixed": "#1c1b1b",
@@ -60,7 +80,8 @@ export default {
         "md": "0.75rem",
         "lg": "1rem",
         "xl": "1.5rem",
-        "2xl": "1.5rem",
+        "2xl": "1.75rem",
+        "3xl": "2.25rem",
         "full": "9999px"
       },
       spacing: {
@@ -75,14 +96,42 @@ export default {
         "margin-desktop": "32px"
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        display: ["Inter", "sans-serif"],
+        sans: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+        display: ["Plus Jakarta Sans", "Inter", "sans-serif"],
       },
       boxShadow: {
-        "soft-card": "0 4px 24px rgba(0, 0, 0, 0.02)",
-        "hover-card": "0 12px 36px rgba(0, 0, 0, 0.05)",
-        "float": "0 20px 48px -10px rgba(0, 0, 0, 0.08)",
-        "sidebar": "4px 0 24px rgba(0, 0, 0, 0.02)"
+        "soft-card": "0 4px 20px rgba(0, 0, 0, 0.03)",
+        "hover-card": "0 14px 40px rgba(0, 0, 0, 0.06)",
+        "float": "0 24px 50px -10px rgba(0, 0, 0, 0.1)",
+        "sidebar": "4px 0 24px rgba(0, 0, 0, 0.02)",
+        "teal-glow": "0 10px 30px rgba(16, 156, 144, 0.25)",
+        "coral-glow": "0 10px 30px rgba(255, 101, 81, 0.25)"
+      },
+      animation: {
+        'float-slow': 'float 6s ease-in-out infinite',
+        'float-medium': 'float 4s ease-in-out infinite',
+        'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
+        'spin-slow': 'spin 12s linear infinite',
+        'bounce-soft': 'bounceSoft 2s infinite',
+        'blink': 'blink 4s infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+          '50%': { opacity: 0.85, transform: 'scale(1.03)' },
+        },
+        bounceSoft: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        blink: {
+          '0%, 96%, 100%': { transform: 'scaleY(1)' },
+          '98%': { transform: 'scaleY(0.1)' },
+        }
       }
     },
   },

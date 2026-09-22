@@ -4,7 +4,6 @@ export default function ExamPathDirectoryPage({ directoryList, onTrackExam, onTo
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [bangaloreOnly, setBangaloreOnly] = useState(false);
-  const [selectedExamDetails, setSelectedExamDetails] = useState(null);
 
   const categories = [
     'All',
@@ -13,9 +12,7 @@ export default function ExamPathDirectoryPage({ directoryList, onTrackExam, onTo
     'Law & Government',
     'Management & Commerce',
     'Design, Arts & Culture',
-    'Defence',
-    'Hospitality & Tourism',
-    'International'
+    'Defence'
   ];
 
   const filteredExams = directoryList.filter(exam => {
@@ -25,9 +22,7 @@ export default function ExamPathDirectoryPage({ directoryList, onTrackExam, onTo
     if (activeCategory !== 'All' && exam.category !== activeCategory && exam.track !== activeCategory) {
       return false;
     }
-    if (bangaloreOnly && !exam.isBangalore) {
-      return false;
-    }
+    if (bangaloreOnly && !exam.isBangalore) return false;
     return true;
   });
 
@@ -35,288 +30,236 @@ export default function ExamPathDirectoryPage({ directoryList, onTrackExam, onTo
   const closingSoonCount = directoryList.filter(e => e.daysLeft <= 60).length;
   const bangaloreCount = directoryList.filter(e => e.isBangalore).length;
 
+  const cardColorPalettes = [
+    {
+      bg: "bg-gradient-to-br from-[#0a4b56] via-[#0f766e] to-[#14b8a6] text-white border-teal-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-teal-100 border border-white/10",
+      subText: "text-teal-100/90 font-medium",
+      btn: "bg-white text-[#0a4b56] hover:bg-teal-50 font-black shadow-md"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#1e1b4b] via-[#3730a3] to-[#4338ca] text-white border-indigo-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-indigo-100 border border-white/10",
+      subText: "text-indigo-100/90 font-medium",
+      btn: "bg-white text-[#1e1b4b] hover:bg-indigo-50 font-black shadow-md"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#7c2d12] via-[#c2410c] to-[#ea580c] text-white border-orange-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-orange-100 border border-white/10",
+      subText: "text-orange-100/90 font-medium",
+      btn: "bg-white text-[#7c2d12] hover:bg-orange-50 font-black shadow-md"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#4c1d95] via-[#6d28d9] to-[#8b5cf6] text-white border-purple-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-purple-100 border border-white/10",
+      subText: "text-purple-100/90 font-medium",
+      btn: "bg-white text-[#4c1d95] hover:bg-purple-50 font-black shadow-md"
+    }
+  ];
+
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16">
-      {/* Banner Section (From Bodhika UI reference) */}
-      <section className="relative overflow-hidden rounded-3xl bg-surface-container-low px-8 py-10 border border-outline-variant/30">
-        <div className="absolute right-0 top-0 w-80 h-80 bg-secondary-container/30 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-        <div className="relative z-10 flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-2xl bg-primary text-on-primary flex items-center justify-center shadow-sm">
-              <span className="material-symbols-outlined text-[24px]">explore</span>
-            </span>
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-on-surface">ExamPath Directory</h1>
-              <p className="text-xs font-semibold text-outline uppercase tracking-wider">All Examinations & Collegiate Entrances</p>
+    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-20 animate-fade-in">
+      
+      {/* HERO HEADER */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0a4b56] via-[#109c90] to-[#1d273e] p-8 text-white shadow-2xl border border-white/10">
+        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold border border-white/20">
+              <span className="material-symbols-outlined text-[16px]">explore</span>
+              <span>Collegiate Benchmark Directory</span>
             </div>
-          </div>
-          <p className="text-sm text-on-surface-variant max-w-2xl leading-relaxed">
-            Discover and track national and global examination benchmarks. Filter by discipline, monitor registration deadlines, and align your undergraduate preparation strategy.
-          </p>
-        </div>
-      </section>
-
-      {/* 4 Stat Overview Cards Grid (From Page 13 screenshot & reference) */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Exams */}
-        <div className="bg-surface-container rounded-2xl p-5 flex flex-col justify-between shadow-soft-card border border-surface-variant">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">Total Exams</span>
-          <div className="flex items-baseline justify-between mt-2">
-            <span className="text-4xl font-extrabold text-on-surface">89</span>
-            <span className="material-symbols-outlined text-outline text-[24px]">dataset</span>
-          </div>
-        </div>
-
-        {/* Closing in 60 Days */}
-        <div className="bg-error-container text-on-error-container rounded-2xl p-5 flex flex-col justify-between shadow-soft-card relative overflow-hidden">
-          <span className="text-[11px] font-bold uppercase tracking-widest opacity-80">Closing in 60 Days</span>
-          <div className="flex items-baseline justify-between mt-2 z-10">
-            <span className="text-4xl font-extrabold">{closingSoonCount}</span>
-            <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-error text-on-error">Urgent</span>
-          </div>
-          <span className="material-symbols-outlined absolute -bottom-3 -right-3 text-[72px] opacity-15">warning</span>
-        </div>
-
-        {/* Registered / Done */}
-        <div className="bg-surface-container rounded-2xl p-5 flex flex-col justify-between shadow-soft-card border border-surface-variant">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">Registered / Done</span>
-          <div className="flex items-baseline justify-between mt-2">
-            <span className="text-4xl font-extrabold text-on-surface">{registeredDoneCount}</span>
-            <span className="text-xs font-medium text-outline">In Tracker</span>
-          </div>
-        </div>
-
-        {/* Bangalore Based */}
-        <div className="bg-secondary-container text-on-secondary-container rounded-2xl p-5 flex flex-col justify-between shadow-soft-card relative overflow-hidden">
-          <span className="text-[11px] font-bold uppercase tracking-widest opacity-80">Bangalore Based</span>
-          <div className="flex items-baseline justify-between mt-2 z-10">
-            <span className="text-4xl font-extrabold">{bangaloreCount}</span>
-            <span className="material-symbols-outlined text-[24px]">location_city</span>
-          </div>
-          <span className="material-symbols-outlined absolute -bottom-3 -right-3 text-[72px] opacity-15">location_city</span>
-        </div>
-      </section>
-
-      {/* Filter and Search Bar (From Page 13 screenshot & reference) */}
-      <section className="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-card border border-outline-variant/30 space-y-4">
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                activeCategory === cat
-                  ? 'bg-primary text-on-primary shadow-sm'
-                  : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Search & Bangalore Toggle */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-surface-variant/40">
-          <div className="w-full sm:w-80 bg-surface-container-low rounded-xl flex items-center px-3.5 h-11 gap-2">
-            <span className="material-symbols-outlined text-outline text-[18px]">search</span>
-            <input
-              type="text"
-              placeholder="Search exam or college name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none text-xs w-full text-on-surface placeholder:text-outline"
-            />
-            {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="text-outline hover:text-on-surface">
-                <span className="material-symbols-outlined text-[14px]">close</span>
-              </button>
-            )}
-          </div>
-
-          <label className="flex items-center gap-2.5 cursor-pointer select-none self-end sm:self-auto">
-            <input
-              type="checkbox"
-              checked={bangaloreOnly}
-              onChange={(e) => setBangaloreOnly(e.target.checked)}
-              className="sr-only peer"
-            />
-            <div className="w-9 h-5 bg-surface-container-high peer-checked:bg-secondary rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all relative"></div>
-            <span className="text-xs font-medium text-on-surface flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-              Bangalore Centers Only ({bangaloreCount})
-            </span>
-          </label>
-        </div>
-      </section>
-
-      {/* Directory Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredExams.map((exam) => {
-          const isCritical = exam.priority === 'CRITICAL';
-          const isTracked = exam.status === 'Registered' || exam.status === 'Completed';
-
-          return (
-            <div
-              key={exam.id}
-              className="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-card border border-outline-variant/30 flex flex-col justify-between hover:-translate-y-1 hover:shadow-hover-card transition-all duration-300 relative group overflow-hidden"
-            >
-              {/* Top Accent Gradient Pill */}
-              <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-20 pointer-events-none ${
-                isCritical ? 'bg-error-container' : 'bg-secondary-container'
-              }`}></div>
-
-              <div>
-                {/* Header Track & Priority */}
-                <div className="flex items-start justify-between z-10 relative">
-                  <div>
-                    <span className="text-[11px] font-semibold text-outline uppercase tracking-wider block">
-                      {exam.track}
-                    </span>
-                    <h3 className="font-bold text-lg text-on-surface group-hover:text-primary transition-colors mt-0.5">
-                      {exam.title}
-                    </h3>
-                    <span className="text-xs text-on-surface-variant block mt-0.5">{exam.subTitle}</span>
-                  </div>
-
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm ${
-                    isCritical ? 'bg-error-container text-on-error-container' : 'bg-secondary-container text-on-secondary-container'
-                  }`}>
-                    {exam.priority}
-                  </span>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  <span className="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface-variant text-[11px] font-medium">
-                    {exam.category}
-                  </span>
-                  {exam.isBangalore && (
-                    <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[11px] font-medium flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
-                      BLR
-                    </span>
-                  )}
-                </div>
-
-                {/* Description */}
-                <p className="text-xs text-on-surface-variant mt-3 leading-relaxed">
-                  {exam.description}
-                </p>
-
-                {/* Quick Info Grid */}
-                <div className="mt-4 pt-3 border-t border-surface-variant/50 space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between text-outline">
-                    <span>Reg. Deadline:</span>
-                    <span className="font-semibold text-on-surface">{exam.regDeadline}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-outline">
-                    <span>Fee:</span>
-                    <span className="font-semibold text-on-surface">{exam.fee}</span>
-                  </div>
-                  <div className="text-[11px] text-outline truncate pt-1">
-                    <span className="font-medium text-on-surface-variant">Accepted: </span>
-                    {exam.acceptedBy}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Bar */}
-              <div className="mt-5 pt-4 border-t border-surface-variant flex items-center justify-between z-10 relative">
-                <div className="flex items-center gap-1 text-xs font-semibold text-error">
-                  <span className="material-symbols-outlined text-[16px]">timer</span>
-                  <span>{exam.daysLeft}d left</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      onTrackExam(exam.id, isTracked ? 'Not Started' : 'Registered');
-                      onToast({
-                        title: isTracked ? 'Removed from Tracker' : 'Added to Exam Tracker',
-                        message: `${exam.title} is now marked as ${isTracked ? 'Not Started' : 'Registered'}.`,
-                        type: 'success'
-                      });
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1 ${
-                      isTracked 
-                        ? 'bg-secondary-container text-on-secondary-container' 
-                        : 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest'
-                    }`}
-                    title="Track in My Exam Tracker"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">
-                      {isTracked ? 'task_alt' : 'bookmark_add'}
-                    </span>
-                    <span>{isTracked ? 'Tracked' : 'Track'}</span>
-                  </button>
-
-                  <button
-                    onClick={() => setSelectedExamDetails(exam)}
-                    className="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1"
-                  >
-                    <span>Details</span>
-                    <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      {/* Quick Details Modal */}
-      {selectedExamDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-surface-container-lowest rounded-[24px] shadow-float border border-outline-variant/30 max-w-lg w-full p-6 space-y-4">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="text-xs font-semibold text-secondary uppercase">{selectedExamDetails.track}</span>
-                <h3 className="font-bold text-xl text-on-surface mt-0.5">{selectedExamDetails.title}</h3>
-                <p className="text-xs text-outline">{selectedExamDetails.subTitle}</p>
-              </div>
-              <button 
-                onClick={() => setSelectedExamDetails(null)}
-                className="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface"
-              >
-                <span className="material-symbols-outlined text-[20px]">close</span>
-              </button>
-            </div>
-
-            <div className="p-4 rounded-xl bg-surface-container-low space-y-2 text-xs">
-              <div className="flex justify-between">
-                <span className="text-outline">Exam Dates:</span>
-                <span className="font-semibold text-on-surface text-right">{selectedExamDetails.examDate}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Registration Deadline:</span>
-                <span className="font-semibold text-on-surface">{selectedExamDetails.regDeadline}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Fee:</span>
-                <span className="font-semibold text-on-surface">{selectedExamDetails.fee}</span>
-              </div>
-              <div className="pt-2 border-t border-surface-variant">
-                <span className="text-outline block mb-1">Target Universities:</span>
-                <p className="text-on-surface leading-relaxed">{selectedExamDetails.acceptedBy}</p>
-              </div>
-            </div>
-
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              {selectedExamDetails.description}
+            <h1 className="text-3xl font-black tracking-tight text-white drop-shadow-sm">
+              ExamPath Directory & Cutoff Hub
+            </h1>
+            <p className="text-sm text-teal-100/90 font-medium leading-relaxed">
+              Browse national entrance examinations, upcoming registration deadlines, college cutoffs, and track target admissions.
             </p>
-
-            <div className="pt-3 border-t border-surface-variant flex justify-end gap-2">
-              <button
-                onClick={() => setSelectedExamDetails(null)}
-                className="px-4 py-2 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface hover:bg-surface-container-highest"
-              >
-                Close
-              </button>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-center">
+              <div className="text-2xl font-black text-amber-300">{directoryList.length}</div>
+              <div className="text-[11px] font-bold text-white/80 uppercase tracking-wider">Entrances</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 1. TOP METRIC CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-100">Total Directory</span>
+            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
+              <span className="material-symbols-outlined text-[20px]">school</span>
+            </div>
+          </div>
+          <div className="my-3">
+            <div className="text-3xl font-black tracking-tight">{directoryList.length} Exams</div>
+            <div className="text-xs text-teal-100/90 font-medium">Verified entrances</div>
+          </div>
+          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
+            <span>Verified Entrances</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">100%</span>
+          </div>
+        </div>
+
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-100">Closing Soon</span>
+            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
+              <span className="material-symbols-outlined text-[20px]">timer</span>
+            </div>
+          </div>
+          <div className="my-3">
+            <div className="text-3xl font-black tracking-tight">{closingSoonCount} Urgent</div>
+            <div className="text-xs text-rose-100/90 font-medium">Sub-60 days window</div>
+          </div>
+          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
+            <span>Deadline Warning</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Urgent</span>
+          </div>
+        </div>
+
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900/80">In My Tracker</span>
+            <div className="w-10 h-10 rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm">
+              <span className="material-symbols-outlined text-[20px]">bookmark_added</span>
+            </div>
+          </div>
+          <div className="my-3">
+            <div className="text-3xl font-black tracking-tight">{registeredDoneCount} Active</div>
+            <div className="text-xs text-slate-900/80 font-medium">Saved targets</div>
+          </div>
+          <div className="p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-black/10">
+            <span>Registered Mocks</span>
+            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-extrabold text-slate-950">Tracked</span>
+          </div>
+        </div>
+
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-600/30">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Bangalore Hub</span>
+            <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-sm">
+              <span className="material-symbols-outlined text-[20px]">location_city</span>
+            </div>
+          </div>
+          <div className="my-3">
+            <div className="text-3xl font-black tracking-tight">{bangaloreCount} Colleges</div>
+            <div className="text-xs text-slate-300 font-medium">Local examination hubs</div>
+          </div>
+          <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
+            <span>Local Entrances</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[10px] font-extrabold">Regional</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. SEARCH & FILTER BAR */}
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a4b56] to-[#109c90] text-white rounded-3xl p-5 shadow-soft-card border border-white/10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="relative flex-1">
+          <span className="material-symbols-outlined absolute left-4 text-white/70 text-[20px]">search</span>
+          <input
+            type="text"
+            placeholder="Search exam title, college name, or eligibility..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl text-xs font-semibold text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setBangaloreOnly(!bangaloreOnly)}
+            className={`px-4 py-3 rounded-2xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
+              bangaloreOnly
+                ? 'bg-white text-[#0a4b56] shadow-md'
+                : 'bg-white/15 text-white border border-white/20 hover:bg-white/25'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[18px]">location_on</span>
+            <span>Bangalore Hubs Only</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 3. DIRECTORY FULLY-COLORED CARDS GRID */}
+      {filteredExams.length === 0 ? (
+        <div className="bg-white rounded-3xl p-12 text-center shadow-soft-card border border-slate-100">
+          <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">find_in_page</span>
+          <h3 className="text-base font-bold text-slate-800">No examination paths found</h3>
+          <p className="text-xs text-slate-500 mt-1">Try resetting search filters or location toggles.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredExams.map((exam, idx) => {
+            const theme = cardColorPalettes[idx % cardColorPalettes.length];
+
+            return (
+              <div 
+                key={exam.id}
+                className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20`}>
+                      <span className="material-symbols-outlined text-[24px]">school</span>
+                    </div>
+
+                    <span className={`text-[10px] font-black px-3 py-1.5 rounded-full ${theme.badge}`}>
+                      {exam.category || 'General Entrance'}
+                    </span>
+                  </div>
+
+                  <h3 className="font-black text-lg text-white leading-snug mb-2 drop-shadow-sm">
+                    {exam.title}
+                  </h3>
+                  <p className={`${theme.subText} text-xs font-medium line-clamp-3 mb-5 leading-relaxed`}>
+                    {exam.description}
+                  </p>
+
+                  <div className={`${theme.metaBg} rounded-2xl p-4 space-y-2 text-xs font-semibold mb-5`}>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-80">Registration Deadline:</span>
+                      <span className="text-white font-black">{exam.deadline || '30 Sep 2026'}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-80">Days Remaining:</span>
+                      <span className="text-amber-300 font-black px-2.5 py-0.5 rounded-full bg-white/20 text-[11px]">
+                        {exam.daysLeft || 45} days left
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    onTrackExam(exam.id, 'Registered');
+                    if (onToast) {
+                      onToast({ title: 'Exam Added to Tracker', message: `${exam.title} added to My Exam Tracker.`, type: 'success' });
+                    }
+                  }}
+                  className={`w-full h-11 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer`}
+                >
+                  <span>Add to My Exam Tracker</span>
+                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
+
     </div>
   );
 }

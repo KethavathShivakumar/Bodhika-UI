@@ -401,6 +401,8 @@ export const initialExamList = [
   }
 ];
 
+
+
 // Browse & Enroll Catalog (From Page 3 & 7 screenshots)
 export const browseEnrollExams = [
   {

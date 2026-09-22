@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 export default function ScheduledExamsPage({ scheduledList, onStartExam, onToast }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState('All'); // 'All' | 'Mandatory' | 'Online' | 'Center'
-  const [activeHallTicket, setActiveHallTicket] = useState(null);
+  const [filterType, setFilterType] = useState('All');
 
   const filteredExams = scheduledList.filter(exam => {
     if (searchQuery && !exam.name.toLowerCase().includes(searchQuery.toLowerCase()) && !exam.subject.toLowerCase().includes(searchQuery.toLowerCase())) {
@@ -25,329 +24,202 @@ export default function ScheduledExamsPage({ scheduledList, onStartExam, onToast
   };
 
   const handleAddToCalendar = (exam) => {
-    onToast({
-      title: 'Calendar Reminder Added',
-      message: `Event for ${exam.name} on ${exam.date} at ${exam.startTime} added to your calendar.`,
-      type: 'success'
-    });
+    if (onToast) {
+      onToast({
+        title: 'Calendar Reminder Added',
+        message: `Event for ${exam.name} on ${exam.date} at ${exam.startTime} added to your calendar.`,
+        type: 'success'
+      });
+    }
   };
 
+  const cardColorPalettes = [
+    {
+      bg: "bg-gradient-to-br from-[#0a4b56] via-[#0f766e] to-[#14b8a6] text-white border-teal-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-teal-100 border border-white/10",
+      subText: "text-teal-100/90 font-medium",
+      btn: "bg-white text-[#0a4b56] hover:bg-teal-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#1e1b4b] via-[#3730a3] to-[#4338ca] text-white border-indigo-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-indigo-100 border border-white/10",
+      subText: "text-indigo-100/90 font-medium",
+      btn: "bg-white text-[#1e1b4b] hover:bg-indigo-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#7c2d12] via-[#c2410c] to-[#ea580c] text-white border-orange-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-orange-100 border border-white/10",
+      subText: "text-orange-100/90 font-medium",
+      btn: "bg-white text-[#7c2d12] hover:bg-orange-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    },
+    {
+      bg: "bg-gradient-to-br from-[#4c1d95] via-[#6d28d9] to-[#8b5cf6] text-white border-purple-300/30",
+      badge: "bg-white/20 backdrop-blur-md text-white border border-white/30 font-black",
+      iconBg: "bg-white/20 text-white backdrop-blur-md",
+      metaBg: "bg-black/20 backdrop-blur-md text-purple-100 border border-white/10",
+      subText: "text-purple-100/90 font-medium",
+      btn: "bg-white text-[#4c1d95] hover:bg-purple-50 font-black shadow-md",
+      iconBtn: "bg-white/20 text-white hover:bg-white/30 border border-white/30"
+    }
+  ];
+
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-16">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-full text-xs font-semibold text-on-surface-variant mb-1.5">
-            <span className="material-symbols-outlined text-[15px]">event_upcoming</span>
-            Timetabled Academic Calendar
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-on-surface">Scheduled Examinations</h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
-            Confirmed proctored examinations, reporting schedules, and hall tickets for upcoming test windows.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => onToast({ title: 'Schedule Synced', message: 'All exam windows updated with central academic server.', type: 'info' })}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold transition-colors shadow-sm"
-          >
-            <span className="material-symbols-outlined text-[16px]">sync</span>
-            <span>Sync Calendar</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Top 4 Summary Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-soft-card">
+    <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-16 animate-in fade-in duration-300">
+      
+      {/* 1. TOP COLORFUL SUMMARY CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-5 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between border border-teal-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-outline">Total Scheduled</span>
-            <span className="material-symbols-outlined text-secondary text-[18px]">event</span>
+            <span className="text-[11px] font-black uppercase tracking-wider text-teal-200">Total Scheduled</span>
+            <span className="material-symbols-outlined text-[20px] text-white/80">event</span>
           </div>
-          <div className="text-2xl font-extrabold text-on-surface mt-1">{scheduledList.length} Tests</div>
-          <div className="text-[11px] text-outline mt-0.5">Confirmed candidate slots</div>
+          <div className="text-3xl font-black tracking-tight mt-2">{scheduledList.length} Tests</div>
+          <div className="mt-3 p-2.5 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-between text-xs font-black">
+            <span>Confirmed Slots</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px]">100%</span>
+          </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-soft-card">
+        <div className="p-5 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 shadow-soft-card flex flex-col justify-between border border-amber-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-outline">Next Assessment</span>
-            <span className="material-symbols-outlined text-amber-600 text-[18px]">timer</span>
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Next Assessment</span>
+            <span className="material-symbols-outlined text-[20px] text-slate-800">schedule</span>
           </div>
-          <div className="text-2xl font-extrabold text-amber-600 mt-1">In 2 Days</div>
-          <div className="text-[11px] text-outline mt-0.5">12 Sep 2026 • 10:00 AM</div>
+          <div className="text-3xl font-black tracking-tight mt-2">In 2 Days</div>
+          <div className="mt-3 p-2.5 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-black">
+            <span>12 Sep 2026</span>
+            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px]">10:00 AM</span>
+          </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-soft-card">
+        <div className="p-5 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between border border-rose-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-outline">Proctored Mocks</span>
-            <span className="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+            <span className="text-[11px] font-black uppercase tracking-wider text-white/90">Mandatory Mocks</span>
+            <span className="material-symbols-outlined text-[20px] text-white/80">priority_high</span>
           </div>
-          <div className="text-2xl font-extrabold text-on-surface mt-1">
+          <div className="text-3xl font-black tracking-tight mt-2">
             {scheduledList.filter(e => e.mandatory).length} Mandatory
           </div>
-          <div className="text-[11px] text-secondary font-medium mt-0.5">Academic requirement</div>
+          <div className="mt-3 p-2.5 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-between text-xs font-black">
+            <span>Required Benchmark</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px]">Critical</span>
+          </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-soft-card">
+        <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between border border-slate-600/30">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-outline">Timezone</span>
-            <span className="material-symbols-outlined text-outline text-[18px]">schedule</span>
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">Timezone Sync</span>
+            <span className="material-symbols-outlined text-[20px] text-white/80">public</span>
           </div>
-          <div className="text-xl font-bold text-on-surface mt-1">IST (UTC+5:30)</div>
-          <div className="text-[11px] text-outline mt-0.5">Automated server sync</div>
+          <div className="text-3xl font-black tracking-tight mt-2">IST (UTC+5:30)</div>
+          <div className="mt-3 p-2.5 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-between text-xs font-black">
+            <span>Active Server</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px]">Synced</span>
+          </div>
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 shadow-soft-card border border-outline-variant/30 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        {/* Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {[
-            { id: 'All', label: 'All Scheduled' },
-            { id: 'Mandatory', label: 'Mandatory Only' },
-            { id: 'Online', label: 'Online CBT' },
-            { id: 'Center', label: 'Campus Lab Center' }
-          ].map(tab => (
+      {/* 2. HEADER BAR & FILTERS */}
+      <div className="bg-gradient-to-r from-slate-900 via-[#0a4b56] to-[#109c90] text-white rounded-3xl p-5 shadow-soft-card border border-white/10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black text-white mb-1 border border-white/30">
+            <span className="material-symbols-outlined text-[15px]">event</span>
+            Academic Timetable
+          </div>
+          <h1 className="text-2xl font-black text-white tracking-tight">Scheduled Examinations</h1>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto">
+          {['All', 'Mandatory', 'Online', 'Center'].map((type) => (
             <button
-              key={tab.id}
-              onClick={() => setFilterType(tab.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                filterType === tab.id
-                  ? 'bg-primary text-on-primary shadow-sm'
-                  : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface'
+              key={type}
+              onClick={() => setFilterType(type)}
+              className={`px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
+                filterType === type
+                  ? 'bg-white text-[#0a4b56] shadow-md'
+                  : 'bg-white/15 text-white hover:bg-white/25'
               }`}
             >
-              {tab.label}
+              {type === 'All' ? 'All Schedules' : type}
             </button>
           ))}
         </div>
-
-        {/* Search Input */}
-        <div className="w-full md:w-72 bg-surface-container-low rounded-xl flex items-center px-3 h-9 gap-2 border border-transparent focus-within:border-primary focus-within:bg-surface-container-lowest transition-all">
-          <span className="material-symbols-outlined text-outline text-[16px]">search</span>
-          <input
-            type="text"
-            placeholder="Search scheduled exam..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-transparent border-none outline-none text-xs w-full text-on-surface placeholder:text-outline"
-          />
-          {searchQuery && (
-            <button onClick={() => setSearchQuery('')} className="text-outline hover:text-on-surface">
-              <span className="material-symbols-outlined text-[14px]">close</span>
-            </button>
-          )}
-        </div>
       </div>
 
-      {/* Scheduled Exams Compact Card Grid */}
-      {filteredExams.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-          {filteredExams.map((exam) => (
-            <div
-              key={exam.id}
-              className="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 border border-outline-variant/30 shadow-soft-card hover:shadow-hover-card hover:border-outline-variant/60 transition-all duration-200 flex flex-col justify-between group relative overflow-hidden"
-            >
-              {/* Top Accent line based on days left */}
-              <div
-                className={`absolute top-0 left-0 right-0 h-1 ${
-                  exam.daysLeft <= 3 ? 'bg-amber-500' : 'bg-secondary'
-                }`}
-              ></div>
+      {/* 3. SCHEDULED EXAM FULLY-COLORED CARDS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredExams.map((exam, idx) => {
+          const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
+          return (
+            <div 
+              key={exam.id}
+              className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+            >
               <div>
-                {/* Top Row: Icon + Grade + Countdown Badge */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-surface-container-low group-hover:bg-secondary-container/30 flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors shrink-0">
-                      <span className="material-symbols-outlined text-[20px]">{getExamIcon(exam)}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <span className="text-[10px] font-bold text-outline uppercase tracking-wider block truncate">
-                        {exam.grade}
-                      </span>
-                      <span className="text-[11px] font-medium text-on-surface-variant truncate block">
-                        {exam.subject}
-                      </span>
-                    </div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-11 h-11 rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20`}>
+                    <span className="material-symbols-outlined text-[22px]">{getExamIcon(exam)}</span>
                   </div>
 
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 flex items-center gap-1 ${
-                      exam.daysLeft <= 3
-                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                        : 'bg-secondary-container text-on-secondary-container'
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-[12px]">schedule</span>
-                    <span>{exam.countdown}</span>
+                  <span className={`text-[10px] font-black px-3 py-1 rounded-full ${
+                    exam.mandatory ? 'bg-rose-400 text-slate-900 font-extrabold' : 'bg-white/20 text-white border border-white/30'
+                  }`}>
+                    {exam.mandatory ? 'Mandatory Mock' : 'Optional Mock'}
                   </span>
                 </div>
 
-                {/* Exam Title */}
-                <h3 className="font-bold text-sm text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug min-h-[2.5rem]">
+                <h3 className="font-black text-lg text-white leading-snug mb-1 drop-shadow-sm">
                   {exam.name}
                 </h3>
+                <p className={`${theme.subText} text-xs font-semibold mb-4`}>
+                  {exam.subject} • Mode: <strong className="text-white font-extrabold">{exam.mode}</strong>
+                </p>
 
-                {/* Date & Time Window Box */}
-                <div className="my-3 p-3 rounded-xl bg-surface-container-low/70 border border-surface-variant/50 space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-on-surface">
-                    <span className="material-symbols-outlined text-[15px] text-secondary">calendar_today</span>
-                    <span>{exam.date}</span>
+                <div className={`${theme.metaBg} rounded-2xl p-3.5 space-y-1.5 text-xs font-semibold mb-5`}>
+                  <div className="flex justify-between">
+                    <span className="opacity-80">Date & Time:</span>
+                    <span className="text-white font-black">{exam.date} @ {exam.startTime}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-[11px] font-mono text-outline">
-                    <span className="material-symbols-outlined text-[14px]">access_time</span>
-                    <span>{exam.timeWindow}</span>
-                  </div>
-                </div>
-
-                {/* Mode & Venue Info */}
-                <div className="space-y-1.5 text-[11px] text-outline mb-1">
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1 truncate">
-                      <span className="material-symbols-outlined text-[13px]">location_on</span>
-                      <span className="truncate">{exam.center}</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Duration: <strong className="text-on-surface">{exam.durationMin}m</strong></span>
-                    <span>Questions: <strong className="text-on-surface">{exam.questionsCount} Qs</strong></span>
+                  <div className="flex justify-between">
+                    <span className="opacity-80">Duration:</span>
+                    <span className="text-white font-black">{exam.durationMins || 60} mins</span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons Footer */}
-              <div className="pt-3 mt-3 border-t border-surface-variant/50 flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setActiveHallTicket(exam)}
-                    className="flex-1 py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <span className="material-symbols-outlined text-[15px]">badge</span>
-                    <span>Hall Ticket</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleAddToCalendar(exam)}
-                    className="p-2 rounded-xl border border-surface-variant text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
-                    title="Add to Calendar"
-                  >
-                    <span className="material-symbols-outlined text-[16px] block">calendar_add_on</span>
-                  </button>
-                </div>
-
+              <div className="pt-3 border-t border-white/20 flex items-center gap-2">
                 <button
                   onClick={() => onStartExam(exam)}
-                  className="w-full py-2 px-3 rounded-xl bg-primary text-on-primary hover:opacity-90 active:scale-[0.98] transition-all font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm"
+                  className={`flex-1 h-11 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer`}
                 >
-                  <span className="material-symbols-outlined text-[15px]">login</span>
-                  <span>Enter Test Lobby</span>
+                  <span>Enter Test Window</span>
+                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+
+                <button
+                  onClick={() => handleAddToCalendar(exam)}
+                  className={`w-11 h-11 rounded-2xl ${theme.iconBtn} active:scale-95 transition-all flex items-center justify-center cursor-pointer`}
+                  title="Add to Calendar"
+                >
+                  <span className="material-symbols-outlined text-[18px]">calendar_add_on</span>
                 </button>
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        /* Empty State */
-        <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-outline-variant/30 shadow-soft-card flex flex-col items-center justify-center min-h-[260px]">
-          <div className="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-outline mb-3">
-            <span className="material-symbols-outlined text-[28px]">event_busy</span>
-          </div>
-          <h3 className="font-bold text-base text-on-surface">No scheduled examinations found</h3>
-          <p className="text-xs text-outline mt-1 max-w-sm">
-            You do not currently have any scheduled assessments matching this filter.
-          </p>
-          <button
-            onClick={() => { setSearchQuery(''); setFilterType('All'); }}
-            className="mt-4 px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-semibold hover:bg-surface-container-highest transition-colors"
-          >
-            Reset Filters
-          </button>
-        </div>
-      )}
+          );
+        })}
+      </div>
 
-      {/* Hall Ticket / Schedule Slip Modal */}
-      {activeHallTicket && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/50 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-surface-container-lowest rounded-[24px] shadow-float border border-outline-variant/30 max-w-lg w-full p-6 sm:p-8 space-y-6">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-surface-variant pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">
-                  <span className="material-symbols-outlined text-[20px]">badge</span>
-                </div>
-                <div>
-                  <h3 className="font-bold text-base text-on-surface">Official Examination Hall Ticket</h3>
-                  <p className="text-xs text-outline">Bodhika Unified Academic Assessment Portal</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setActiveHallTicket(null)}
-                className="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors"
-              >
-                <span className="material-symbols-outlined text-[18px]">close</span>
-              </button>
-            </div>
-
-            {/* Slip Details Grid */}
-            <div className="p-5 rounded-2xl bg-surface-container-low border border-surface-variant/50 space-y-3.5 text-xs">
-              <div className="flex justify-between pb-2 border-b border-surface-variant/40">
-                <span className="text-outline">Hall Ticket Number:</span>
-                <span className="font-mono font-bold text-on-surface">{activeHallTicket.hallTicketNo}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Examination:</span>
-                <span className="font-bold text-on-surface text-right max-w-[240px] truncate">{activeHallTicket.name}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Date & Time:</span>
-                <span className="font-bold text-secondary text-right">{activeHallTicket.date} • {activeHallTicket.timeWindow}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Reporting Time:</span>
-                <span className="font-bold text-amber-700">{activeHallTicket.reportingTime}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-outline">Assigned Slot / Center:</span>
-                <span className="font-medium text-on-surface text-right">{activeHallTicket.slot} • {activeHallTicket.center}</span>
-              </div>
-              <div className="flex justify-between pt-2 border-t border-surface-variant/40">
-                <span className="text-outline">Candidate ID:</span>
-                <span className="font-bold text-on-surface font-mono">BDK-2024 (Kethavath Shivakumar)</span>
-              </div>
-            </div>
-
-            {/* Instructions Alert */}
-            <div className="p-3.5 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 text-[11px] flex items-start gap-2">
-              <span className="material-symbols-outlined text-[16px] text-amber-700 shrink-0 mt-0.5">info</span>
-              <p>{activeHallTicket.instructions}</p>
-            </div>
-
-            {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  window.print();
-                  onToast({ title: 'Print Prompt', message: 'Generating print version of Hall Ticket.', type: 'info' });
-                }}
-                className="px-4 py-2 rounded-full border border-surface-variant text-xs font-semibold text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-1.5"
-              >
-                <span className="material-symbols-outlined text-[16px]">print</span>
-                <span>Print Ticket</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveHallTicket(null)}
-                className="px-5 py-2 rounded-full bg-primary text-on-primary text-xs font-bold hover:opacity-90 transition-opacity"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

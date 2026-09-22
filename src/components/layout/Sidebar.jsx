@@ -34,17 +34,17 @@ export default function Sidebar({
       : activePage === pageKey && (!subKey || subPage === null);
 
     if (isCurrent) {
-      return "flex items-center px-4 py-2.5 rounded-xl transition-all bg-secondary-container text-on-secondary-container font-medium shadow-sm";
+      return "flex items-center px-4 py-2.5 rounded-full bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white font-extrabold shadow-md transition-all scale-[1.01]";
     }
-    return "flex items-center px-4 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all group";
+    return "flex items-center px-4 py-2.5 rounded-full text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-all font-semibold group text-xs sm:text-sm";
   };
 
   const subNavItemClass = (pageKey, subKey) => {
     const isCurrent = activePage === pageKey && subPage === subKey;
     if (isCurrent) {
-      return "flex items-center pl-8 pr-4 py-2 rounded-lg text-sm bg-secondary-container/60 text-on-secondary-container font-medium";
+      return "flex items-center pl-7 pr-3.5 py-2 rounded-xl text-xs bg-teal-50 text-[#0a4b56] font-extrabold border-l-2 border-[#0a4b56]";
     }
-    return "flex items-center pl-8 pr-4 py-2 rounded-lg text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all";
+    return "flex items-center pl-7 pr-3.5 py-2 rounded-xl text-xs text-slate-500 hover:text-slate-900 hover:bg-slate-100/70 font-semibold transition-all";
   };
 
   return (
@@ -53,35 +53,22 @@ export default function Sidebar({
       {isOpen && (
         <div 
           onClick={onClose}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           aria-label="Close sidebar overlay"
         />
       )}
 
       {/* Sidebar Drawer */}
       <aside 
-        className={`fixed left-0 top-0 lg:top-20 bottom-0 w-[280px] max-w-[85vw] bg-surface-container-lowest z-50 lg:z-30 flex flex-col shadow-sidebar border-r border-outline-variant/20 overflow-y-auto transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-20 bottom-0 w-[270px] max-w-[85vw] bg-white/95 backdrop-blur-xl z-30 flex flex-col border-r border-slate-200/70 shadow-sidebar overflow-y-auto transition-transform duration-300 ease-in-out select-none ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Mobile Header Inside Drawer with Close button */}
-        <div className="flex lg:hidden items-center justify-between p-4 border-b border-surface-variant/40 shrink-0">
-          <div 
-            onClick={() => handleNavClick('dashboard')}
-            className="flex items-center gap-2.5 cursor-pointer select-none"
-          >
-            <div className="w-8 h-8 rounded-xl overflow-hidden shadow-sm flex items-center justify-center bg-black shrink-0 border border-outline-variant/30">
-              <img src="/bodhika-logo.png" alt="Bodhika Logo" className="w-full h-full object-cover" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-base tracking-tight text-on-surface leading-tight">Bodhika</span>
-              <span className="text-[9px] font-medium text-outline uppercase tracking-wider">Assessment Suite</span>
-            </div>
-          </div>
-
+        {/* Mobile-only close bar */}
+        <div className="flex lg:hidden items-center justify-end p-3 border-b border-slate-100 shrink-0">
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-xl hover:bg-surface-container-high flex items-center justify-center text-outline hover:text-on-surface transition-colors"
+            className="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 transition-colors"
             aria-label="Close sidebar"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
@@ -89,18 +76,20 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Sections */}
-        <nav className="flex-1 px-4 py-3 space-y-1">
-          {/* Examination Group */}
-          <div className="pt-2 pb-1.5 px-3 text-[11px] font-semibold uppercase tracking-widest text-outline">
-            Examination
+        <nav className="flex-1 px-3 py-4 space-y-1">
+          
+          {/* GROUP 1: EXAMINATION */}
+          <div className="pt-2 pb-2 px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0a4b56]"></span>
+            <span>EXAMINATION</span>
           </div>
 
           <button
             onClick={() => handleNavClick('dashboard')}
             className={`w-full text-left ${navItemClass('dashboard')}`}
           >
-            <span className="material-symbols-outlined mr-3 text-[20px]">dashboard</span>
-            <span className="text-sm">Dashboard</span>
+            <span className="material-symbols-outlined mr-3 text-[20px]">grid_view</span>
+            <span>Dashboard</span>
           </button>
 
           <button
@@ -108,7 +97,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('exams', 'upcoming')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">assignment</span>
-            <span className="text-sm">Upcoming Exams</span>
+            <span>Upcoming Exams</span>
           </button>
 
           <button
@@ -116,7 +105,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('completed-exams')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">task_alt</span>
-            <span className="text-sm">Completed Exams</span>
+            <span>Completed Exams</span>
           </button>
 
           <button
@@ -124,7 +113,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('browse-enroll')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">shopping_cart</span>
-            <span className="text-sm">Browse & Enroll</span>
+            <span>Browse & Enroll</span>
           </button>
 
           <button
@@ -132,7 +121,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('history')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">history_edu</span>
-            <span className="text-sm">Recent Results</span>
+            <span>Recent Results</span>
           </button>
 
           <button
@@ -140,7 +129,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('performance')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">monitoring</span>
-            <span className="text-sm">My Performance</span>
+            <span>My Performance</span>
           </button>
 
           <button
@@ -148,155 +137,120 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('certificates')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">workspace_premium</span>
-            <span className="text-sm">Certificates</span>
+            <span>Certificates</span>
           </button>
 
-          {/* Academic Group */}
-          <div className="pt-4 pb-1.5 px-3 text-[11px] font-semibold uppercase tracking-widest text-outline">
-            Academic
+
+          {/* GROUP 2: ACADEMIC */}
+          <div className="pt-6 pb-2 px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#f4ad42]"></span>
+            <span>ACADEMIC</span>
           </div>
 
-          {/* My Exams dropdown */}
+          {/* My Exams Dropdown */}
           <div>
             <button
               onClick={() => toggleSubmenu('myExams')}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left"
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-full text-slate-600 hover:bg-slate-100/80 transition-all text-left text-xs sm:text-sm font-semibold"
             >
               <div className="flex items-center">
                 <span className="material-symbols-outlined mr-3 text-[20px]">clinical_notes</span>
-                <span className="text-sm">My Exams</span>
+                <span>My Exams</span>
               </div>
-              <span className="material-symbols-outlined text-[18px] text-outline transition-transform duration-200" style={{ transform: academicExpanded.myExams ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              <span className="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200" style={{ transform: academicExpanded.myExams ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                 expand_more
               </span>
             </button>
             {academicExpanded.myExams && (
-              <div className="space-y-1 mt-1 pl-2 border-l border-surface-variant ml-5">
-                <button
-                  onClick={() => handleNavClick('exams', 'upcoming')}
-                  className={`w-full text-left ${subNavItemClass('exams', 'upcoming')}`}
-                >
+              <div className="space-y-1 mt-1 pl-2 ml-4 border-l border-slate-200/80">
+                <button onClick={() => handleNavClick('exams', 'upcoming')} className={`w-full text-left ${subNavItemClass('exams', 'upcoming')}`}>
                   Available
                 </button>
-                <button
-                  onClick={() => handleNavClick('scheduled-exams')}
-                  className={`w-full text-left ${subNavItemClass('scheduled-exams', null)}`}
-                >
+                <button onClick={() => handleNavClick('scheduled-exams')} className={`w-full text-left ${subNavItemClass('scheduled-exams', null)}`}>
                   Scheduled
                 </button>
-                <button
-                  onClick={() => handleNavClick('take-exam')}
-                  className={`w-full text-left ${subNavItemClass('take-exam', null)}`}
-                >
+                <button onClick={() => handleNavClick('take-exam')} className={`w-full text-left ${subNavItemClass('take-exam', null)}`}>
                   Take Exam
                 </button>
-                <button
-                  onClick={() => handleNavClick('teacher-courses')}
-                  className={`w-full text-left ${subNavItemClass('teacher-courses', null)}`}
-                >
+                <button onClick={() => handleNavClick('teacher-courses')} className={`w-full text-left ${subNavItemClass('teacher-courses', null)}`}>
                   Teacher Courses
                 </button>
               </div>
             )}
           </div>
 
-          {/* Study Resources dropdown */}
+          {/* Study Resources Dropdown */}
           <div>
             <button
               onClick={() => toggleSubmenu('studyResources')}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left"
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-full text-slate-600 hover:bg-slate-100/80 transition-all text-left text-xs sm:text-sm font-semibold"
             >
               <div className="flex items-center">
                 <span className="material-symbols-outlined mr-3 text-[20px]">library_books</span>
-                <span className="text-sm">Study Resources</span>
+                <span>Study Resources</span>
               </div>
-              <span className="material-symbols-outlined text-[18px] text-outline transition-transform duration-200" style={{ transform: academicExpanded.studyResources ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              <span className="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200" style={{ transform: academicExpanded.studyResources ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                 expand_more
               </span>
             </button>
             {academicExpanded.studyResources && (
-              <div className="space-y-1 mt-1 pl-2 border-l border-surface-variant ml-5">
-                <button
-                  onClick={() => handleNavClick('study-resources', 'all')}
-                  className={`w-full text-left ${subNavItemClass('study-resources', 'all')}`}
-                >
+              <div className="space-y-1 mt-1 pl-2 ml-4 border-l border-slate-200/80">
+                <button onClick={() => handleNavClick('study-resources', 'all')} className={`w-full text-left ${subNavItemClass('study-resources', 'all')}`}>
                   All References
                 </button>
-                <button
-                  onClick={() => handleNavClick('study-resources', 'books')}
-                  className={`w-full text-left ${subNavItemClass('study-resources', 'books')}`}
-                >
+                <button onClick={() => handleNavClick('study-resources', 'books')} className={`w-full text-left ${subNavItemClass('study-resources', 'books')}`}>
                   Books
                 </button>
-                <button
-                  onClick={() => handleNavClick('study-resources', 'videos')}
-                  className={`w-full text-left ${subNavItemClass('study-resources', 'videos')}`}
-                >
+                <button onClick={() => handleNavClick('study-resources', 'videos')} className={`w-full text-left ${subNavItemClass('study-resources', 'videos')}`}>
                   Videos
                 </button>
-                <button
-                  onClick={() => handleNavClick('study-resources', 'interview-mcq')}
-                  className={`w-full text-left ${subNavItemClass('study-resources', 'interview-mcq')}`}
-                >
+                <button onClick={() => handleNavClick('study-resources', 'interview-mcq')} className={`w-full text-left ${subNavItemClass('study-resources', 'interview-mcq')}`}>
                   Interview Q - MCQ
                 </button>
-                <button
-                  onClick={() => handleNavClick('study-resources', 'interview-tech')}
-                  className={`w-full text-left ${subNavItemClass('study-resources', 'interview-tech')}`}
-                >
+                <button onClick={() => handleNavClick('study-resources', 'interview-tech')} className={`w-full text-left ${subNavItemClass('study-resources', 'interview-tech')}`}>
                   Interview Q - Technical
                 </button>
               </div>
             )}
           </div>
 
-          {/* ExamPath Directory dropdown */}
+          {/* ExamPath Directory Dropdown */}
           <div>
             <button
               onClick={() => toggleSubmenu('examPath')}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left"
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-full text-slate-600 hover:bg-slate-100/80 transition-all text-left text-xs sm:text-sm font-semibold"
             >
               <div className="flex items-center">
                 <span className="material-symbols-outlined mr-3 text-[20px]">explore</span>
-                <span className="text-sm">ExamPath Directory</span>
+                <span>ExamPath Directory</span>
               </div>
-              <span className="material-symbols-outlined text-[18px] text-outline transition-transform duration-200" style={{ transform: academicExpanded.examPath ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              <span className="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200" style={{ transform: academicExpanded.examPath ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                 expand_more
               </span>
             </button>
             {academicExpanded.examPath && (
-              <div className="space-y-1 mt-1 pl-2 border-l border-surface-variant ml-5">
-                <button
-                  onClick={() => handleNavClick('exampath-directory')}
-                  className={`w-full text-left ${subNavItemClass('exampath-directory', null)}`}
-                >
+              <div className="space-y-1 mt-1 pl-2 ml-4 border-l border-slate-200/80">
+                <button onClick={() => handleNavClick('exampath-directory')} className={`w-full text-left ${subNavItemClass('exampath-directory', null)}`}>
                   All Exams & Colleges
                 </button>
-                <button
-                  onClick={() => handleNavClick('timeline-deadlines')}
-                  className={`w-full text-left ${subNavItemClass('timeline-deadlines', null)}`}
-                >
+                <button onClick={() => handleNavClick('timeline-deadlines')} className={`w-full text-left ${subNavItemClass('timeline-deadlines', null)}`}>
                   Timeline & Deadlines
                 </button>
-                <button
-                  onClick={() => handleNavClick('career-compass')}
-                  className={`w-full text-left ${subNavItemClass('career-compass', null)}`}
-                >
+                <button onClick={() => handleNavClick('career-compass')} className={`w-full text-left ${subNavItemClass('career-compass', null)}`}>
                   Career Compass
                 </button>
-                <button
-                  onClick={() => handleNavClick('exam-tracker')}
-                  className={`w-full text-left ${subNavItemClass('exam-tracker', null)}`}
-                >
+                <button onClick={() => handleNavClick('exam-tracker')} className={`w-full text-left ${subNavItemClass('exam-tracker', null)}`}>
                   My Exam Tracker
                 </button>
               </div>
             )}
           </div>
 
-          {/* Preferences Group */}
-          <div className="pt-4 pb-1.5 px-3 text-[11px] font-semibold uppercase tracking-widest text-outline">
-            Preferences
+
+          {/* GROUP 3: PREFERENCES */}
+          <div className="pt-6 pb-2 px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1d273e]"></span>
+            <span>PREFERENCES</span>
           </div>
 
           <button
@@ -304,7 +258,7 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('settings', 'profile')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">settings</span>
-            <span className="text-sm">Account Settings</span>
+            <span>Account Settings</span>
           </button>
 
           <button
@@ -312,15 +266,17 @@ export default function Sidebar({
             className={`w-full text-left ${navItemClass('settings', 'password')}`}
           >
             <span className="material-symbols-outlined mr-3 text-[20px]">lock_reset</span>
-            <span className="text-sm">Change Password</span>
+            <span>Change Password</span>
           </button>
+
         </nav>
 
-        {/* Footer Copyright */}
-        <div className="p-4 border-t border-surface-variant/40 mt-auto text-[11px] text-outline text-center">
+        {/* Footer */}
+        <div className="p-4 mt-auto border-t border-slate-100 text-[11px] text-slate-400 font-semibold text-center bg-slate-50/50">
           © 2026 Riyatrix Systems Private Limited
         </div>
       </aside>
     </>
   );
 }
+
