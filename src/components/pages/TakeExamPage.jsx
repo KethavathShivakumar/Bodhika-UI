@@ -30,13 +30,26 @@ export default function TakeExamPage({ availableExams = [], onStartExam, onToast
     return true;
   });
 
-  const cardHeaderGradients = [
-    "from-[#0a4b56] to-[#109c90]",
-    "from-[#ff6551] to-[#e04e3b]",
-    "from-[#f4ad42] to-[#d9911e]",
-    "from-[#1d273e] to-[#2d3748]",
-    "from-[#3b82f6] to-[#1d4ed8]"
+  const cardSolidColors = [
+    "bg-[#0d7d74]", // Teal
+    "bg-[#e55347]", // Coral Red
+    "bg-[#d9822b]", // Golden Amber
+    "bg-[#232d3f]", // Slate Navy
+    "bg-[#2563eb]", // Electric Blue
+    "bg-[#059669]", // Emerald Green
+    "bg-[#0f766e]", // Dark Teal
+    "bg-[#ea580c]"  // Orange Red
   ];
+
+  const getSubjectIcon = (exam) => {
+    const text = (exam.subject || exam.name || exam.category || '').toLowerCase();
+    if (text.includes('cloud') || text.includes('azure') || text.includes('aws')) return 'cloud';
+    if (text.includes('bio') || text.includes('life') || text.includes('neet')) return 'biotech';
+    if (text.includes('math') || text.includes('physics') || text.includes('jee')) return 'functions';
+    if (text.includes('code') || text.includes('python') || text.includes('algo') || text.includes('computer') || text.includes('technical')) return 'code';
+    if (text.includes('cricket') || text.includes('gk') || text.includes('sports')) return 'history_edu';
+    return 'assignment';
+  };
 
   const handleSelectExamForInstructions = (exam) => {
     setSelectedExam(exam);
@@ -196,70 +209,69 @@ export default function TakeExamPage({ availableExams = [], onStartExam, onToast
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredExams.map((exam, idx) => {
-                const gradient = cardHeaderGradients[idx % cardHeaderGradients.length];
+                const solidBg = cardSolidColors[idx % cardSolidColors.length];
                 const qCount = getQuestionCount(exam);
                 const duration = getDuration(exam);
-                const passCutoff = getPassCutoff(exam);
 
                 return (
                   <div 
                     key={exam.id || idx}
-                    className="bg-white rounded-3xl p-6 shadow-soft-card border border-slate-100 hover:shadow-hover-card hover:border-[#0a4b56]/40 transition-all flex flex-col justify-between group overflow-hidden"
+                    className="bg-white rounded-[32px] p-5 shadow-soft-card border border-slate-100/90 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
                   >
                     <div>
                       {/* Top Header Card Banner */}
-                      <div className={`w-full h-28 rounded-2xl bg-gradient-to-br ${gradient} p-4 flex flex-col justify-between mb-4 relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white uppercase tracking-wider">
-                            {exam.category || 'General'}
-                          </span>
-                          <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-emerald-400 text-slate-900 shadow-sm flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-ping"></span>
-                            Ready to Take
+                      <div className={`w-full h-40 rounded-[24px] ${solidBg} p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
+                        {/* Top Right Subject Badge Pill */}
+                        <div className="flex justify-end">
+                          <span className="text-[10px] font-black px-3 py-1 rounded-full bg-black/20 backdrop-blur-md text-white uppercase tracking-wider truncate max-w-[190px]">
+                            {exam.subject || exam.category || 'General'}
                           </span>
                         </div>
 
-                        <div className="flex items-center justify-between text-white">
-                          <div className="flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[20px] text-white/90">assignment_turned_in</span>
-                            <span className="text-xs font-extrabold">{exam.grade || 'Standard'}</span>
+                        {/* Large Centered Icon */}
+                        <div className="flex items-center justify-center my-auto">
+                          <span className="material-symbols-outlined text-[48px] text-white/95 drop-shadow-sm">
+                            {getSubjectIcon(exam)}
+                          </span>
+                        </div>
+
+                        {/* Bottom Left Rating Badge */}
+                        <div className="flex justify-start">
+                          <div className="px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-black text-amber-500 flex items-center gap-1 shadow-sm">
+                            <span>★★★★★</span>
+                            <span className="text-slate-800 font-extrabold">{exam.rating || '4.8'}</span>
                           </div>
-                          <span className="text-[10px] font-black text-white/80">Attempts: {exam.attemptsUsed ? `${exam.attemptsUsed}/${exam.attemptsAllowed || 3}` : (exam.attempts || '0/3')}</span>
                         </div>
                       </div>
 
-                      <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug mb-1">
+                      {/* Category Pill Tag */}
+                      <div className="pt-3.5">
+                        <span className="text-[11px] font-black px-3.5 py-1 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100 inline-block">
+                          {exam.grade || exam.category || 'Standard Assessment'}
+                        </span>
+                      </div>
+
+                      {/* Exam Title */}
+                      <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug mt-2.5 line-clamp-2">
                         {exam.name}
                       </h3>
-                      <p className="text-xs text-slate-500 font-semibold line-clamp-2 mb-4 leading-relaxed">
-                        {exam.subject || exam.description || 'Standard competitive assessment drill.'}
-                      </p>
 
-                      <div className="bg-slate-50 rounded-2xl p-3 flex items-center justify-between text-xs font-bold text-slate-600 mb-4 border border-slate-100">
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[15px] text-[#0a4b56]">help</span>
-                          {qCount} Qs
-                        </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[15px] text-[#ff6551]">schedule</span>
-                          {duration} mins
-                        </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[15px] text-[#f4ad42]">verified</span>
-                          Cutoff: {passCutoff}
-                        </span>
-                      </div>
+                      {/* Subtitle Details */}
+                      <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1.5">
+                        <span>{qCount} Questions</span>
+                        <span>•</span>
+                        <span>{duration} mins</span>
+                      </p>
                     </div>
 
+                    {/* Take Exam Action Button */}
                     <button
                       onClick={() => handleSelectExamForInstructions(exam)}
-                      className="w-full h-11 rounded-2xl bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white font-black text-xs hover:opacity-95 active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full mt-6 h-11 rounded-full bg-[#109c90] hover:bg-[#0a4b56] text-white font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                     >
-                      <span>Review Rules & Start</span>
+                      <span>Take Exam</span>
                       <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                     </button>
                   </div>

@@ -10,14 +10,26 @@ export default function ExaminationListPage({ exams, onTakeExam, onViewHistory, 
     return true;
   });
 
-  const cardHeaderGradients = [
-    "from-[#0a4b56] to-[#109c90]",
-    "from-[#ff6551] to-[#e04e3b]",
-    "from-[#f4ad42] to-[#d9911e]",
-    "from-[#1d273e] to-[#2d3748]",
-    "from-[#3b82f6] to-[#1d4ed8]",
-    "from-[#10b981] to-[#047857]"
+  const cardSolidColors = [
+    "bg-[#0d7d74]", // Teal
+    "bg-[#e55347]", // Coral Red
+    "bg-[#d9822b]", // Golden Amber
+    "bg-[#232d3f]", // Slate Navy
+    "bg-[#2563eb]", // Electric Blue
+    "bg-[#059669]", // Emerald Green
+    "bg-[#0f766e]", // Dark Teal
+    "bg-[#ea580c]"  // Orange Red
   ];
+
+  const getSubjectIcon = (exam) => {
+    const text = (exam.subject || exam.name || exam.category || '').toLowerCase();
+    if (text.includes('cloud') || text.includes('azure') || text.includes('aws')) return 'cloud';
+    if (text.includes('bio') || text.includes('life') || text.includes('neet')) return 'biotech';
+    if (text.includes('math') || text.includes('physics') || text.includes('jee')) return 'functions';
+    if (text.includes('code') || text.includes('python') || text.includes('algo') || text.includes('computer') || text.includes('technical')) return 'code';
+    if (text.includes('cricket') || text.includes('gk') || text.includes('sports')) return 'history_edu';
+    return 'assignment';
+  };
 
   return (
     <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16 animate-in fade-in duration-300">
@@ -114,50 +126,66 @@ export default function ExaminationListPage({ exams, onTakeExam, onViewHistory, 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredExams.map((exam, idx) => {
-            const gradient = cardHeaderGradients[idx % cardHeaderGradients.length];
+            const solidBg = cardSolidColors[idx % cardSolidColors.length];
 
             return (
               <div 
                 key={exam.id}
-                className="bg-white rounded-3xl p-5 shadow-soft-card border border-slate-100 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+                className="bg-white rounded-[32px] p-5 shadow-soft-card border border-slate-100/90 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
               >
                 <div>
-                  {/* Soft Card Header / Icon Container */}
-                  <div className={`w-full h-32 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform`}>
-                    <span className="material-symbols-outlined text-[48px] text-white/90 drop-shadow-md">
-                      {exam.subject?.includes('Azure') ? 'cloud' : exam.subject?.includes('Biology') ? 'biotech' : 'assignment'}
-                    </span>
-
-                    {/* Rating Stars */}
-                    <div className="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-black text-amber-500 flex items-center gap-1 shadow-sm">
-                      <span>★★★★☆</span>
-                      <span className="text-slate-700 font-extrabold">4.8</span>
+                  {/* Top Header Card Banner */}
+                  <div className={`w-full h-40 rounded-[24px] ${solidBg} p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
+                    {/* Top Right Subject Badge Pill */}
+                    <div className="flex justify-end">
+                      <span className="text-[10px] font-black px-3 py-1 rounded-full bg-black/20 backdrop-blur-md text-white uppercase tracking-wider truncate max-w-[190px]">
+                        {exam.subject || exam.category || 'General'}
+                      </span>
                     </div>
 
-                    <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-black text-white uppercase tracking-wider">
-                      {exam.subject || 'General'}
+                    {/* Large Centered Icon */}
+                    <div className="flex items-center justify-center my-auto">
+                      <span className="material-symbols-outlined text-[48px] text-white/95 drop-shadow-sm">
+                        {getSubjectIcon(exam)}
+                      </span>
+                    </div>
+
+                    {/* Bottom Left Rating Badge */}
+                    <div className="flex justify-start">
+                      <div className="px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-black text-amber-500 flex items-center gap-1 shadow-sm">
+                        <span>★★★★★</span>
+                        <span className="text-slate-800 font-extrabold">{exam.rating || '4.8'}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100">
-                    {exam.grade || 'Standard'}
-                  </span>
+                  {/* Category Pill Tag */}
+                  <div className="pt-3.5">
+                    <span className="text-[11px] font-black px-3.5 py-1 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100 inline-block">
+                      {exam.grade || exam.category || 'Standard Assessment'}
+                    </span>
+                  </div>
 
-                  <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors mt-2 leading-snug line-clamp-2">
+                  {/* Exam Title */}
+                  <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug mt-2.5 line-clamp-2">
                     {exam.name}
                   </h3>
-                  <p className="text-[11px] text-slate-400 font-semibold mt-1">
-                    {exam.questions} Questions • {exam.timeMin || 60} mins
+
+                  {/* Subtitle Details */}
+                  <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1.5">
+                    <span>{exam.questions || 10} Questions</span>
+                    <span>•</span>
+                    <span>{exam.timeMin || 60} mins</span>
                   </p>
                 </div>
 
-                {/* Action CTA Button */}
+                {/* Take Exam Action Button */}
                 <button
                   onClick={() => onTakeExam(exam)}
-                  className="w-full mt-5 h-10 rounded-2xl bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white text-xs font-black hover:opacity-95 active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full mt-6 h-11 rounded-full bg-[#109c90] hover:bg-[#0a4b56] text-white font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                 >
                   <span>Take Exam</span>
-                  <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </button>
               </div>
             );

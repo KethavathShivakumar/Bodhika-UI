@@ -129,77 +129,70 @@ export default function UpcomingExamsPage({ exams = [], onTakeExam, onViewHistor
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredExams.map((exam, idx) => {
-              const gradient = cardHeaderGradients[idx % cardHeaderGradients.length];
-              const icon = getSubjectIcon(exam.subject);
+              const solidBg = cardHeaderGradients[idx % cardHeaderGradients.length];
+              const icon = getSubjectIcon(exam.subject || exam.name);
 
               return (
                 <div
                   key={exam.id || idx}
-                  className="bg-white rounded-3xl p-6 shadow-soft-card border border-slate-100 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+                  className="bg-white rounded-[32px] p-5 shadow-soft-card border border-slate-100/90 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
                 >
                   <div>
-                    {/* Header Banner */}
-                    <div className={`w-full h-36 rounded-2xl bg-gradient-to-br ${gradient} p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
-                      <div className="flex items-center justify-between relative z-10">
-                        <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white uppercase tracking-wider">
-                          {exam.subject || 'General'}
-                        </span>
-                        <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-emerald-400 text-slate-900 shadow-sm flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-ping"></span>
-                          Open
+                    {/* Top Header Card Banner */}
+                    <div className={`w-full h-40 rounded-[24px] bg-gradient-to-br ${solidBg} p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
+                      {/* Top Right Subject Badge Pill */}
+                      <div className="flex justify-end">
+                        <span className="text-[10px] font-black px-3 py-1 rounded-full bg-black/20 backdrop-blur-md text-white uppercase tracking-wider truncate max-w-[190px]">
+                          {exam.subject || exam.category || 'General'}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-3 relative z-10">
-                        <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
-                          <span className="material-symbols-outlined text-2xl">{icon}</span>
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">Grade Target</p>
-                          <p className="text-xs font-black text-white">{exam.grade || 'Standard'}</p>
+                      {/* Large Centered Icon */}
+                      <div className="flex items-center justify-center my-auto">
+                        <span className="material-symbols-outlined text-[48px] text-white/95 drop-shadow-sm">
+                          {icon}
+                        </span>
+                      </div>
+
+                      {/* Bottom Left Rating Badge */}
+                      <div className="flex justify-start">
+                        <div className="px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-black text-amber-500 flex items-center gap-1 shadow-sm">
+                          <span>★★★★★</span>
+                          <span className="text-slate-800 font-extrabold">{exam.rating || '4.8'}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Content Details */}
-                    <div className="pt-4 space-y-2">
-                      <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug line-clamp-2">
-                        {exam.name}
-                      </h3>
-                      
-                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-semibold pt-1">
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[16px] text-[#0a4b56]">help</span>
-                          {exam.questions} Questions
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[16px] text-[#ff6551]">schedule</span>
-                          {exam.timeMin || 60} mins
-                        </span>
-                      </div>
+                    {/* Category Pill Tag */}
+                    <div className="pt-3.5">
+                      <span className="text-[11px] font-black px-3.5 py-1 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100 inline-block">
+                        {exam.grade || exam.category || 'Standard Assessment'}
+                      </span>
                     </div>
+
+                    {/* Exam Title */}
+                    <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug mt-2.5 line-clamp-2">
+                      {exam.name}
+                    </h3>
+
+                    {/* Subtitle Details */}
+                    <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1.5">
+                      <span>{exam.questions || 10} Questions</span>
+                      <span>•</span>
+                      <span>{exam.timeMin || 60} mins</span>
+                    </p>
                   </div>
 
-                  {/* Actions Footer */}
-                  <div className="pt-6 space-y-2">
-                    <button
-                      onClick={() => onTakeExam(exam)}
-                      className="w-full h-11 rounded-2xl bg-gradient-to-r from-[#0a4b56] to-[#109c90] text-white text-xs font-black hover:opacity-95 active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Start Assessment</span>
-                      <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => onToast && onToast(`Reminder set for ${exam.name}`, 'info')}
-                      className="w-full py-2 text-center text-[11px] font-black text-slate-500 hover:text-[#0a4b56] transition-colors cursor-pointer flex items-center justify-center gap-1"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">notifications</span>
-                      <span>Set Calendar Reminder</span>
-                    </button>
-                  </div>
+                  {/* Take Exam Action Button */}
+                  <button
+                    onClick={() => onTakeExam(exam)}
+                    className="w-full mt-6 h-11 rounded-full bg-[#109c90] hover:bg-[#0a4b56] text-white font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                  >
+                    <span>Take Exam</span>
+                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </button>
                 </div>
               );
             })}
