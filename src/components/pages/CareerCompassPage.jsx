@@ -125,55 +125,55 @@ export default function CareerCompassPage({ questions, onNavigateToExam, onToast
       </div>
 
       {/* 1. TOP SUMMARY METRIC CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-100">Diagnostic Mode</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">psychology</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-100 truncate">Diagnostic</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">psychology</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">5 Questions</div>
-            <div className="text-xs text-teal-100/90 font-medium">Cognitive Alignment</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">5 Questions</div>
+            <div className="text-[10px] sm:text-xs text-teal-100/90 font-medium">Cognitive Alignment</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Assessment Status</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Active</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Status</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">Active</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900/80">Match Accuracy</span>
-            <div className="w-10 h-10 rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">target</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-900/80 truncate">Accuracy</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">target</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">94% Confidence</div>
-            <div className="text-xs text-slate-900/80 font-medium">Target Pathways</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">94% Match</div>
+            <div className="text-[10px] sm:text-xs text-slate-900/80 font-medium">Target Pathways</div>
           </div>
-          <div className="p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-black/10">
-            <span>Accuracy Benchmark</span>
-            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-extrabold text-slate-950">High</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-black/10">
+            <span className="truncate">Benchmark</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-black/20 text-[8px] sm:text-[10px] font-extrabold text-slate-950 shrink-0">High</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#00c853] to-[#009624] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-emerald-300/20">
+        <div className="col-span-2 sm:col-span-1 p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#00c853] to-[#009624] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-emerald-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-100">Mapped Exams</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">recommend</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-emerald-100 truncate">Mapped Exams</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">recommend</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">3 Recommended</div>
-            <div className="text-xs text-emerald-100/90 font-medium">Direct Directory Link</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">3 Recommended</div>
+            <div className="text-[10px] sm:text-xs text-emerald-100/90 font-medium">Directory Link</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Recommendations</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Ready</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Mapped</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">Ready</span>
           </div>
         </div>
       </div>
@@ -185,18 +185,18 @@ export default function CareerCompassPage({ questions, onNavigateToExam, onToast
           const theme = questionCardColorPalettes[qIdx % questionCardColorPalettes.length];
 
           return (
-            <div key={q.id} className={`${theme.bg} rounded-3xl p-6 md:p-8 shadow-soft-card border overflow-hidden space-y-4`}>
-              <div className="flex items-start gap-4">
-                <div className={`w-10 h-10 rounded-2xl ${theme.numBg} flex items-center justify-center text-sm font-black shrink-0 shadow-md`}>
+            <div key={q.id} className={`${theme.bg} rounded-3xl p-4 sm:p-8 shadow-soft-card border overflow-hidden space-y-4`}>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl ${theme.numBg} flex items-center justify-center text-xs sm:text-sm font-black shrink-0 shadow-md`}>
                   {q.id}
                 </div>
                 <div>
-                  <h3 className="font-black text-lg text-white leading-snug drop-shadow-sm">{q.title}</h3>
-                  <p className="text-xs text-white/80 font-medium mt-0.5">{q.subtitle}</p>
+                  <h3 className="font-black text-xs sm:text-lg text-white leading-snug drop-shadow-sm">{q.title}</h3>
+                  <p className="text-[10px] sm:text-xs text-white/80 font-medium mt-0.5">{q.subtitle}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5 pt-2">
                 {q.options.map((opt) => {
                   const isSelected = selectedVal === opt.id;
 
@@ -204,14 +204,14 @@ export default function CareerCompassPage({ questions, onNavigateToExam, onToast
                     <button
                       key={opt.id}
                       onClick={() => handleSelect(q.id, opt.id)}
-                      className={`p-4 rounded-2xl text-left transition-all duration-200 border cursor-pointer ${
+                      className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-left transition-all duration-200 border cursor-pointer ${
                         isSelected
                           ? theme.selectedOpt
                           : theme.unselectedOpt
                       }`}
                     >
-                      <div className="font-black text-xs mb-1">{opt.text}</div>
-                      <div className={`text-[11px] leading-relaxed opacity-90 ${isSelected ? '' : 'text-white/80'}`}>
+                      <div className="font-black text-[10px] sm:text-xs mb-0.5 sm:mb-1 line-clamp-1">{opt.text}</div>
+                      <div className={`text-[9px] sm:text-[11px] leading-relaxed opacity-90 line-clamp-2 ${isSelected ? '' : 'text-white/80'}`}>
                         {opt.desc}
                       </div>
                     </button>

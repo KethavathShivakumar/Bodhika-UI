@@ -104,76 +104,76 @@ export default function StudyResourcesPage({ resources, onOpenResource, initialC
       </div>
 
       {/* 1. METRIC CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-100">Total Archives</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">auto_stories</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-100 truncate">Total Archives</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">auto_stories</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">{resources.length} Archives</div>
-            <div className="text-xs text-teal-100/90 font-medium">Verified materials</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">{resources.length} Archives</div>
+            <div className="text-[10px] sm:text-xs text-teal-100/90 font-medium">Verified materials</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Verified Knowledge</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">100%</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Verified</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">100%</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-100">Textbooks & PDFs</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">menu_book</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-rose-100 truncate">Textbooks</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">menu_book</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">
               {resources.filter(r => r.type === 'Books').length} Books
             </div>
-            <div className="text-xs text-rose-100/90 font-medium">Digital E-Books</div>
+            <div className="text-[10px] sm:text-xs text-rose-100/90 font-medium">Digital E-Books</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Instant Download</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">PDF</span>
-          </div>
-        </div>
-
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900/80">Faculty Lectures</span>
-            <div className="w-10 h-10 rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">smart_display</span>
-            </div>
-          </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">
-              {resources.filter(r => r.type === 'Videos').length} Lectures
-            </div>
-            <div className="text-xs text-slate-900/80 font-medium">Video Sessions</div>
-          </div>
-          <div className="p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-black/10">
-            <span>HD Video Stream</span>
-            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-extrabold text-slate-950">1080p</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Download</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">PDF</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-600/30">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Recruitment Qs</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">terminal</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-900/80 truncate">Lectures</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">smart_display</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">Tech & MCQs</div>
-            <div className="text-xs text-slate-300 font-medium">TCS, Infosys & Wipro</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">
+              {resources.filter(r => r.type === 'Videos').length} Videos
+            </div>
+            <div className="text-[10px] sm:text-xs text-slate-900/80 font-medium">Video Sessions</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Interview Bank</span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[10px] font-extrabold">Solutions</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-black/10">
+            <span className="truncate">Stream</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-black/20 text-[8px] sm:text-[10px] font-extrabold text-slate-950 shrink-0">HD</span>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-600/30">
+          <div className="flex items-center justify-between">
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-300 truncate">Recruitment Qs</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">terminal</span>
+            </div>
+          </div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">Tech Bank</div>
+            <div className="text-[10px] sm:text-xs text-slate-300 font-medium">MCQs & Codes</div>
+          </div>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Interviews</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[8px] sm:text-[10px] font-extrabold shrink-0">Bank</span>
           </div>
         </div>
       </div>
@@ -217,48 +217,48 @@ export default function StudyResourcesPage({ resources, onOpenResource, initialC
           <p className="text-xs text-slate-500 mt-1">Try tweaking your search term or switching tabs.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredResources.map((res, idx) => {
             const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
             return (
               <div 
                 key={res.id}
-                className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+                className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20`}>
-                      <span className="material-symbols-outlined text-[24px]">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20 shrink-0`}>
+                      <span className="material-symbols-outlined text-[18px] sm:text-[24px]">
                         {res.type === 'Books' ? 'menu_book' : res.type === 'Videos' ? 'smart_display' : 'quiz'}
                       </span>
                     </div>
 
-                    <span className={`text-[10px] font-black px-3 py-1 rounded-full ${theme.badge}`}>
+                    <span className={`text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full ${theme.badge} shrink-0`}>
                       {res.type}
                     </span>
                   </div>
 
-                  <h3 className="font-black text-lg text-white leading-snug mb-2 drop-shadow-sm">
+                  <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-1 sm:mb-2 drop-shadow-sm line-clamp-2">
                     {res.title}
                   </h3>
-                  <p className={`${theme.subText} text-xs font-medium line-clamp-3 mb-5 leading-relaxed`}>
+                  <p className={`${theme.subText} text-[10px] sm:text-xs font-medium line-clamp-2 mb-3 sm:mb-5 leading-relaxed`}>
                     {res.description}
                   </p>
 
-                  <div className={`${theme.metaBg} rounded-2xl p-3.5 flex items-center justify-between text-xs font-bold mb-5`}>
-                    <span>Topic: <strong className="text-white font-black">{res.category}</strong></span>
-                    <span className="text-white/40">•</span>
-                    <span>By: <strong className="text-white font-black">{res.author || 'Faculty Team'}</strong></span>
+                  <div className={`${theme.metaBg} rounded-2xl p-2 sm:p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between text-[9px] sm:text-xs font-bold mb-4 sm:mb-5 gap-0.5 sm:gap-0`}>
+                    <span className="truncate max-w-full">Topic: <strong className="text-white font-black">{res.category}</strong></span>
+                    <span className="text-white/40 hidden sm:inline">•</span>
+                    <span className="truncate max-w-full">By: <strong className="text-white font-black">{res.author || 'Faculty'}</strong></span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => onOpenResource(res)}
-                  className={`w-full h-11 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer`}
+                  className={`w-full h-8 sm:h-11 text-[10px] sm:text-xs rounded-xl sm:rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer px-1.5 sm:px-4`}
                 >
-                  <span>{res.type === 'Videos' ? 'Watch Video Lecture' : 'Access Reference Resource'}</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  <span className="truncate">{res.type === 'Videos' ? 'Watch Lecture' : 'Access Resource'}</span>
+                  <span className="material-symbols-outlined text-[14px] sm:text-[16px] shrink-0">arrow_forward</span>
                 </button>
               </div>
             );

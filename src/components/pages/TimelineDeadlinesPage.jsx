@@ -119,72 +119,72 @@ export default function TimelineDeadlinesPage({ onToast }) {
       </div>
 
       {/* 1. TOP SUMMARY CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-100">Critical Deadlines</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">warning</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-rose-100 truncate">Critical</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">warning</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">4 Urgent</div>
-            <div className="text-xs text-rose-100/90 font-medium">Immediate focus required</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">4 Urgent</div>
+            <div className="text-[10px] sm:text-xs text-rose-100/90 font-medium">Immediate focus</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Action Required</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">High</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Action</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">High</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900/80">Next 60 Days</span>
-            <div className="w-10 h-10 rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">event_upcoming</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-900/80 truncate">Next 60 Days</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">event_upcoming</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">7 Events</div>
-            <div className="text-xs text-slate-900/80 font-medium">Calendar schedule</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">7 Events</div>
+            <div className="text-[10px] sm:text-xs text-slate-900/80 font-medium">Upcoming schedule</div>
           </div>
-          <div className="p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-black/10">
-            <span>Calendar Windows</span>
-            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-extrabold text-slate-950">Upcoming</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-black/10">
+            <span className="truncate">Calendar</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-black/20 text-[8px] sm:text-[10px] font-extrabold text-slate-950 shrink-0">Active</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-100">Global Entrances</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">public</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-100 truncate">Global</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">public</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">SAT & TOEFL</div>
-            <div className="text-xs text-teal-100/90 font-medium">International track</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">SAT/TOEFL</div>
+            <div className="text-[10px] sm:text-xs text-teal-100/90 font-medium">International</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>US & Global</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Active</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">US & Global</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">Active</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-600/30">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-600/30">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">National Exams</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">flag</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-300 truncate">National</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">flag</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">JEE Main 2027</div>
-            <div className="text-xs text-slate-300 font-medium">Engineering Entrance</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">JEE 2027</div>
+            <div className="text-[10px] sm:text-xs text-slate-300 font-medium">Engineering</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>NTA Portal</span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[10px] font-extrabold">Verified</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">NTA Portal</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[8px] sm:text-[10px] font-extrabold shrink-0">NTA</span>
           </div>
         </div>
       </div>
@@ -198,37 +198,37 @@ export default function TimelineDeadlinesPage({ onToast }) {
               <h2 className="text-xl font-black text-slate-900 tracking-tight">{group.month}</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {group.events.map((event, idx) => {
                 const theme = cardColorPalettes[(gIdx * 2 + idx) % cardColorPalettes.length];
 
                 return (
                   <div 
                     key={event.id}
-                    className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex items-start gap-5 group overflow-hidden border`}
+                    className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col sm:flex-row items-start gap-3 sm:gap-5 group overflow-hidden border`}
                   >
                     {/* Date Badge Container */}
-                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md text-white flex flex-col items-center justify-center shrink-0 shadow-md border border-white/30 group-hover:scale-105 transition-transform">
-                      <span className="text-[10px] font-black tracking-widest text-amber-300 uppercase">{event.dateDay}</span>
-                      <span className="text-2xl font-black leading-none">{event.dateNum}</span>
+                    <div className="w-11 h-11 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md text-white flex flex-col items-center justify-center shrink-0 shadow-md border border-white/30 group-hover:scale-105 transition-transform">
+                      <span className="text-[8px] sm:text-[10px] font-black tracking-widest text-amber-300 uppercase">{event.dateDay}</span>
+                      <span className="text-base sm:text-2xl font-black leading-none">{event.dateNum}</span>
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-2 gap-2">
-                        <span className={`text-[10px] font-black px-3 py-1 rounded-full ${theme.badge}`}>
+                    <div className="flex-1 min-w-0 w-full">
+                      <div className="flex flex-wrap items-center justify-between mb-1.5 gap-1">
+                        <span className={`text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-0.5 rounded-full ${theme.badge} truncate max-w-[80px] sm:max-w-none`}>
                           {event.track}
                         </span>
 
-                        <span className="text-[10px] font-black px-3 py-1 rounded-full bg-rose-400 text-slate-900">
+                        <span className="text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-0.5 rounded-full bg-rose-400 text-slate-900 truncate">
                           {event.priority}
                         </span>
                       </div>
 
-                      <h3 className="font-black text-lg text-white leading-snug mb-1 drop-shadow-sm">
+                      <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-1 drop-shadow-sm line-clamp-2">
                         {event.title}
                       </h3>
-                      <p className={`${theme.subText} text-xs font-medium mb-4 leading-relaxed`}>
+                      <p className={`${theme.subText} text-[10px] sm:text-xs font-medium mb-3 leading-relaxed line-clamp-2`}>
                         {event.closingNote}
                       </p>
 
@@ -238,10 +238,10 @@ export default function TimelineDeadlinesPage({ onToast }) {
                             onToast({ title: 'Calendar Sync', message: `Added ${event.title} to calendar.`, type: 'success' });
                           }
                         }}
-                        className={`px-4 py-2.5 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center gap-2 cursor-pointer text-xs`}
+                        className={`w-full sm:w-auto px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1 sm:gap-2 cursor-pointer text-[10px] sm:text-xs`}
                       >
-                        <span>Set Calendar Reminder</span>
-                        <span className="material-symbols-outlined text-[16px]">notifications</span>
+                        <span className="truncate">Set Reminder</span>
+                        <span className="material-symbols-outlined text-[13px] sm:text-[16px] shrink-0">notifications</span>
                       </button>
                     </div>
                   </div>

@@ -97,72 +97,72 @@ export default function ExamTrackerPage({ directoryList, onUpdateStatus, onToast
       </div>
 
       {/* 1. TOP SUMMARY METRIC CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-100">Registered</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">how_to_reg</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-100 truncate">Registered</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">how_to_reg</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">{registeredCount} Active</div>
-            <div className="text-xs text-teal-100/90 font-medium">Official Applications</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">{registeredCount} Active</div>
+            <div className="text-[10px] sm:text-xs text-teal-100/90 font-medium">Official Apps</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Application Status</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Active</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Status</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">Active</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#00c853] to-[#009624] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-emerald-300/20">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#00c853] to-[#009624] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-emerald-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-100">Completed</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">verified</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-emerald-100 truncate">Completed</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">verified</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">{completedCount} Finished</div>
-            <div className="text-xs text-emerald-100/90 font-medium">Results Recorded</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">{completedCount} Finished</div>
+            <div className="text-[10px] sm:text-xs text-emerald-100/90 font-medium">Results Saved</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Result Saved</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">100%</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Saved</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">100%</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#ff6551] to-[#e04e3b] text-white shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-rose-300/20">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-100">Skipping</span>
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">do_not_disturb_on</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-rose-100 truncate">Skipping</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">do_not_disturb_on</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">{skippingCount} Omitted</div>
-            <div className="text-xs text-rose-100/90 font-medium">Opted Out</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">{skippingCount} Omitted</div>
+            <div className="text-[10px] sm:text-xs text-rose-100/90 font-medium">Opted Out</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-white/10">
-            <span>Archived</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/30 text-[10px] font-extrabold">Inactive</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-white/10">
+            <span className="truncate">Archived</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-white/30 text-[8px] sm:text-[10px] font-extrabold shrink-0">Off</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
+        <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-950 shadow-soft-card flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-300/30">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900/80">Remaining</span>
-            <div className="w-10 h-10 rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-[20px]">hourglass_empty</span>
+            <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-900/80 truncate">Remaining</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-black/10 flex items-center justify-center text-slate-950 backdrop-blur-sm shrink-0">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">hourglass_empty</span>
             </div>
           </div>
-          <div className="my-3">
-            <div className="text-3xl font-black tracking-tight">{remainingCount} Target</div>
-            <div className="text-xs text-slate-900/80 font-medium">In Pipeline</div>
+          <div className="my-2 sm:my-3">
+            <div className="text-xl sm:text-3xl font-black tracking-tight">{remainingCount} Target</div>
+            <div className="text-[10px] sm:text-xs text-slate-900/80 font-medium">In Pipeline</div>
           </div>
-          <div className="p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-xs font-bold border border-black/10">
-            <span>Pipeline</span>
-            <span className="px-2 py-0.5 rounded-full bg-black/20 text-[10px] font-extrabold text-slate-950">Pending</span>
+          <div className="p-2 sm:p-3 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-between text-[9px] sm:text-xs font-bold border border-black/10">
+            <span className="truncate">Pipeline</span>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-black/20 text-[8px] sm:text-[10px] font-extrabold text-slate-950 shrink-0">Pending</span>
           </div>
         </div>
       </div>
@@ -189,43 +189,43 @@ export default function ExamTrackerPage({ directoryList, onUpdateStatus, onToast
           <p className="text-xs text-slate-500 mt-1">Try clearing your search query.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredItems.map((item, idx) => {
             const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
             return (
               <div 
                 key={item.id}
-                className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+                className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20`}>
-                      <span className="material-symbols-outlined text-[24px]">app_registration</span>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20 shrink-0`}>
+                      <span className="material-symbols-outlined text-[18px] sm:text-[24px]">app_registration</span>
                     </div>
 
-                    <span className={`text-[10px] font-black px-3 py-1.5 rounded-full ${theme.badge}`}>
+                    <span className={`text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-0.5 sm:py-1.5 rounded-full ${theme.badge} shrink-0 truncate max-w-[90px] sm:max-w-none`}>
                       {item.status || 'Target'}
                     </span>
                   </div>
 
-                  <h3 className="font-black text-lg text-white leading-snug mb-2 drop-shadow-sm">
+                  <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-1 sm:mb-2 drop-shadow-sm line-clamp-2">
                     {item.title}
                   </h3>
-                  <p className={`${theme.subText} text-xs font-medium line-clamp-2 mb-5`}>
-                    {item.subTitle || item.category || 'Entrance Examination'}
+                  <p className={`${theme.subText} text-[10px] sm:text-xs font-medium line-clamp-1 mb-3 sm:mb-5`}>
+                    {item.subTitle || item.category || 'Entrance Exam'}
                   </p>
 
-                  <div className={`${theme.metaBg} rounded-2xl p-4 flex items-center justify-between text-xs font-bold mb-5`}>
-                    <span className="opacity-80">Deadline:</span>
-                    <strong className="text-white font-black">{item.regDeadline || '30 Sep 2026'}</strong>
+                  <div className={`${theme.metaBg} rounded-2xl p-2 sm:p-4 flex items-center justify-between text-[9px] sm:text-xs font-bold mb-4 sm:mb-5`}>
+                    <span className="opacity-80 truncate">Deadline:</span>
+                    <strong className="text-white font-black truncate ml-1">{item.regDeadline || '30 Sep 2026'}</strong>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-white/20 flex items-center gap-2">
+                <div className="pt-2 sm:pt-3 border-t border-white/20 flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={() => handleStatusChange(item.id, 'Registered')}
-                    className={`flex-1 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer ${
+                    className={`flex-1 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black transition-all cursor-pointer truncate px-1 ${
                       item.status === 'Registered' ? theme.btnActive : theme.btnInactive
                     }`}
                   >
@@ -233,7 +233,7 @@ export default function ExamTrackerPage({ directoryList, onUpdateStatus, onToast
                   </button>
                   <button
                     onClick={() => handleStatusChange(item.id, 'Completed')}
-                    className={`flex-1 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer ${
+                    className={`flex-1 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black transition-all cursor-pointer truncate px-1 ${
                       item.status === 'Completed' ? theme.btnActive : theme.btnInactive
                     }`}
                   >

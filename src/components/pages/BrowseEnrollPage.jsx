@@ -69,46 +69,46 @@ export default function BrowseEnrollPage({ catalog, onEnroll, onBackToMyExams })
     <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16 animate-in fade-in duration-300">
       
       {/* 1. TOP SUMMARY METRICS CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-teal-200">Catalog Exams</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{catalog.length} Available</div>
-            <div className="text-[11px] text-teal-100 font-semibold mt-2 flex items-center gap-1">
-              <span>Verified Modules</span>
-              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-teal-200">Catalog Exams</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{catalog.length} Available</div>
+            <div className="text-[9px] sm:text-[11px] text-teal-100 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Verified Modules</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">storefront</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">storefront</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
+        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Featured Pathways</div>
-            <div className="text-3xl font-black tracking-tight mt-1">12 Categories</div>
-            <div className="text-[11px] text-slate-900 font-semibold mt-2 flex items-center gap-1">
-              <span>National & Global</span>
-              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-900/80">Featured Pathways</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">12 Categories</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-900 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">National & Global</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900">
-            <span className="material-symbols-outlined text-[24px]">school</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900 shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">school</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
+        <div className="col-span-2 sm:col-span-1 bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-300">Instant Access</div>
-            <div className="text-3xl font-black tracking-tight mt-1">24/7 Portal</div>
-            <div className="text-[11px] text-slate-300 font-semibold mt-2 flex items-center gap-1">
-              <span>Self-Paced Practice</span>
-              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-300">Instant Access</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">24/7 Portal</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-300 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Self-Paced Practice</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">bolt</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">bolt</span>
           </div>
         </div>
       </div>
@@ -136,50 +136,50 @@ export default function BrowseEnrollPage({ catalog, onEnroll, onBackToMyExams })
       </div>
 
       {/* 3. CATALOG FULLY-COLORED CARDS GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
         {filteredCatalog.map((exam, idx) => {
           const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
           return (
             <div 
               key={exam.id}
-              className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+              className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-11 h-11 rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20`}>
-                    <span className="material-symbols-outlined text-[22px]">assignment</span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl ${theme.iconBg} flex items-center justify-center font-bold shadow-sm border border-white/20 shrink-0`}>
+                    <span className="material-symbols-outlined text-[18px] sm:text-[22px]">assignment</span>
                   </div>
-                  <span className={`text-xs px-3.5 py-1 rounded-full ${theme.priceTag}`}>
+                  <span className={`text-[8px] sm:text-xs px-2 sm:px-3.5 py-0.5 sm:py-1 rounded-full ${theme.priceTag}`}>
                     {exam.price ? `$${exam.price}` : 'Free Access'}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-amber-300 text-xs mb-1.5 font-black">
-                  <span>★★★★★</span>
-                  <span className="text-white/80 font-bold text-[11px]">(4.9)</span>
+                <div className="flex items-center gap-1 text-amber-300 text-[9px] sm:text-xs mb-1 font-black">
+                  <span>★ 4.9</span>
+                  <span className="text-white/80 font-bold text-[9px] sm:text-[11px] hidden sm:inline">(4.9)</span>
                 </div>
 
-                <h3 className="font-black text-lg text-white leading-snug mb-1.5 drop-shadow-sm">
+                <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-1 sm:mb-1.5 drop-shadow-sm line-clamp-2">
                   {exam.name}
                 </h3>
-                <p className={`${theme.subText} text-xs line-clamp-2 mb-4 leading-relaxed`}>
+                <p className={`${theme.subText} text-[10px] sm:text-xs line-clamp-2 mb-3 sm:mb-4 leading-relaxed`}>
                   {exam.description || 'Comprehensive competency drill with detailed solution rationale.'}
                 </p>
 
-                <div className={`${theme.metaBg} rounded-2xl p-3 flex items-center justify-between text-xs font-bold mb-5`}>
-                  <span>Questions: <strong className="text-white font-black">{exam.questions || 45}</strong></span>
-                  <span className="text-white/40">•</span>
+                <div className={`${theme.metaBg} rounded-2xl p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between text-[9px] sm:text-xs font-bold mb-4 sm:mb-5 gap-0.5 sm:gap-0`}>
+                  <span>Qs: <strong className="text-white font-black">{exam.questions || 45}</strong></span>
+                  <span className="text-white/40 hidden sm:inline">•</span>
                   <span>Time: <strong className="text-white font-black">{exam.timeMin || 60}m</strong></span>
                 </div>
               </div>
 
               <button
                 onClick={() => onEnroll(exam)}
-                className={`w-full h-11 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer`}
+                className={`w-full h-8 sm:h-11 text-[11px] sm:text-sm rounded-xl sm:rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer`}
               >
                 <span>Enroll Now</span>
-                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                <span className="material-symbols-outlined text-[14px] sm:text-[16px]">arrow_forward</span>
               </button>
             </div>
           );

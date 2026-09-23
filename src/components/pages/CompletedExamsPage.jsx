@@ -59,46 +59,46 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
     <div className="flex flex-col w-full max-w-7xl mx-auto space-y-6 pb-16 animate-in fade-in duration-300">
       
       {/* 1. TOP METRIC SUMMARY CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-teal-200">Total Completed</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{totalCompleted}</div>
-            <div className="text-[11px] text-teal-100 font-semibold mt-2 flex items-center gap-1">
-              <span>Verified Submissions</span>
-              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-teal-200">Total Completed</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{totalCompleted}</div>
+            <div className="text-[9px] sm:text-[11px] text-teal-100 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Verified Submissions</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">task_alt</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">task_alt</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
+        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Passed Exams</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{passedCount}</div>
-            <div className="text-[11px] text-slate-900 font-semibold mt-2 flex items-center gap-1">
-              <span>High Competency</span>
-              <span className="material-symbols-outlined text-[14px]">verified</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-900/80">Passed Exams</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{passedCount}</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-900 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">High Competency</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">verified</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900">
-            <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900 shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">workspace_premium</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
+        <div className="col-span-2 sm:col-span-1 bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-300">Average Pass Rate</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{passRate}%</div>
-            <div className="text-[11px] text-slate-300 font-semibold mt-2 flex items-center gap-1">
-              <span>Overall Percentile</span>
-              <span className="material-symbols-outlined text-[14px]">monitoring</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-300">Average Pass Rate</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{passRate}%</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-300 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Overall Percentile</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">monitoring</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">insights</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">insights</span>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
       </div>
 
       {/* 3. COMPLETED EXAMS FULLY-COLORED CARDS GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
         {filteredAttempts.map((att, idx) => {
           const isPassed = att.result === 'Pass';
           const percent = att.percentage || att.scorePercent || 80;
@@ -155,13 +155,13 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
           return (
             <div 
               key={att.id}
-              className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+              className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3">
                   {/* Circular Score Gauge */}
-                  <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
-                    <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                  <div className="relative w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
+                    <svg className="w-9 h-9 sm:w-12 sm:h-12 transform -rotate-90" viewBox="0 0 36 36">
                       <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
@@ -177,12 +177,12 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
                         strokeLinecap="round"
                       />
                     </svg>
-                    <span className="absolute text-[11px] font-black text-white">{percent}%</span>
+                    <span className="absolute text-[9px] sm:text-[11px] font-black text-white">{percent}%</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-300 text-xs tracking-tighter">★★★★★</span>
-                    <span className={`text-[10px] font-black px-3 py-1 rounded-full ${
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <span className="text-amber-300 text-[9px] sm:text-xs tracking-tighter hidden sm:inline-block">★★★★★</span>
+                    <span className={`text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full ${
                       isPassed ? 'bg-emerald-400 text-slate-900 font-extrabold' : 'bg-rose-400 text-slate-900 font-extrabold'
                     }`}>
                       {att.result}
@@ -190,36 +190,36 @@ export default function CompletedExamsPage({ attempts, onViewResult, onRetakeExa
                   </div>
                 </div>
 
-                <h3 className="font-black text-lg text-white leading-snug mb-1 drop-shadow-sm">
+                <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-1 drop-shadow-sm line-clamp-2">
                   {att.exam}
                 </h3>
-                <p className={`${theme.subText} text-xs font-semibold mb-4`}>
-                  {att.subject} • Completed on {att.date || '15 Sep 2026'}
+                <p className={`${theme.subText} text-[10px] sm:text-xs font-semibold mb-3 truncate`}>
+                  {att.subject} • {att.date || '15 Sep 2026'}
                 </p>
 
-                <div className={`${theme.metaBg} rounded-2xl p-3 flex items-center justify-between text-xs font-bold mb-5`}>
+                <div className={`${theme.metaBg} rounded-2xl p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between text-[9px] sm:text-xs font-bold mb-4 gap-0.5 sm:gap-0`}>
                   <span>Marks: <strong className="text-white font-black">{att.score}</strong></span>
-                  <span className="text-white/40">|</span>
-                  <span>Time Spent: <strong className="text-white font-black">{att.timeSpent || '42m'}</strong></span>
+                  <span className="text-white/40 hidden sm:inline">|</span>
+                  <span>Time: <strong className="text-white font-black">{att.timeSpent || '42m'}</strong></span>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-white/20 flex items-center justify-between gap-2">
+              <div className="pt-2 sm:pt-3 border-t border-white/20 flex items-center justify-between gap-1.5 sm:gap-2">
                 <button
                   onClick={() => onViewResult(att)}
-                  className={`flex-1 h-10 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer`}
+                  className={`flex-1 h-8 sm:h-10 text-[10px] sm:text-xs rounded-xl sm:rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer px-1.5 sm:px-4`}
                 >
-                  <span>View Results</span>
-                  <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                  <span className="truncate">View Results</span>
+                  <span className="material-symbols-outlined text-[13px] sm:text-[15px] shrink-0">arrow_forward</span>
                 </button>
 
                 {onRetakeExam && (
                   <button
                     onClick={() => onRetakeExam(att)}
-                    className={`h-10 px-3.5 rounded-2xl ${theme.iconBtn} active:scale-95 transition-all cursor-pointer`}
+                    className={`h-8 sm:h-10 px-2 sm:px-3.5 rounded-xl sm:rounded-2xl ${theme.iconBtn} active:scale-95 transition-all cursor-pointer shrink-0`}
                     title="Retake Exam"
                   >
-                    <span className="material-symbols-outlined text-[16px]">replay</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">replay</span>
                   </button>
                 )}
               </div>

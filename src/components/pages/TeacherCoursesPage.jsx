@@ -60,46 +60,46 @@ export default function TeacherCoursesPage({ courses, onToast }) {
     <div className="flex flex-col w-full max-w-7xl mx-auto space-y-8 pb-16 animate-in fade-in duration-300">
       
       {/* 1. TOP METRIC SUMMARY CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+        <div className="bg-gradient-to-br from-[#0a4b56] to-[#109c90] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-teal-300/20">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-teal-200">Total Masterclasses</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{totalCount} Courses</div>
-            <div className="text-[11px] text-teal-100 font-semibold mt-2 flex items-center gap-1">
-              <span>Faculty Led</span>
-              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-teal-200">Total Masterclasses</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{totalCount} Courses</div>
+            <div className="text-[9px] sm:text-[11px] text-teal-100 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Faculty Led</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">school</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">school</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
+        <div className="bg-gradient-to-br from-[#f4ad42] to-[#d9911e] text-slate-900 rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-amber-300/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-900/80">Free Lectures</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{freeCount} Available</div>
-            <div className="text-[11px] text-slate-900 font-semibold mt-2 flex items-center gap-1">
-              <span>Zero Cost Access</span>
-              <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-900/80">Free Lectures</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{freeCount} Available</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-900 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Zero Cost</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">auto_awesome</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900">
-            <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-black/10 backdrop-blur-md flex items-center justify-center text-slate-900 shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">workspace_premium</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
+        <div className="col-span-2 sm:col-span-1 bg-gradient-to-br from-[#1d273e] to-[#2d3748] text-white rounded-3xl p-4 sm:p-6 shadow-soft-card flex items-center justify-between border border-slate-600/30">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-wider text-slate-300">My Registrations</div>
-            <div className="text-3xl font-black tracking-tight mt-1">{enrolledCount} Active</div>
-            <div className="text-[11px] text-slate-300 font-semibold mt-2 flex items-center gap-1">
-              <span>Enrolled Portal</span>
-              <span className="material-symbols-outlined text-[14px]">check_circle</span>
+            <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-wider text-slate-300">My Registrations</div>
+            <div className="text-xl sm:text-3xl font-black tracking-tight mt-0.5 sm:mt-1">{enrolledCount} Active</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-300 font-semibold mt-1 sm:mt-2 flex items-center gap-1">
+              <span className="truncate">Enrolled Portal</span>
+              <span className="material-symbols-outlined text-[12px] sm:text-[14px]">check_circle</span>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
-            <span className="material-symbols-outlined text-[24px]">verified</span>
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white shrink-0">
+            <span className="material-symbols-outlined text-[18px] sm:text-[24px]">verified</span>
           </div>
         </div>
       </div>
@@ -146,49 +146,49 @@ export default function TeacherCoursesPage({ courses, onToast }) {
 
       {/* 3. COURSES FULLY-COLORED CARDS GRID */}
       {filteredCourses.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredCourses.map((course, idx) => {
             const theme = cardColorPalettes[idx % cardColorPalettes.length];
 
             return (
               <div
                 key={course.id}
-                className={`${theme.bg} rounded-3xl p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
+                className={`${theme.bg} rounded-3xl p-3.5 sm:p-6 shadow-soft-card hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] ${theme.badge}`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] truncate max-w-[90px] sm:max-w-none ${theme.badge}`}>
                       {course.category || 'Academic'}
                     </span>
-                    <span className={`px-3 py-1 rounded-full text-[11px] ${theme.badge}`}>
+                    <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[11px] shrink-0 ${theme.badge}`}>
                       {course.isFree ? 'FREE' : `₹${course.price}`}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 mb-2 text-white/90 text-xs font-extrabold">
-                    <span className="material-symbols-outlined text-[16px]">schedule</span>
+                  <div className="flex items-center gap-1 sm:gap-2 mb-2 text-white/90 text-[10px] sm:text-xs font-extrabold">
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">schedule</span>
                     <span>{course.duration}</span>
                   </div>
 
-                  <h3 className="font-black text-lg text-white leading-snug mb-3 drop-shadow-sm">
+                  <h3 className="font-black text-xs sm:text-lg text-white leading-snug mb-2 drop-shadow-sm line-clamp-2">
                     {course.title}
                   </h3>
 
-                  <div className="flex items-center justify-between text-xs text-white/90 mb-4 font-bold">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-[10px] sm:text-xs text-white/90 mb-3 sm:mb-4 font-bold gap-0.5 sm:gap-0">
                     <div className="flex items-center gap-1 text-amber-300 font-black">
                       <span>★ {course.rating}</span>
-                      <span className="text-white/70 font-semibold">({course.enrolledCount || 420})</span>
+                      <span className="text-white/70 font-semibold hidden sm:inline">({course.enrolledCount || 420})</span>
                     </div>
-                    <span>{course.institution}</span>
+                    <span className="truncate max-w-full text-white/80">{course.institution}</span>
                   </div>
 
-                  <div className={`${theme.metaBg} rounded-2xl p-3.5 flex items-center gap-3 mb-5`}>
-                    <div className="w-10 h-10 rounded-2xl bg-white/20 text-white flex items-center justify-center text-sm font-black shrink-0 shadow-sm border border-white/20">
+                  <div className={`${theme.metaBg} rounded-2xl p-2.5 sm:p-3.5 flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5`}>
+                    <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/20 text-white flex items-center justify-center text-xs sm:text-sm font-black shrink-0 shadow-sm border border-white/20">
                       {course.instructor ? course.instructor[0] : 'T'}
                     </div>
                     <div className="truncate">
-                      <div className="text-xs font-black text-white truncate">{course.instructor}</div>
-                      <div className="text-[10px] font-bold text-white/70 truncate">Senior Faculty Educator</div>
+                      <div className="text-[10px] sm:text-xs font-black text-white truncate">{course.instructor}</div>
+                      <div className="text-[8px] sm:text-[10px] font-bold text-white/70 truncate">Faculty Educator</div>
                     </div>
                   </div>
                 </div>
@@ -197,18 +197,18 @@ export default function TeacherCoursesPage({ courses, onToast }) {
                   {course.enrolled ? (
                     <button
                       disabled
-                      className="w-full h-11 rounded-2xl bg-emerald-400 text-slate-900 text-xs font-black flex items-center justify-center gap-2 cursor-default shadow-md"
+                      className="w-full h-8 sm:h-11 rounded-xl sm:rounded-2xl bg-emerald-400 text-slate-900 text-[10px] sm:text-xs font-black flex items-center justify-center gap-1 sm:gap-2 cursor-default shadow-md"
                     >
-                      <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                      <span>Enrolled & Active</span>
+                      <span className="material-symbols-outlined text-[15px] sm:text-[18px]">check_circle</span>
+                      <span>Enrolled</span>
                     </button>
                   ) : (
                     <button
                       onClick={() => handleEnrollCourse(course.id)}
-                      className={`w-full h-11 rounded-2xl ${theme.btn} active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer`}
+                      className={`w-full h-8 sm:h-11 rounded-xl sm:rounded-2xl ${theme.btn} text-[10px] sm:text-xs active:scale-95 transition-all shadow-md flex items-center justify-center gap-1 sm:gap-2 cursor-pointer`}
                     >
                       <span>Enroll in Course</span>
-                      <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                      <span className="material-symbols-outlined text-[14px] sm:text-[16px]">arrow_forward</span>
                     </button>
                   )}
                 </div>
