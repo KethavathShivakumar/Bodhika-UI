@@ -240,79 +240,11 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
         </div>
       </div>
 
-      {/* Question Navigator Palette */}
-      <div className="bg-white rounded-3xl p-5 shadow-soft-card border border-slate-100/90 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs border-b border-slate-100 pb-3">
-          <div className="flex flex-wrap items-center gap-4 font-semibold">
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-[#0a4b56]"></span>
-              <span className="text-slate-700">Current</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-              <span className="text-slate-700">Answered ({answeredCount})</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-purple-600"></span>
-              <span className="text-slate-700">Review ({reviewCount})</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-amber-400"></span>
-              <span className="text-slate-700">Skipped</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-slate-200"></span>
-              <span className="text-slate-500">Not visited</span>
-            </div>
-          </div>
-
-          <span className="text-xs text-slate-400 font-semibold">Click number to jump</span>
-        </div>
-
-        {/* Numbers Palette Row */}
-        <div className="flex flex-wrap items-center gap-2">
-          {questions.map((q, idx) => {
-            const isCurrent = idx === currentQIndex;
-            const isAnswered = selectedAnswers[q.id] !== undefined;
-            const isReviewed = reviewQuestions[q.id];
-            const isSkipped = skippedQuestions[q.id];
-            const isVisited = visitedQuestions[q.id];
-
-            let paletteStyle = "bg-slate-100 text-slate-500 border-transparent";
-            if (isAnswered) {
-              paletteStyle = "bg-emerald-500 text-white font-black shadow-sm";
-            } else if (isReviewed) {
-              paletteStyle = "bg-purple-600 text-white font-black shadow-sm";
-            } else if (isSkipped) {
-              paletteStyle = "bg-amber-400 text-slate-900 font-black";
-            } else if (isVisited) {
-              paletteStyle = "bg-slate-200 text-slate-800 font-bold";
-            }
-
-            if (isCurrent) {
-              paletteStyle = "bg-[#0a4b56] text-white font-black ring-4 ring-teal-200 scale-105 z-10 shadow-md";
-            }
-
-            return (
-              <button
-                key={q.id}
-                onClick={() => goToQuestion(idx)}
-                className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xs transition-all cursor-pointer relative ${paletteStyle}`}
-              >
-                <span>{idx + 1}</span>
-                {isReviewed && (
-                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-purple-600 ring-2 ring-white"></span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main Question Workspace */}
-      <div className={`grid gap-6 ${layoutMode === 'side-by-side' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
-        {/* Question & Options Card */}
-        <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
+      {/* Main Question & Palette Workspace (Side-by-Side 2-Column Card Grid) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* Left Column: Question & Options Card (lg:col-span-8) */}
+        <div className="lg:col-span-8 bg-white rounded-3xl p-5 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
           {/* Question Header */}
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div className="flex items-center gap-3">
@@ -425,36 +357,101 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
           </div>
         </div>
 
-        {/* Side-by-side Panel */}
-        {layoutMode === 'side-by-side' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <h3 className="font-black text-base text-slate-900">Live Session Matrix</h3>
-              <p className="text-xs text-slate-500 font-semibold leading-relaxed">
-                Review your current progress before finalizing your submission.
-              </p>
-
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="p-4 rounded-2xl bg-teal-50 border border-teal-100 text-center">
-                  <span className="text-[10px] uppercase font-black text-[#0a4b56]">Answered</span>
-                  <div className="text-2xl font-black text-[#0a4b56] mt-0.5">{answeredCount}</div>
-                </div>
-                <div className="p-4 rounded-2xl bg-purple-50 text-center border border-purple-200">
-                  <span className="text-[10px] uppercase font-black text-purple-800">For Review</span>
-                  <div className="text-2xl font-black text-purple-800 mt-0.5">{reviewCount}</div>
-                </div>
-                <div className="p-4 rounded-2xl bg-slate-50 text-center border border-slate-100">
-                  <span className="text-[10px] uppercase font-black text-slate-400">Unanswered</span>
-                  <div className="text-2xl font-black text-rose-600 mt-0.5">{unansweredCount}</div>
-                </div>
-              </div>
+        {/* Right Column: Question Navigator Sidebar Card (lg:col-span-4) */}
+        <div className="lg:col-span-4 bg-white rounded-3xl p-6 shadow-soft-card border border-slate-100/90 space-y-6 lg:sticky lg:top-24">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="font-black text-base text-slate-900">Question Navigator</h3>
+              <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Click number to jump to question</p>
             </div>
+            <span className="px-2.5 py-1 rounded-full bg-teal-50 text-[#0a4b56] text-[10px] font-black border border-teal-100">
+              {answeredCount}/{totalQuestions} Done
+            </span>
+          </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 font-bold">
-              Passing Cutoff: {exam?.passPercent || 60}% required to clear.
+          {/* Legend Badges */}
+          <div className="flex flex-wrap gap-2 text-[11px] font-semibold border-b border-slate-100 pb-3">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-50">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0a4b56]"></span>
+              <span className="text-slate-700">Current</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-50">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span className="text-slate-700">Answered ({answeredCount})</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-50">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+              <span className="text-slate-700">Review ({reviewCount})</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-50">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              <span className="text-slate-700">Skipped</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-50">
+              <span className="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
+              <span className="text-slate-500">Not visited</span>
             </div>
           </div>
-        )}
+
+          {/* Question Grid Numbers (5 Columns Card Grid) */}
+          <div className="grid grid-cols-5 gap-2.5">
+            {questions.map((q, idx) => {
+              const isCurrent = idx === currentQIndex;
+              const isAnswered = selectedAnswers[q.id] !== undefined;
+              const isReviewed = reviewQuestions[q.id];
+              const isSkipped = skippedQuestions[q.id];
+              const isVisited = visitedQuestions[q.id];
+
+              let paletteStyle = "bg-slate-100 text-slate-500 hover:bg-slate-200 border-transparent";
+              if (isAnswered) {
+                paletteStyle = "bg-emerald-500 text-white font-black shadow-sm";
+              } else if (isReviewed) {
+                paletteStyle = "bg-purple-600 text-white font-black shadow-sm";
+              } else if (isSkipped) {
+                paletteStyle = "bg-amber-400 text-slate-900 font-black";
+              } else if (isVisited) {
+                paletteStyle = "bg-slate-200 text-slate-800 font-bold";
+              }
+
+              if (isCurrent) {
+                paletteStyle = "bg-[#0a4b56] text-white font-black ring-4 ring-teal-200 scale-105 z-10 shadow-md";
+              }
+
+              return (
+                <button
+                  key={q.id}
+                  onClick={() => goToQuestion(idx)}
+                  className={`h-10 rounded-2xl flex items-center justify-center text-xs transition-all cursor-pointer relative ${paletteStyle}`}
+                >
+                  <span>{idx + 1}</span>
+                  {isReviewed && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-purple-600 ring-2 ring-white"></span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Matrix Summary Stats */}
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-3">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-600">
+              <span>Overall Progress:</span>
+              <span className="font-black text-[#0a4b56]">{Math.round((answeredCount / totalQuestions) * 100)}%</span>
+            </div>
+            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-[#0a4b56] to-[#109c90] h-full transition-all duration-300 rounded-full"
+                style={{ width: `${(answeredCount / totalQuestions) * 100}%` }}
+              />
+            </div>
+            <div className="flex justify-between text-[11px] text-slate-500 font-semibold pt-1">
+              <span>Answered: <strong className="text-emerald-600">{answeredCount}</strong></span>
+              <span>Review: <strong className="text-purple-600">{reviewCount}</strong></span>
+              <span>Unanswered: <strong className="text-rose-500">{unansweredCount}</strong></span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Submit Confirmation Dialog */}
