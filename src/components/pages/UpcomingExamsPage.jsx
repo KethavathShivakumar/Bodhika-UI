@@ -129,7 +129,7 @@ export default function UpcomingExamsPage({ exams = [], onTakeExam, onViewHistor
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {filteredExams.map((exam, idx) => {
               const solidBg = cardHeaderGradients[idx % cardHeaderGradients.length];
               const icon = getSubjectIcon(exam.subject || exam.name);
@@ -137,48 +137,49 @@ export default function UpcomingExamsPage({ exams = [], onTakeExam, onViewHistor
               return (
                 <div
                   key={exam.id || idx}
-                  className="bg-white rounded-[32px] p-5 shadow-soft-card border border-slate-100/90 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+                  className="bg-white rounded-2xl sm:rounded-[32px] p-3 sm:p-5 shadow-soft-card border border-slate-100/90 hover:shadow-hover-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
                 >
                   <div>
                     {/* Top Header Card Banner */}
-                    <div className={`w-full h-40 rounded-[24px] bg-gradient-to-br ${solidBg} p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
+                    <div className={`w-full h-28 sm:h-40 rounded-xl sm:rounded-[24px] bg-gradient-to-br ${solidBg} p-2.5 sm:p-4 flex flex-col justify-between relative overflow-hidden group-hover:scale-[1.01] transition-transform`}>
                       {/* Top Right Subject Badge Pill */}
                       <div className="flex justify-end">
-                        <span className="text-[10px] font-black px-3 py-1 rounded-full bg-black/20 backdrop-blur-md text-white uppercase tracking-wider truncate max-w-[190px]">
+                        <span className="text-[8px] sm:text-[10px] font-black px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-black/20 backdrop-blur-md text-white uppercase tracking-wider truncate max-w-[100px] sm:max-w-[190px]">
                           {exam.subject || exam.category || 'General'}
                         </span>
                       </div>
 
                       {/* Large Centered Icon */}
                       <div className="flex items-center justify-center my-auto">
-                        <span className="material-symbols-outlined text-[48px] text-white/95 drop-shadow-sm">
+                        <span className="material-symbols-outlined text-[30px] sm:text-[48px] text-white/95 drop-shadow-sm">
                           {icon}
                         </span>
                       </div>
 
                       {/* Bottom Left Rating Badge */}
                       <div className="flex justify-start">
-                        <div className="px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-black text-amber-500 flex items-center gap-1 shadow-sm">
-                          <span>★★★★★</span>
+                        <div className="px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[8px] sm:text-[10px] font-black text-amber-500 flex items-center gap-0.5 sm:gap-1 shadow-sm">
+                          <span className="hidden sm:inline">★★★★★</span>
+                          <span className="sm:hidden">★</span>
                           <span className="text-slate-800 font-extrabold">{exam.rating || '4.8'}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Category Pill Tag */}
-                    <div className="pt-3.5">
-                      <span className="text-[11px] font-black px-3.5 py-1 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100 inline-block">
+                    <div className="pt-2 sm:pt-3.5">
+                      <span className="text-[9px] sm:text-[11px] font-black px-2.5 py-0.5 sm:px-3.5 sm:py-1 rounded-full bg-teal-50 text-[#0a4b56] border border-teal-100 inline-block truncate max-w-full">
                         {exam.grade || exam.category || 'Standard Assessment'}
                       </span>
                     </div>
 
                     {/* Exam Title */}
-                    <h3 className="font-black text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-snug mt-2.5 line-clamp-2">
+                    <h3 className="font-black text-xs sm:text-base text-slate-900 group-hover:text-[#0a4b56] transition-colors leading-tight sm:leading-snug mt-1.5 sm:mt-2.5 line-clamp-2">
                       {exam.name}
                     </h3>
 
                     {/* Subtitle Details */}
-                    <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1.5">
+                    <p className="text-[10px] sm:text-xs text-slate-400 font-semibold mt-1 sm:mt-1.5 flex flex-wrap items-center gap-1 sm:gap-1.5">
                       <span>{exam.questions || 10} Questions</span>
                       <span>•</span>
                       <span>{exam.timeMin || 60} mins</span>
@@ -188,10 +189,10 @@ export default function UpcomingExamsPage({ exams = [], onTakeExam, onViewHistor
                   {/* Take Exam Action Button */}
                   <button
                     onClick={() => onTakeExam(exam)}
-                    className="w-full mt-6 h-11 rounded-full bg-[#109c90] hover:bg-[#0a4b56] text-white font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                    className="w-full mt-3 sm:mt-6 h-9 sm:h-11 rounded-full bg-[#109c90] hover:bg-[#0a4b56] text-white font-black text-[11px] sm:text-xs transition-all shadow-md flex items-center justify-center gap-1 sm:gap-2 cursor-pointer active:scale-95"
                   >
                     <span>Take Exam</span>
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    <span className="material-symbols-outlined text-[14px] sm:text-[16px]">arrow_forward</span>
                   </button>
                 </div>
               );
