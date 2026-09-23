@@ -15,6 +15,7 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
   const [layoutMode, setLayoutMode] = useState('stacked');
   const [showInstructions, setShowInstructions] = useState(true);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [examResult, setExamResult] = useState(null);
 
   // Active countdown timer
@@ -231,7 +232,7 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
           </div>
 
           <button
-            onClick={onExitExam}
+            onClick={() => setShowExitConfirmModal(true)}
             className="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors px-2 py-1 cursor-pointer"
           >
             Exit Exam
@@ -312,7 +313,8 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
       <div className={`grid gap-6 ${layoutMode === 'side-by-side' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
         {/* Question & Options Card */}
         <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-soft-card border border-slate-100/90 space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          {/* Question Header */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div className="flex items-center gap-3">
               <span className="w-8 h-8 rounded-2xl bg-[#0a4b56] text-white flex items-center justify-center font-black text-xs shadow-sm">
                 {currentQ.id}
@@ -320,43 +322,6 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
               <span className="px-3 py-1 rounded-full bg-teal-50 text-[#0a4b56] text-xs font-black border border-teal-100">
                 {currentQ.type}
               </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <button
-                onClick={handleToggleReview}
-                className={`px-3.5 py-1.5 rounded-2xl text-xs font-black transition-all flex items-center gap-1 border cursor-pointer ${
-                  reviewQuestions[currentQ.id]
-                    ? 'bg-purple-100 text-purple-900 border-purple-300'
-                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
-                }`}
-              >
-                <span className="material-symbols-outlined text-[16px]">
-                  {reviewQuestions[currentQ.id] ? 'bookmark_added' : 'bookmark_border'}
-                </span>
-                <span>{reviewQuestions[currentQ.id] ? 'Review Flagged' : 'Mark for Review'}</span>
-              </button>
-
-              <button
-                onClick={handleSkip}
-                className="px-3.5 py-1.5 rounded-2xl bg-amber-50 text-amber-900 hover:bg-amber-100 text-xs font-black transition-colors border border-amber-200 cursor-pointer"
-              >
-                Skip
-              </button>
-              <button
-                onClick={handlePrev}
-                disabled={currentQIndex === 0}
-                className="px-3.5 py-1.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-colors disabled:opacity-40 cursor-pointer"
-              >
-                ‹ Prev
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={currentQIndex === totalQuestions - 1}
-                className="px-4 py-1.5 rounded-2xl bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-colors disabled:opacity-40 cursor-pointer"
-              >
-                Next ›
-              </button>
             </div>
           </div>
 
@@ -405,19 +370,58 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
             })}
           </div>
 
-          {/* Actions */}
-          <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+          {/* Actions Footer */}
+          <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <span className="text-xs text-slate-400 font-bold">
               Question {currentQIndex + 1} of {totalQuestions}
             </span>
 
-            <button
-              onClick={() => setShowSubmitModal(true)}
-              className="px-6 py-2.5 rounded-full bg-slate-900 text-white text-xs font-black hover:bg-[#0a4b56] transition-all flex items-center gap-2 shadow-md cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[18px]">done_all</span>
-              <span>Submit Exam</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+              <button
+                onClick={handleToggleReview}
+                className={`px-3.5 py-2 rounded-2xl text-xs font-black transition-all flex items-center gap-1 border cursor-pointer ${
+                  reviewQuestions[currentQ.id]
+                    ? 'bg-purple-100 text-purple-900 border-purple-300'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">
+                  {reviewQuestions[currentQ.id] ? 'bookmark_added' : 'bookmark_border'}
+                </span>
+                <span>{reviewQuestions[currentQ.id] ? 'Review Flagged' : 'Mark for Review'}</span>
+              </button>
+
+              <button
+                onClick={handleSkip}
+                className="px-3.5 py-2 rounded-2xl bg-amber-50 text-amber-900 hover:bg-amber-100 text-xs font-black transition-colors border border-amber-200 cursor-pointer"
+              >
+                Skip
+              </button>
+
+              <button
+                onClick={handlePrev}
+                disabled={currentQIndex === 0}
+                className="px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-colors disabled:opacity-40 cursor-pointer"
+              >
+                ‹ Prev
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={currentQIndex === totalQuestions - 1}
+                className="px-4 py-2 rounded-2xl bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-colors disabled:opacity-40 cursor-pointer"
+              >
+                Next ›
+              </button>
+
+              <button
+                onClick={() => setShowSubmitModal(true)}
+                className="px-5 py-2 rounded-2xl bg-slate-900 text-white text-xs font-black hover:bg-[#0a4b56] transition-all flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
+              >
+                <span className="material-symbols-outlined text-[18px]">done_all</span>
+                <span>Submit Exam</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -500,6 +504,47 @@ export default function LiveExamPage({ exam, onCompleteExam, onExitExam, onToast
                 className="px-5 py-2 rounded-full bg-[#0a4b56] text-white text-xs font-black hover:bg-[#109c90] transition-opacity shadow-sm cursor-pointer"
               >
                 Submit Exam
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Exit Confirmation Dialog */}
+      {showExitConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl shadow-float border border-slate-100 max-w-md w-full p-6 space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[24px]">logout</span>
+              </div>
+              <div>
+                <h3 className="font-black text-lg text-slate-900">Exit Examination?</h3>
+                <p className="text-xs text-slate-400 font-semibold">Are you sure you want to leave active exam?</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs font-semibold text-rose-900 leading-relaxed">
+              ⚠️ Exiting now will terminate your current attempt. Active session progress and unsaved answers will not be evaluated.
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowExitConfirmModal(false)}
+                className="px-5 py-2 rounded-full text-xs font-black text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel & Continue
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowExitConfirmModal(false);
+                  if (onExitExam) onExitExam();
+                }}
+                className="px-5 py-2 rounded-full bg-rose-600 text-white text-xs font-black hover:bg-rose-700 transition-colors shadow-sm cursor-pointer"
+              >
+                Yes, Exit Exam
               </button>
             </div>
           </div>
